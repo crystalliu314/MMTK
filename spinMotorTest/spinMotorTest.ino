@@ -15,6 +15,7 @@
  * - Slow down
  */
 #include <TMCStepper.h>
+#include "PCB_PinMap.h"
 
 #define MAX_SPEED        40 // In timer value
 #define MIN_SPEED      1000
@@ -61,6 +62,7 @@ void setup() {
   pinMode(EN_PIN, OUTPUT);
   pinMode(STEP_PIN, OUTPUT);
   pinMode(DIR_PIN, OUTPUT);
+  pinMode(3, INPUT);
   digitalWrite(EN_PIN, LOW);
 
   driver.begin();
@@ -94,6 +96,10 @@ void setup() {
 void loop() {
   static uint32_t last_time=0;
   uint32_t ms = millis();
+
+  noInterrupts();
+  digitalWrite(DIR_PIN, digitalRead(3));
+  interrupts();
 
   while(Serial.available() > 0) {
     int8_t read_byte = Serial.read();
