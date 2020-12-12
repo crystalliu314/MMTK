@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# PCB Fab Files
+/PCB/FAB/*
+/PCB/FAB/*.sch-bak
+/PCB/FAB/*.pcb-bak
+/PCB/FAB/*.kicad_pcb-bak

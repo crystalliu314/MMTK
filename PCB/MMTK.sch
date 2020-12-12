@@ -1,0 +1,445 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 8
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Sheet
+S 950  4200 1400 650 
+U 5F6A985A
+F0 "HX771" 50
+F1 "HX771.sch" 50
+F2 "DOUT" I R 2350 4650 50 
+F3 "PD_SCK" I R 2350 4450 50 
+$EndSheet
+$Sheet
+S 950  2600 550  1000
+U 5F7781FA
+F0 "Buttons" 50
+F1 "Buttons.sch" 50
+F2 "BT2" I R 1500 3100 50 
+F3 "BT3" I R 1500 3250 50 
+F4 "BT0" I R 1500 2800 50 
+F5 "BT1" I R 1500 2950 50 
+F6 "BT4" I R 1500 3400 50 
+$EndSheet
+$Sheet
+S 9500 1100 1000 900 
+U 5F79E13B
+F0 "Power" 50
+F1 "Power.sch" 50
+F2 "VIN_SENSE_3V3" I L 9500 1550 50 
+$EndSheet
+Wire Wire Line
+	10350 4850 10500 4850
+Wire Wire Line
+	10500 4950 10350 4950
+Wire Wire Line
+	10350 5050 10500 5050
+Wire Wire Line
+	10500 5150 10350 5150
+Text Label 9150 5850 2    50   ~ 0
+SERVO_STEP
+Wire Wire Line
+	9150 5850 9350 5850
+Text Label 9150 5950 2    50   ~ 0
+SERVO_DIR
+Wire Wire Line
+	9150 5950 9350 5950
+Text Label 2550 4650 0    50   ~ 0
+LC_DT
+Wire Wire Line
+	2550 4650 2350 4650
+Text Label 2550 4450 0    50   ~ 0
+LC_SCK
+Wire Wire Line
+	2550 4450 2350 4450
+Text Label 3650 2500 2    50   ~ 0
+LC_DT
+Wire Wire Line
+	3650 2500 3850 2500
+Text Label 3650 2400 2    50   ~ 0
+LC_SCK
+Wire Wire Line
+	3650 2400 3850 2400
+Text Label 6650 1900 0    50   ~ 0
+SERVO_STEP
+Wire Wire Line
+	6650 1900 6450 1900
+Text Label 6650 1800 0    50   ~ 0
+SERVO_DIR
+Wire Wire Line
+	6650 1800 6450 1800
+Text Label 9250 1550 2    50   ~ 0
+VIN_SENSE
+Wire Wire Line
+	9500 1550 9250 1550
+Text Label 3600 2600 2    50   ~ 0
+VIN_SENSE
+Wire Wire Line
+	3850 2600 3600 2600
+$Comp
+L MMTK-rescue:GND-power-MMTK-rescue #PWR?
+U 1 1 5F882D46
+P 3350 3700
+AR Path="/5F7781FA/5F882D46" Ref="#PWR?"  Part="1" 
+AR Path="/5F882D46" Ref="#PWR0101"  Part="1" 
+F 0 "#PWR0101" H 3350 3450 50  0001 C CNN
+F 1 "GND" H 3355 3527 50  0000 C CNN
+F 2 "" H 3350 3700 50  0001 C CNN
+F 3 "" H 3350 3700 50  0001 C CNN
+	1    3350 3700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3350 3200 3850 3200
+Wire Wire Line
+	3350 3200 3350 3700
+Wire Wire Line
+	3850 3000 3350 3000
+Wire Wire Line
+	3350 3000 3350 3100
+Connection ~ 3350 3200
+Wire Wire Line
+	3350 3100 3850 3100
+Connection ~ 3350 3100
+Wire Wire Line
+	3350 3100 3350 3200
+$Comp
+L MMTK-rescue:+5V-power-MMTK-rescue #PWR0102
+U 1 1 5F886799
+P 2600 2750
+F 0 "#PWR0102" H 2600 2600 50  0001 C CNN
+F 1 "+5V" H 2615 2923 50  0000 C CNN
+F 2 "" H 2600 2750 50  0001 C CNN
+F 3 "" H 2600 2750 50  0001 C CNN
+	1    2600 2750
+	1    0    0    -1  
+$EndComp
+$Sheet
+S 950  1500 950  550 
+U 5F890558
+F0 "LCD" 50
+F1 "LCD.sch" 50
+F2 "LCD_SDA" I R 1900 1850 50 
+F3 "LCD_SCL" I R 1900 1700 50 
+$EndSheet
+Text Label 9150 5050 2    50   ~ 0
+SERVO_DIAG
+Wire Wire Line
+	9150 5050 9350 5050
+Text Label 9150 4850 2    50   ~ 0
+SERVO_INDEX
+Wire Wire Line
+	9150 4850 9350 4850
+Text Label 6650 2000 0    50   ~ 0
+SERVO_ENN_ARDUINO
+Wire Wire Line
+	6650 2000 6450 2000
+Text Label 3650 2100 2    50   ~ 0
+SERVO_INDEX
+Wire Wire Line
+	3650 2100 3850 2100
+Wire Wire Line
+	3650 2200 3850 2200
+Text Label 3650 2200 2    50   ~ 0
+SERVO_DIAG
+Wire Wire Line
+	9000 4600 9350 4600
+$Comp
+L MMTK-rescue:+5V-power-MMTK-rescue #PWR0110
+U 1 1 5F7398DA
+P 8650 4500
+F 0 "#PWR0110" H 8650 4350 50  0001 C CNN
+F 1 "+5V" H 8665 4673 50  0000 C CNN
+F 2 "" H 8650 4500 50  0001 C CNN
+F 3 "" H 8650 4500 50  0001 C CNN
+	1    8650 4500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8650 4500 8650 4700
+Wire Wire Line
+	8650 4700 9350 4700
+$Sheet
+S 9600 2500 700  1250
+U 5F791A23
+F0 "ESTOP" 50
+F1 "ESTOP.sch" 50
+F2 "ENN_OUT" I L 9600 3400 50 
+F3 "~ENN_ARD_IN" I L 9600 2800 50 
+$EndSheet
+Wire Wire Line
+	9150 4950 9350 4950
+Text Label 9150 4950 2    50   ~ 0
+SERVO_ENN
+Wire Wire Line
+	9400 3400 9600 3400
+Text Label 9400 3400 2    50   ~ 0
+SERVO_ENN
+Text Label 9400 2800 2    50   ~ 0
+SERVO_ENN_ARDUINO
+Wire Wire Line
+	9400 2800 9600 2800
+Wire Wire Line
+	6650 2100 6450 2100
+Text Label 6650 2100 0    50   ~ 0
+SERVO_ENN
+Text Notes 7150 2100 0    50   ~ 0
+FOR SENSING SERVO E_STOP
+Text Label 2250 1700 0    50   ~ 0
+LCD_SCL
+Text Label 2250 1850 0    50   ~ 0
+LCD_SDA
+Text Label 1700 2800 0    50   ~ 0
+BT0
+Text Label 1700 2950 0    50   ~ 0
+BT1
+Text Label 1700 3100 0    50   ~ 0
+BT2
+Text Label 1700 3250 0    50   ~ 0
+BT3
+Wire Wire Line
+	1500 3250 1700 3250
+Wire Wire Line
+	1700 3100 1500 3100
+Wire Wire Line
+	1500 2950 1700 2950
+Wire Wire Line
+	1700 2800 1500 2800
+Wire Wire Line
+	1900 1700 3850 1700
+Wire Wire Line
+	3000 1850 3000 1800
+Wire Wire Line
+	3000 1800 3850 1800
+Wire Wire Line
+	1900 1850 3000 1850
+Text Label 6650 1700 0    50   ~ 0
+BT0
+Text Label 6650 1600 0    50   ~ 0
+BT1
+Text Label 6650 1500 0    50   ~ 0
+BT2
+Text Label 6650 1400 0    50   ~ 0
+BT3
+Wire Wire Line
+	6450 1400 6650 1400
+Wire Wire Line
+	6650 1500 6450 1500
+Wire Wire Line
+	6450 1600 6650 1600
+Wire Wire Line
+	6650 1700 6450 1700
+Text Label 9150 5400 2    50   ~ 0
+SERVO_UART_TX
+Wire Wire Line
+	9150 5400 9350 5400
+Text Label 9150 5300 2    50   ~ 0
+SERVO_UART_RX
+Wire Wire Line
+	9150 5300 9350 5300
+$Sheet
+S 950  5150 1400 1000
+U 5F700C8F
+F0 "LEDs" 50
+F1 "LEDs.sch" 50
+F2 "LED0" I R 2350 5450 50 
+F3 "LED1" I R 2350 5600 50 
+$EndSheet
+Text Label 2600 5450 0    50   ~ 0
+LED0
+Wire Wire Line
+	2600 5450 2350 5450
+Text Label 2600 5600 0    50   ~ 0
+LED1
+Wire Wire Line
+	2600 5600 2350 5600
+$Comp
+L MMTK-rescue:Screw_Terminal_01x04-Connector-MMTK-rescue J2
+U 1 1 5F870A0A
+P 10700 4950
+F 0 "J2" H 10450 4650 50  0000 L CNN
+F 1 "Stepper" H 10450 4550 50  0000 L CNN
+F 2 "TerminalBlock_RND:TerminalBlock_RND_205-00289_1x04_P5.08mm_Horizontal" H 10700 4950 50  0001 C CNN
+F 3 "~" H 10700 4950 50  0001 C CNN
+	1    10700 4950
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK-rescue:+12V-power-MMTK-rescue #PWR0103
+U 1 1 5F7CF299
+P 9000 4500
+F 0 "#PWR0103" H 9000 4350 50  0001 C CNN
+F 1 "+12V" H 9015 4673 50  0000 C CNN
+F 2 "" H 9000 4500 50  0001 C CNN
+F 3 "" H 9000 4500 50  0001 C CNN
+	1    9000 4500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9000 4500 9000 4600
+$Comp
+L MMTK-rescue:MountingHole-Mechanical-MMTK-rescue H1
+U 1 1 5F738744
+P 1200 6950
+F 0 "H1" H 1300 6996 50  0000 L CNN
+F 1 "MountingHole" H 1300 6905 50  0000 L CNN
+F 2 "MountingHole:MountingHole_4mm" H 1200 6950 50  0001 C CNN
+F 3 "~" H 1200 6950 50  0001 C CNN
+	1    1200 6950
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK-rescue:MountingHole-Mechanical-MMTK-rescue H2
+U 1 1 5F738C8A
+P 2050 6950
+F 0 "H2" H 2150 6996 50  0000 L CNN
+F 1 "MountingHole" H 2150 6905 50  0000 L CNN
+F 2 "MountingHole:MountingHole_4mm" H 2050 6950 50  0001 C CNN
+F 3 "~" H 2050 6950 50  0001 C CNN
+	1    2050 6950
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK-rescue:MountingHole-Mechanical-MMTK-rescue H3
+U 1 1 5F739270
+P 2800 6950
+F 0 "H3" H 2900 6996 50  0000 L CNN
+F 1 "MountingHole" H 2900 6905 50  0000 L CNN
+F 2 "MountingHole:MountingHole_4mm" H 2800 6950 50  0001 C CNN
+F 3 "~" H 2800 6950 50  0001 C CNN
+	1    2800 6950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6700 2500 6450 2500
+Text Label 6700 2500 0    50   ~ 0
+LED1
+Wire Wire Line
+	6700 2400 6450 2400
+Text Label 6700 2400 0    50   ~ 0
+LED0
+Wire Wire Line
+	6650 2300 6450 2300
+Text Label 6650 2300 0    50   ~ 0
+SERVO_UART_RX
+Wire Wire Line
+	6650 2200 6450 2200
+Text Label 6650 2200 0    50   ~ 0
+SERVO_UART_TX
+NoConn ~ 6450 3500
+NoConn ~ 3850 3500
+NoConn ~ 3850 3300
+NoConn ~ 3850 2700
+NoConn ~ 3850 1500
+NoConn ~ 3850 1400
+NoConn ~ 9250 5550
+NoConn ~ 9250 5650
+Wire Wire Line
+	9350 5550 9250 5550
+Wire Wire Line
+	9250 5650 9350 5650
+NoConn ~ 9250 6100
+$Sheet
+S 9350 4500 1000 1750
+U 5F6F52D9
+F0 "TMC2209" 50
+F1 "TMC2209.sch" 50
+F2 "INDEX" I L 9350 4850 50 
+F3 "VM+" I L 9350 4600 50 
+F4 "ENN" I L 9350 4950 50 
+F5 "UART_RX" I L 9350 5300 50 
+F6 "UART_TX" I L 9350 5400 50 
+F7 "MS1" I L 9350 5550 50 
+F8 "MS2" I L 9350 5650 50 
+F9 "STEP" I L 9350 5850 50 
+F10 "DIR" I L 9350 5950 50 
+F11 "SPREAD" I L 9350 6100 50 
+F12 "OA1" I R 10350 4850 50 
+F13 "OA2" I R 10350 4950 50 
+F14 "OB1" I R 10350 5050 50 
+F15 "OB2" I R 10350 5150 50 
+F16 "DIAG" I L 9350 5050 50 
+F17 "VCCIO" I L 9350 4700 50 
+$EndSheet
+Wire Wire Line
+	9250 6100 9350 6100
+Text Label 1700 3400 0    50   ~ 0
+BT4
+Wire Wire Line
+	1500 3400 1700 3400
+Text Label 3650 2300 2    50   ~ 0
+BT4
+Wire Wire Line
+	3850 2300 3650 2300
+$Comp
+L MMTK:Arduino_Uno_Shield_NoICSP XA1
+U 1 1 5F7B31D1
+P 5150 2450
+F 0 "XA1" H 5150 3837 60  0000 C CNN
+F 1 "Arduino_Uno_Shield_NoICSP" H 5150 3731 60  0000 C CNN
+F 2 "MMTK:Arduino_Uno_Shield_NoICSP" H 6950 6200 60  0001 C CNN
+F 3 "" H 6950 6200 60  0001 C CNN
+	1    5150 2450
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK:Tensile_Cat_Logo G1
+U 1 1 5F7E325B
+P 4350 6200
+F 0 "G1" H 5128 6071 50  0000 L CNN
+F 1 "Tensile_Cat_Logo" H 5128 5980 50  0000 L CNN
+F 2 "MMTK:Tensile Cat" H 4350 6200 50  0001 C CNN
+F 3 "" H 4350 6200 50  0001 C CNN
+	1    4350 6200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2600 2750 2600 3400
+NoConn ~ 6450 3400
+$Comp
+L MMTK-rescue:MountingHole-Mechanical-MMTK-rescue H4
+U 1 1 5F9B95E6
+P 1200 7300
+F 0 "H4" H 1300 7346 50  0000 L CNN
+F 1 "MountingHole" H 1300 7255 50  0000 L CNN
+F 2 "MountingHole:MountingHole_4mm" H 1200 7300 50  0001 C CNN
+F 3 "~" H 1200 7300 50  0001 C CNN
+	1    1200 7300
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK-rescue:MountingHole-Mechanical-MMTK-rescue H5
+U 1 1 5F9B95EC
+P 2050 7300
+F 0 "H5" H 2150 7346 50  0000 L CNN
+F 1 "MountingHole" H 2150 7255 50  0000 L CNN
+F 2 "MountingHole:MountingHole_4mm" H 2050 7300 50  0001 C CNN
+F 3 "~" H 2050 7300 50  0001 C CNN
+	1    2050 7300
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK-rescue:MountingHole-Mechanical-MMTK-rescue H6
+U 1 1 5F9B95F2
+P 2800 7300
+F 0 "H6" H 2900 7346 50  0000 L CNN
+F 1 "MountingHole" H 2900 7255 50  0000 L CNN
+F 2 "MountingHole:MountingHole_4mm" H 2800 7300 50  0001 C CNN
+F 3 "~" H 2800 7300 50  0001 C CNN
+	1    2800 7300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2600 3400 3850 3400
+$EndSCHEMATC

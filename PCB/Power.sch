@@ -1,0 +1,528 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 4 8
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L MMTK-rescue:R_US-Device-MMTK-rescue R4
+U 1 1 5EB894BE
+P 5650 4850
+F 0 "R4" V 5500 4850 50  0000 C CNN
+F 1 "10K" V 5764 4850 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 5690 4840 50  0001 C CNN
+F 3 "~" H 5650 4850 50  0001 C CNN
+	1    5650 4850
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	5800 4850 6050 4850
+Wire Wire Line
+	5500 4850 5350 4850
+Wire Wire Line
+	5350 4850 5350 4650
+Connection ~ 5350 4650
+Wire Wire Line
+	5350 4650 6050 4650
+$Comp
+L MMTK-rescue:GND-power-MMTK-rescue #PWR0104
+U 1 1 5EB8A975
+P 6450 5250
+AR Path="/5EB8A975" Ref="#PWR0104"  Part="1" 
+AR Path="/5F79E13B/5EB8A975" Ref="#PWR0104"  Part="1" 
+F 0 "#PWR0104" H 6450 5000 50  0001 C CNN
+F 1 "GND" H 6455 5077 50  0000 C CNN
+F 2 "" H 6450 5250 50  0001 C CNN
+F 3 "" H 6450 5250 50  0001 C CNN
+	1    6450 5250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6450 5250 6450 5050
+$Comp
+L MMTK-rescue:C-Device-MMTK-rescue C1
+U 1 1 5EB8B6FC
+P 4150 4800
+AR Path="/5EB8B6FC" Ref="C1"  Part="1" 
+AR Path="/5F79E13B/5EB8B6FC" Ref="C1"  Part="1" 
+F 0 "C1" H 4000 5150 50  0000 L CNN
+F 1 "10u" H 4000 5050 50  0000 L CNN
+F 2 "Capacitor_SMD:C_1206_3216Metric" H 4188 4650 50  0001 C CNN
+F 3 "~" H 4150 4800 50  0001 C CNN
+	1    4150 4800
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK-rescue:C-Device-MMTK-rescue C3
+U 1 1 5EB8C524
+P 4550 4800
+AR Path="/5EB8C524" Ref="C3"  Part="1" 
+AR Path="/5F79E13B/5EB8C524" Ref="C3"  Part="1" 
+F 0 "C3" H 4400 5150 50  0000 L CNN
+F 1 "10u" H 4400 5050 50  0000 L CNN
+F 2 "Capacitor_SMD:C_1206_3216Metric" H 4588 4650 50  0001 C CNN
+F 3 "~" H 4550 4800 50  0001 C CNN
+	1    4550 4800
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK-rescue:C-Device-MMTK-rescue C5
+U 1 1 5EB8E624
+P 4950 4800
+AR Path="/5EB8E624" Ref="C5"  Part="1" 
+AR Path="/5F79E13B/5EB8E624" Ref="C5"  Part="1" 
+F 0 "C5" H 4900 5150 50  0000 L CNN
+F 1 "100n" H 4900 5050 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 4988 4650 50  0001 C CNN
+F 3 "~" H 4950 4800 50  0001 C CNN
+	1    4950 4800
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK-rescue:GND-power-MMTK-rescue #PWR0105
+U 1 1 5EB8F691
+P 4050 5000
+AR Path="/5EB8F691" Ref="#PWR0105"  Part="1" 
+AR Path="/5F79E13B/5EB8F691" Ref="#PWR0105"  Part="1" 
+F 0 "#PWR0105" H 4050 4750 50  0001 C CNN
+F 1 "GND" H 4055 4827 50  0000 C CNN
+F 2 "" H 4050 5000 50  0001 C CNN
+F 3 "" H 4050 5000 50  0001 C CNN
+	1    4050 5000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4050 5000 4050 4950
+Wire Wire Line
+	4050 4950 4150 4950
+$Comp
+L MMTK-rescue:C-Device-MMTK-rescue C7
+U 1 1 5EB9936C
+P 7200 4750
+AR Path="/5EB9936C" Ref="C7"  Part="1" 
+AR Path="/5F79E13B/5EB9936C" Ref="C7"  Part="1" 
+F 0 "C7" V 7350 4900 50  0000 C CNN
+F 1 "100n" V 7250 4950 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 7238 4600 50  0001 C CNN
+F 3 "~" H 7200 4750 50  0001 C CNN
+	1    7200 4750
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	6850 4750 7050 4750
+Wire Wire Line
+	6850 4650 7550 4650
+Wire Wire Line
+	7350 4750 7550 4750
+Wire Wire Line
+	7550 4750 7550 4650
+Connection ~ 7550 4650
+Wire Wire Line
+	7550 4650 7650 4650
+$Comp
+L MMTK-rescue:C-Device-MMTK-rescue C11
+U 1 1 5EB9B0AB
+P 8600 4850
+AR Path="/5EB9B0AB" Ref="C11"  Part="1" 
+AR Path="/5F79E13B/5EB9B0AB" Ref="C11"  Part="1" 
+F 0 "C11" H 8715 4896 50  0000 L CNN
+F 1 "22u" H 8715 4805 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric" H 8638 4700 50  0001 C CNN
+F 3 "~" H 8600 4850 50  0001 C CNN
+	1    8600 4850
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK-rescue:GND-power-MMTK-rescue #PWR0106
+U 1 1 5EB9C2C1
+P 8600 5250
+AR Path="/5EB9C2C1" Ref="#PWR0106"  Part="1" 
+AR Path="/5F79E13B/5EB9C2C1" Ref="#PWR0106"  Part="1" 
+F 0 "#PWR0106" H 8600 5000 50  0001 C CNN
+F 1 "GND" H 8605 5077 50  0000 C CNN
+F 2 "" H 8600 5250 50  0001 C CNN
+F 3 "" H 8600 5250 50  0001 C CNN
+	1    8600 5250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8600 5250 8600 5050
+$Comp
+L MMTK-rescue:R_US-Device-MMTK-rescue R7
+U 1 1 5EB9D911
+P 9500 5450
+F 0 "R7" H 9568 5496 50  0000 L CNN
+F 1 "10K" H 9568 5405 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 9540 5440 50  0001 C CNN
+F 3 "~" H 9500 5450 50  0001 C CNN
+	1    9500 5450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9500 4650 9500 4750
+Connection ~ 9500 4650
+Wire Wire Line
+	9500 5050 9500 5150
+$Comp
+L MMTK-rescue:GND-power-MMTK-rescue #PWR0107
+U 1 1 5EB9F65E
+P 9500 5800
+AR Path="/5EB9F65E" Ref="#PWR0107"  Part="1" 
+AR Path="/5F79E13B/5EB9F65E" Ref="#PWR0107"  Part="1" 
+F 0 "#PWR0107" H 9500 5550 50  0001 C CNN
+F 1 "GND" H 9505 5627 50  0000 C CNN
+F 2 "" H 9500 5800 50  0001 C CNN
+F 3 "" H 9500 5800 50  0001 C CNN
+	1    9500 5800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9500 5800 9500 5600
+Wire Wire Line
+	9500 5150 9050 5150
+Wire Wire Line
+	9050 5150 9050 5600
+Wire Wire Line
+	9050 5600 7000 5600
+Wire Wire Line
+	7000 5600 7000 4850
+Wire Wire Line
+	7000 4850 6850 4850
+Connection ~ 9500 5150
+Wire Wire Line
+	9500 5150 9500 5300
+Connection ~ 4950 4650
+Wire Wire Line
+	4950 4650 5350 4650
+Connection ~ 4550 4650
+Wire Wire Line
+	4150 4650 4550 4650
+Wire Wire Line
+	4550 4650 4950 4650
+Wire Wire Line
+	4550 4950 4950 4950
+Wire Wire Line
+	4150 4950 4550 4950
+Connection ~ 4150 4950
+Connection ~ 4550 4950
+$Comp
+L MMTK-rescue:L_Core_Iron-Device-MMTK-rescue L1
+U 1 1 5EBABC09
+P 7800 4650
+F 0 "L1" V 8025 4650 50  0000 C CNN
+F 1 "3.3uH" V 7934 4650 50  0000 C CNN
+F 2 "Inductor_SMD:L_Bourns_SRP7028A_7.3x6.6mm" H 7800 4650 50  0001 C CNN
+F 3 "~" H 7800 4650 50  0001 C CNN
+	1    7800 4650
+	0    -1   -1   0   
+$EndComp
+$Comp
+L MMTK-rescue:C-Device-MMTK-rescue C9
+U 1 1 5EBF63AF
+P 8200 4850
+AR Path="/5EBF63AF" Ref="C9"  Part="1" 
+AR Path="/5F79E13B/5EBF63AF" Ref="C9"  Part="1" 
+F 0 "C9" H 8315 4896 50  0000 L CNN
+F 1 "22u" H 8315 4805 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric" H 8238 4700 50  0001 C CNN
+F 3 "~" H 8200 4850 50  0001 C CNN
+	1    8200 4850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8200 5050 8600 5050
+Connection ~ 4150 4650
+$Comp
+L MMTK-rescue:R_US-Device-MMTK-rescue R?
+U 1 1 5EE1FE60
+P 3500 2900
+AR Path="/5EBF47FB/5EE1FE60" Ref="R?"  Part="1" 
+AR Path="/5EB8593E/5EE1FE60" Ref="R2"  Part="1" 
+AR Path="/5F79E13B/5EE1FE60" Ref="R2"  Part="1" 
+F 0 "R2" V 3295 2900 50  0000 C CNN
+F 1 "300K" V 3386 2900 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 3540 2890 50  0001 C CNN
+F 3 "~" H 3500 2900 50  0001 C CNN
+	1    3500 2900
+	-1   0    0    1   
+$EndComp
+$Comp
+L MMTK-rescue:R_US-Device-MMTK-rescue R?
+U 1 1 5EE1FE67
+P 3500 3400
+AR Path="/5EBF47FB/5EE1FE67" Ref="R?"  Part="1" 
+AR Path="/5EB8593E/5EE1FE67" Ref="R3"  Part="1" 
+AR Path="/5F79E13B/5EE1FE67" Ref="R3"  Part="1" 
+F 0 "R3" V 3295 3400 50  0000 C CNN
+F 1 "100K/1%" V 3386 3400 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 3540 3390 50  0001 C CNN
+F 3 "~" H 3500 3400 50  0001 C CNN
+	1    3500 3400
+	-1   0    0    1   
+$EndComp
+$Comp
+L MMTK-rescue:GND-power-MMTK-rescue #PWR?
+U 1 1 5EE1FE6D
+P 3500 3650
+AR Path="/5EBF47FB/5EE1FE6D" Ref="#PWR?"  Part="1" 
+AR Path="/5EB8593E/5EE1FE6D" Ref="#PWR0128"  Part="1" 
+AR Path="/5F79E13B/5EE1FE6D" Ref="#PWR0128"  Part="1" 
+AR Path="/5EE1FE6D" Ref="#PWR0128"  Part="1" 
+F 0 "#PWR0128" H 3500 3400 50  0001 C CNN
+F 1 "GND" H 3505 3477 50  0000 C CNN
+F 2 "" H 3500 3650 50  0001 C CNN
+F 3 "" H 3500 3650 50  0001 C CNN
+	1    3500 3650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3500 3650 3500 3550
+$Comp
+L MMTK-rescue:R_US-Device-MMTK-rescue R?
+U 1 1 5EE1FE85
+P 3800 3150
+AR Path="/5EBF47FB/5EE1FE85" Ref="R?"  Part="1" 
+AR Path="/5EB8593E/5EE1FE85" Ref="R1"  Part="1" 
+AR Path="/5F79E13B/5EE1FE85" Ref="R1"  Part="1" 
+F 0 "R1" V 3595 3150 50  0000 C CNN
+F 1 "10K" V 3686 3150 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 3840 3140 50  0001 C CNN
+F 3 "~" H 3800 3150 50  0001 C CNN
+	1    3800 3150
+	0    1    -1   0   
+$EndComp
+Text HLabel 4300 3150 2    50   Input ~ 0
+VIN_SENSE_3V3
+$Comp
+L MMTK-rescue:+5V-power-MMTK-rescue #PWR0144
+U 1 1 5F3C0E64
+P 9950 2500
+AR Path="/5F3C0E64" Ref="#PWR0144"  Part="1" 
+AR Path="/5F79E13B/5F3C0E64" Ref="#PWR0144"  Part="1" 
+F 0 "#PWR0144" H 9950 2350 50  0001 C CNN
+F 1 "+5V" H 9965 2673 50  0000 C CNN
+F 2 "" H 9950 2500 50  0001 C CNN
+F 3 "" H 9950 2500 50  0001 C CNN
+	1    9950 2500
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK-rescue:TPS562200-Regulator_Switching-MMTK-rescue U3
+U 1 1 5F7B6C44
+P 6450 4750
+F 0 "U3" H 6450 5117 50  0000 C CNN
+F 1 "TPS562200" H 6450 5026 50  0000 C CNN
+F 2 "Package_TO_SOT_SMD:SOT-23-6" H 6500 4500 50  0001 L CNN
+F 3 "http://www.ti.com/lit/ds/symlink/tps563200.pdf" H 6450 4750 50  0001 C CNN
+	1    6450 4750
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK-rescue:+12V-power-MMTK-rescue #PWR0145
+U 1 1 5F7DC54E
+P 2150 2600
+AR Path="/5F7DC54E" Ref="#PWR0145"  Part="1" 
+AR Path="/5F79E13B/5F7DC54E" Ref="#PWR0145"  Part="1" 
+F 0 "#PWR0145" H 2150 2450 50  0001 C CNN
+F 1 "+12V" H 2165 2773 50  0000 C CNN
+F 2 "" H 2150 2600 50  0001 C CNN
+F 3 "" H 2150 2600 50  0001 C CNN
+	1    2150 2600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3500 3050 3500 3150
+Wire Wire Line
+	3500 3150 3650 3150
+Connection ~ 3500 3150
+Wire Wire Line
+	3500 3150 3500 3250
+$Comp
+L MMTK-rescue:Fuse-Device-MMTK-rescue F1
+U 1 1 5F8178EE
+P 3100 4650
+AR Path="/5F8178EE" Ref="F1"  Part="1" 
+AR Path="/5F79E13B/5F8178EE" Ref="F1"  Part="1" 
+F 0 "F1" V 2903 4650 50  0000 C CNN
+F 1 "Fuse" V 2994 4650 50  0000 C CNN
+F 2 "Fuse:Fuse_2920_7451Metric" V 3030 4650 50  0001 C CNN
+F 3 "~" H 3100 4650 50  0001 C CNN
+	1    3100 4650
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	2150 2750 3500 2750
+Wire Wire Line
+	2150 2600 2150 2750
+$Comp
+L MMTK-rescue:GND-power-MMTK-rescue #PWR0146
+U 1 1 5F75B71F
+P 2150 5050
+AR Path="/5F75B71F" Ref="#PWR0146"  Part="1" 
+AR Path="/5F79E13B/5F75B71F" Ref="#PWR0146"  Part="1" 
+F 0 "#PWR0146" H 2150 4800 50  0001 C CNN
+F 1 "GND" H 2155 4877 50  0000 C CNN
+F 2 "" H 2150 5050 50  0001 C CNN
+F 3 "" H 2150 5050 50  0001 C CNN
+	1    2150 5050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2150 5050 2150 4850
+Wire Wire Line
+	1750 4850 2150 4850
+$Comp
+L MMTK-rescue:Barrel_Jack_Switch-Connector-MMTK-rescue J4
+U 1 1 5F75DE13
+P 1450 4750
+AR Path="/5F75DE13" Ref="J4"  Part="1" 
+AR Path="/5F79E13B/5F75DE13" Ref="J4"  Part="1" 
+F 0 "J4" H 1507 5067 50  0000 C CNN
+F 1 "Barrel_Jack_Switch" H 1507 4976 50  0000 C CNN
+F 2 "Connector_BarrelJack:BarrelJack_Horizontal" H 1500 4710 50  0001 C CNN
+F 3 "~" H 1500 4710 50  0001 C CNN
+	1    1450 4750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7950 4650 8200 4650
+Wire Wire Line
+	8200 4700 8200 4650
+Connection ~ 8200 4650
+Wire Wire Line
+	8200 4650 8600 4650
+Wire Wire Line
+	8600 4700 8600 4650
+Connection ~ 8600 4650
+Wire Wire Line
+	8600 4650 9500 4650
+Wire Wire Line
+	8600 5000 8600 5050
+Connection ~ 8600 5050
+Wire Wire Line
+	8200 5050 8200 5000
+Connection ~ 2150 2750
+Wire Wire Line
+	1750 4750 2150 4750
+Wire Wire Line
+	2150 4750 2150 4850
+Connection ~ 2150 4850
+Wire Wire Line
+	3250 4650 3500 4650
+Wire Wire Line
+	2150 4300 3500 4300
+Wire Wire Line
+	3500 4300 3500 4650
+Wire Wire Line
+	2150 2750 2150 4300
+Connection ~ 3500 4650
+Wire Wire Line
+	3500 4650 4150 4650
+$Comp
+L MMTK-rescue:R_US-Device-MMTK-rescue R6
+U 1 1 5FA14174
+P 9300 4900
+F 0 "R6" H 9368 4946 50  0000 L CNN
+F 1 "110K" H 9368 4855 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 9340 4890 50  0001 C CNN
+F 3 "~" H 9300 4900 50  0001 C CNN
+	1    9300 4900
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK-rescue:R_US-Device-MMTK-rescue R26
+U 1 1 5FA14AFF
+P 9650 4900
+F 0 "R26" H 9718 4946 50  0000 L CNN
+F 1 "110K" H 9718 4855 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 9690 4890 50  0001 C CNN
+F 3 "~" H 9650 4900 50  0001 C CNN
+	1    9650 4900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9300 4750 9500 4750
+Connection ~ 9500 4750
+Wire Wire Line
+	9500 4750 9650 4750
+Wire Wire Line
+	9300 5050 9500 5050
+Connection ~ 9500 5050
+Wire Wire Line
+	9500 5050 9650 5050
+Text Notes 10000 5000 0    50   ~ 0
+Here to save on extended \ncomponents from JLC\n
+Wire Wire Line
+	3950 3150 4300 3150
+Text Notes 7300 4300 0    50   ~ 0
+4.7uH also work\nout of stock at JLC at the time of production
+Wire Wire Line
+	8600 3650 8600 3550
+$Comp
+L MMTK-rescue:GND-power-MMTK-rescue #PWR0159
+U 1 1 5F9CDFAB
+P 8600 3650
+AR Path="/5F9CDFAB" Ref="#PWR0159"  Part="1" 
+AR Path="/5F79E13B/5F9CDFAB" Ref="#PWR0159"  Part="1" 
+F 0 "#PWR0159" H 8600 3400 50  0001 C CNN
+F 1 "GND" H 8605 3477 50  0000 C CNN
+F 2 "" H 8600 3650 50  0001 C CNN
+F 3 "" H 8600 3650 50  0001 C CNN
+	1    8600 3650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8600 3250 8600 3150
+$Comp
+L MMTK-rescue:LED-Device-MMTK-rescue D?
+U 1 1 5F9C5918
+P 8600 3000
+AR Path="/5F6F52D9/5F9C5918" Ref="D?"  Part="1" 
+AR Path="/5F79E13B/5F9C5918" Ref="D12"  Part="1" 
+AR Path="/5F9C5918" Ref="D12"  Part="1" 
+F 0 "D12" H 8593 2745 50  0000 C CNN
+F 1 "YEL" H 8593 2836 50  0000 C CNN
+F 2 "LED_SMD:LED_0603_1608Metric" H 8600 3000 50  0001 C CNN
+F 3 "~" H 8600 3000 50  0001 C CNN
+	1    8600 3000
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	1750 4650 2950 4650
+Wire Wire Line
+	8600 2600 9950 2600
+Wire Wire Line
+	9950 2600 9950 2500
+Wire Wire Line
+	8600 2600 8600 2850
+Wire Wire Line
+	9950 2600 9950 4650
+Wire Wire Line
+	9500 4650 9950 4650
+Connection ~ 9950 2600
+$Comp
+L MMTK-rescue:R_US-Device-MMTK-rescue R?
+U 1 1 5FD75B15
+P 8600 3400
+AR Path="/5F6F52D9/5FD75B15" Ref="R?"  Part="1" 
+AR Path="/5FD75B15" Ref="R?"  Part="1" 
+AR Path="/5F791A23/5FD75B15" Ref="R?"  Part="1" 
+AR Path="/5F700C8F/5FD75B15" Ref="R?"  Part="1" 
+AR Path="/5F79E13B/5FD75B15" Ref="R35"  Part="1" 
+F 0 "R35" V 8395 3400 50  0000 C CNN
+F 1 "200R/1%" V 8486 3400 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 8640 3390 50  0001 C CNN
+F 3 "~" H 8600 3400 50  0001 C CNN
+	1    8600 3400
+	-1   0    0    1   
+$EndComp
+$EndSCHEMATC
