@@ -54,5 +54,7 @@
 #define LS_MAX_FORCE 1000
 #define LS_GAIN 128
 #define LS_N_PER_LSB 4277 // 100kg, 23 effective signed bits, 22 per end
+#define LS_ZERO_OFFET 0 // Offset for center value of loadcell
+#define LS_GAIN_OFFSET 0 // Offset for scale of loadcell
 
 

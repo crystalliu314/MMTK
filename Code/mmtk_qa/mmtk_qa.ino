@@ -1,11 +1,12 @@
 #include <TMCStepper.h>
+#include <HX711.h>
 #include "MMTK_V1.h" 
 
 // General Vars
 double TMC_PulsePerRev = 0.0f
 long stepperPosition = 0
 bool stepperStopped = true
-enum MMTKStates {running, stopped, hold, jog}
+enum MMTKStates {running, stopped, hold, jogFwd, jogBak}
 enum MMTKStates currentState
 
 // Last Button States
@@ -143,6 +144,31 @@ void setup() {
   // Setup HX711
   // #############
 
+  // Initialize HX711
+  HX711 loadcell;
+  loadcell.begin()
+
+  unsigned long ls_divider = 0
+
+  switch LS_GAIN {
+    case 128:
+      // HX711 full range at 128 gain is +-20mv
+      // 8388608 is max digital value (max + or -)
+      // Load Cell supply voltage: 5
+      // (8388608 / 20) * (5 * LS_MV_PER_V) / LS_MAX_FORCE
+      ls_divider = 8388608 * 5 * LS_MV_PER_V / (LS_MAX_FORCE * 20)
+
+    case 64:
+      // HX711 full range at 64 gain is +-40mv
+      ls_divider = 8388608 * 5 * LS_MV_PER_V / (LS_MAX_FORCE * 40)
+
+    default:
+      Serial.print(" = ERROR = \n Load Cell Gain Invalid")
+  }
+
+  loadcell.begin(LOADCELL_DATA, LOADCELL_CLOCK, LS_GAIN);
+  loadcell.set_scale(ls_divider);
+  loadcell.set_offset(LS_ZERO_OFFET);
 
   
   // #############
@@ -157,22 +183,76 @@ void loop() {
   
   // Check if extenal ESTOP is active, if so turn off arduino estop
   if stepperStopped {
-    digitalWrite(STEPPER_ENN, HIGH)
+    digitalWrite(STEPPER_ENN, HIGH);
   }
 
   // State Transitions
 
-  switch currentState:
-    case running:
+  switch currentState {
+    case running: 
+      {
+        if !digitalRead(BT_FW) {
+          currentState = jogFwd
+          break;
+        }
+        
+        if !digitalRead(BT_BK) {
+          currentState = jogBak
+          break;
+        }
 
+
+      }
+
+    case stopped:
+      {
+
+      }
+    
+    case hold:
+    
+    case jogFwd:
+    
+    case jogBak:
+  }
+  
+  // Logging
+
+  switch currentState {
+    case running:
     
     case stopped:
     
     case hold:
     
-    case jog:
+    case jogFwd:
+    
+    case jogBak:
+  }
+  
 
-  // Logging
+  // Business Logic
+  
+  switch currentState {
+    case running:
+
+      if loadcell.is_ready() {
+        long ls_reading = HX711::read();
+      }
+
+    case stopped:
+
+      {
+
+      }
+    
+    case hold:
+    
+    case jogFwd:
+    
+    case jogBak:
+  }
+
 }
 
 
