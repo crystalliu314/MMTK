@@ -57,9 +57,9 @@ ISR(TIMER1_COMPA_vect) {
   }
 
   if (stepperDirection) {
-    stepperPosition++;
-  } else {
     stepperPosition--;
+  } else {
+    stepperPosition++;
   }
 
   #ifdef USE_DIRECT_PORT_MANIPULATION_FOR_STEP
@@ -75,11 +75,19 @@ ISR(TIMER1_COMPA_vect) {
     if (digitalRead(STEPPER_INDEX)) {
   #endif
       if (stepperDirection) {
-      stepperFeedbackPosition++;
-    } else {
       stepperFeedbackPosition--;
+    } else {
+      stepperFeedbackPosition++;
     }
   }
+
+  // Check Diag Pin, if that is high we stalled last step
+  #ifdef USE_DIRECT_PORT_MANIPULATION_FOR_DIAG
+    stepperStall =  (STEPPER_DIAG_PORT & (1 << STEPPER_DIAG_PIN));
+  #else 
+    stepperStall = digitalRead(STEPPER_DIAG);
+  #endif
+
 }
 
 /*
@@ -343,12 +351,6 @@ void loop() {
     eStopInput = digitalRead(STEPPER_ENN_SENS);
   #endif
 
-  // Check Diag Pin, if that is high, motor stalled
-  #ifdef USE_DIRECT_PORT_MANIPULATION_FOR_DIAG
-    stepperStall =  (STEPPER_DIAG_PORT & (1 << STEPPER_DIAG_PIN));
-  #else 
-    stepperStall = digitalRead(STEPPER_DIAG);
-  #endif
   
   // Check if extenal ESTOP is active, if so turn off arduino estop
   if (eStopInput) {
@@ -402,6 +404,7 @@ void loop() {
       if (tareButton == press || tareButton == down) {
         loadcell.tare();
         stepperPosition = 0;
+        stepperFeedbackPosition = 0;
         Serial.println(" ========= TARE ==========");
         Serial.print(HEADER_TEXT);
         break;
@@ -438,6 +441,7 @@ void loop() {
       if (tareButton == press || tareButton == down) {
         loadcell.tare();
         stepperPosition = 0;
+        stepperFeedbackPosition = 0;
         Serial.println(" ========= TARE ==========");
         Serial.print(HEADER_TEXT);
         break;
