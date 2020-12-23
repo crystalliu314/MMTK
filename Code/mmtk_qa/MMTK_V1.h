@@ -12,16 +12,35 @@
 #define STEPPER_DIR 6 // PD6
 #define STEPPER_ENN 8 // PB0
 #define STEPPER_ENN_SENS 9 // PB1  PCINT1 (interrupt PCINT0)
+#define STEPPER_MIN_TIMER 200
+#define STEPPER_MAX_TIMER 5000
+#define STEPPER_DEFAULT_TIMER 1000
+#define STEPPER_SPEED_INCREMENT 100
+
+#define STEPPER_DIAG A4 // PC4
+#define STEPPER_INDEX A5 // PC5
 
 // Step port and pin for faster ISR
 #define USE_DIRECT_PORT_MANIPULATION_FOR_STEP
 #define STEPPER_ENN_SENS_PORT PORTD
 #define STEPPER_ENN_SENS_PIN 7
 
-// Step port and pin for faster ISR
+// ENN Sense port and pin for faster ISR
 #define USE_DIRECT_PORT_MANIPULATION_FOR_ENN_SENSE
 #define STEPPER_STEP_PORT PORTB
 #define STEPPER_STEP_PIN 1
+
+// DIAG port and pin for faster ISR
+#define USE_DIRECT_PORT_MANIPULATION_FOR_DIAG
+#define STEPPER_DIAG_PORT PORTC
+#define STEPPER_DIAG_PIN 4
+
+// INDEX port and pin for faster ISR
+#define USE_DIRECT_PORT_MANIPULATION_FOR_INDEX
+#define STEPPER_INDEX_PORT PORTC
+#define STEPPER_INDEX_PIN 5
+
+
 
 #define TMC_R_SENS 0.10f
 #define TMC_ADDRESS 0b00
@@ -29,9 +48,6 @@
 #define TMC_MICROSTEPS 8
 #define TMC_STALL_VALUE 128
 #define TMC_SS_BAUD 115200
-
-#define SERVO_DIAG A4
-#define SERVO_INDEX A5 // PC5
 
 #define BT_FW 2 // S5 - BT3
 #define BT_BK 3 // S3 - BT2
@@ -51,10 +67,8 @@
 
 // Load Cell Calibrations
 #define LS_MV_PER_V 2
-#define LS_MAX_FORCE 1000
+#define LS_MAX_FORCE 981 // INT Approximaion, floats are way to expensive on 8 bit
 #define LS_GAIN 128
 #define LS_N_PER_LSB 4277 // 100kg, 23 effective signed bits, 22 per end
 #define LS_ZERO_OFFET 0 // Offset for center value of loadcell
 #define LS_GAIN_OFFSET 0 // Offset for scale of loadcell
-
-
