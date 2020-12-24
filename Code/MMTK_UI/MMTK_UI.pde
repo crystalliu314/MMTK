@@ -29,13 +29,12 @@ ControlP5 cp5;
 JSONObject plotterConfigJSON;
 
 // Plot Constants
-
-
-
-
+int[] XYplotOrigin = {100, 170};
+int[] XYplotSize = {400, 300};
+int XYplotColor = color(20, 20, 200);
 
 // Generate the plot
-Graph XYplot = new Graph(100, 170, 400, 300, color(20, 20, 200));
+Graph XYplot = new Graph(XYplotOrigin[0], XYplotOrigin[1], XYplotSize[0], XYplotSize[1], XYplotColor);
 float[][] XYplotData = new float[3][200];
 float[] XYplotSampleNumbers = new float[200];
 color[] graphColors = new color[6];
@@ -51,7 +50,7 @@ PImage mmtkLogo;
 
 
 void settings() {
-    size(1080, 720, P2D);
+    size(1080, 720);
 }
 
 void setup() 
@@ -192,7 +191,7 @@ void draw()
   }
   
   // draw the bar chart
-  background(10); 
+  background(200); 
   
   
   // Draw the MMTK Logo
@@ -201,14 +200,12 @@ void draw()
   // draw the line graphs
   XYplot.DrawAxis();
   XYplot.GraphColor = graphColors[1];
-  float[] xtest = {10,20,30,40,50,60,71,80,90,91};
-  float[] ytest = {10,20,30,40,50,60,71,80,90,91};
   
   XYplot.DotXY(XYplotData[1], XYplotData[2]);
 }
 
-probably good rea
-// ********************* HELPER FUNCTIONS **
+// *********************
+// ** HELPER FUNCTIONS **
 // **********************
 
 
