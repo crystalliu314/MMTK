@@ -5,9 +5,20 @@
 
 // These values are retained after function exits
 
-
-
-
+float mockSpeed = 0.0;
+mockPosition
+mockLoadCell
+mockFeedBack
+mockState
+mockEstop
+mockStall
+mockDirection
+mockInputVolts
+mockBtFwd
+mockBtBak
+mockBtTare
+mockBtStart
+mockBtAux
 
 String mockupSerialFunction() {
 
