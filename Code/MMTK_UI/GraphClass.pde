@@ -239,7 +239,7 @@
          for (int i=0; i<x.length; i++){
                     strokeWeight(2);stroke(GraphColor);noFill();smooth();
            ellipse(
-                   xPos+Width-(x[i]/(xMax-xMin)*Width)+(xMin)/(xMax-xMin)*Width,
+                   xPos-(xMin/(xMax-xMin)*Width)+(x[i])/(xMax-xMin)*Width,
                    yPos+Height-(y[i]/(yMax-yMin)*Height)+(yMin)/(yMax-yMin)*Height,
                    2,2
                    );

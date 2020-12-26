@@ -35,7 +35,7 @@ int XYplotColor = color(20, 20, 200);
 
 // Generate the plot
 Graph XYplot = new Graph(XYplotOrigin[0], XYplotOrigin[1], XYplotSize[0], XYplotSize[1], XYplotColor);
-float[][] XYplotData = new float[3][200];
+float[][] XYplotData = new float[14][200];
 float[] XYplotSampleNumbers = new float[200];
 color[] graphColors = new color[6];
 
@@ -199,7 +199,7 @@ void draw()
 
   // draw the line graphs
   XYplot.DrawAxis();
-  XYplot.GraphColor = graphColors[1];
+  XYplot.GraphColor = graphColors[2];
   
   XYplot.DotXY(XYplotData[1], XYplotData[2]);
 }
@@ -211,13 +211,13 @@ void draw()
 
 // called each time the chart settings are changed by the user 
 void setChartSettings() {
-  XYplot.xLabel=" Samples ";
-  XYplot.yLabel="Value";
+  XYplot.xLabel=" Displacment (mm) ";
+  XYplot.yLabel=" Force (N) ";
   XYplot.Title="";  
   XYplot.xDiv=2;  
-  XYplot.xMax=10; 
+  XYplot.xMax=1000; 
   XYplot.xMin=-10;  
-  XYplot.yMax=10; 
+  XYplot.yMax=1000; 
   XYplot.yMin=-10;
 }
 
