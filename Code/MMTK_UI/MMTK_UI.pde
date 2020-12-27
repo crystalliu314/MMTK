@@ -28,16 +28,43 @@ ControlP5 cp5;
 // Settings for the plotter are saved in this file
 JSONObject plotterConfigJSON;
 
-// Plot Constants
+// Drawing Constants
+int[] screenSize = {1080, 720};
+
 int[] XYplotOrigin = {100, 170};
 int[] XYplotSize = {400, 300};
 int XYplotColor = color(20, 20, 200);
 
+int[] eStopIndicatorOrigin = {500, 600};
+int[] eStopIndicatorSize = {50,50};
+int eStopActiveColor = color(250,0,0);
+int eStopInactiveColor = color(0,250,0);
+
+int buttonActiveColor = color(120,255,120);
+int buttonInactiveColor = color(255,120,120);
+int buttonBorderColor = 10;
+int[] buttonIndicatorSize = {50,50};
+
+int [] buttonForwardOrigin = {600,600};
+int [] buttonBackOrigin = {700,600};
+int [] buttonTareOrigin = {800,600};
+int [] buttonStartOrigin = {900,600};
+int [] buttonAuxOrigin = {1000,600};
+
+float speed = 0.0;
+int position = 0;
+float loadCell = 0.0;
+int feedBack = 0;
+int MMTKState = 0;
+boolean eStop = false;
+boolean stall = false;
+boolean direction = false;
+float inputVolts = 12.0;
+
 // Generate the plot
 Graph XYplot = new Graph(XYplotOrigin[0], XYplotOrigin[1], XYplotSize[0], XYplotSize[1], XYplotColor);
-float[][] XYplotData = new float[14][200];
-float[] XYplotSampleNumbers = new float[200];
-color[] graphColors = new color[6];
+float[][] XYplotData = new float[14][10000];
+float[] XYplotSampleNumbers = new float[10000];
 
 // helper for saving the executing path
 String topSketchPath = "";
@@ -50,7 +77,7 @@ PImage mmtkLogo;
 
 
 void settings() {
-    size(1080, 720);
+    size(screenSize[0], screenSize[1]);
 }
 
 void setup() 
@@ -79,14 +106,6 @@ void setup()
   plotterConfigJSON = loadJSONObject(topSketchPath+"/plotter_config.json");
   
   surface.setTitle("Realtime plotter");
-
-  // set line graph colors
-  graphColors[0] = color(131, 255, 20);
-  graphColors[1] = color(232, 158, 12);
-  graphColors[2] = color(255, 0, 0);
-  graphColors[3] = color(62, 12, 232);
-  graphColors[4] = color(13, 255, 243);
-  graphColors[5] = color(200, 46, 232);
   
   // settings save file
   topSketchPath = sketchPath();
@@ -120,10 +139,6 @@ void setup()
   // build the gui
   int x = 170;
   int y = 60;
-  cp5.addTextfield("lgMaxY").setPosition(x, y=y+130).setText(getPlotterConfigString("lgMaxY")).setWidth(40).setAutoClear(false);
-  cp5.addTextfield("lgMinY").setPosition(x, y=y+200).setText(getPlotterConfigString("lgMinY")).setWidth(40).setAutoClear(false);
-  cp5.addTextfield("lgMaxX").setPosition(x, y=y+130).setText(getPlotterConfigString("lgMaxY")).setWidth(40).setAutoClear(false);
-  cp5.addTextfield("lgMinX").setPosition(x, y=y+200).setText(getPlotterConfigString("lgMinY")).setWidth(40).setAutoClear(false);
 
   
   // Draw MMTK Logo image
@@ -166,8 +181,6 @@ void draw()
     // split the string at delimiter (space)
     String[] nums = split(myString, ' ');
 
-    // System.out.println(XYplotData.length);
-
     // build the arrays for bar charts and line graphs
     for (i=0; i<nums.length; i++) {
       System.out.print(nums[i] + " ");
@@ -187,7 +200,6 @@ void draw()
       catch (Exception e) {
       }
     }
-    System.out.println("=");
   }
   
   // draw the bar chart
@@ -199,10 +211,45 @@ void draw()
 
   // draw the line graphs
   XYplot.DrawAxis();
-  XYplot.GraphColor = graphColors[2];
-  
+  XYplot.GraphColor = XYplotColor;
   XYplot.DotXY(XYplotData[1], XYplotData[2]);
+  
+  
+  
+  // Draw / update buttons
+  
+  // Buttons
+  stroke(buttonBorderColor);
+  fill(buttonActiveColor);
+  
+  
+//int buttonActiveColor = color(120,255,120);
+//int buttonInactiveColor = color(255,120,120);
+//int[] buttonIndicatorSize = {50,50};
+  
+ 
+  
+  rect(buttonForwardOrigin[0], buttonForwardOrigin[1], buttonIndicatorSize[0], buttonIndicatorSize[1]);
+  rect(buttonBackOrigin[0], buttonBackOrigin[1],  buttonIndicatorSize[0], buttonIndicatorSize[1]);
+  rect(buttonTareOrigin[0], buttonTareOrigin[1], buttonIndicatorSize[0], buttonIndicatorSize[1]);
+  rect(buttonStartOrigin[0], buttonStartOrigin[1], buttonIndicatorSize[0], buttonIndicatorSize[1]);
+  rect(buttonAuxOrigin[0], buttonAuxOrigin[1], buttonIndicatorSize[0], buttonIndicatorSize[1]);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // *********************
 // ** HELPER FUNCTIONS **

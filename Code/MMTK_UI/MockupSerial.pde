@@ -18,7 +18,6 @@ boolean mockEstop = false;
 boolean mockStall = false;
 boolean mockDirection = false;
 float mockInputVolts = 12.0;
-boolean booleanmockBtFwd = false;
 boolean mockBtBak = false;
 boolean mockBtFwd = false;
 boolean mockBtTare = false;
@@ -52,7 +51,6 @@ String mockupSerialFunction() {
     mockEstop = rand.nextFloat() > 0.3;
     mockStall = rand.nextFloat() > 0.4;
     mockDirection = rand.nextFloat() > 0.5;
-    booleanmockBtFwd = rand.nextFloat() > 0.6;
     mockBtBak = rand.nextFloat() > 0.7;
     mockBtFwd = rand.nextFloat() > 0.3;
     mockBtTare = rand.nextFloat() > 0.4;
