@@ -14,6 +14,7 @@ import java.awt.Frame;
 import java.awt.BorderLayout;
 import controlP5.*; // http://www.sojamo.de/libraries/controlP5/
 import processing.serial.*;
+import java.utils.Arrays;
 
 // If you want to debug the plotter without using a real serial port set this to true
 boolean mockupSerial = true;
@@ -28,7 +29,9 @@ ControlP5 cp5;
 // Settings for the plotter are saved in this file
 JSONObject plotterConfigJSON;
 
-// Drawing Constants
+// ***********************
+// ** Drawing Constants **
+// ***********************
 int[] screenSize = {1080, 720};
 
 int[] XYplotOrigin = {100, 170};
@@ -62,12 +65,41 @@ boolean direction = false;
 float inputVolts = 12.0;
 
 // Generate the plot
+int[] XYplotDims = {14, 10000};
+
 Graph XYplot = new Graph(XYplotOrigin[0], XYplotOrigin[1], XYplotSize[0], XYplotSize[1], XYplotColor);
-float[][] XYplotData = new float[14][10000];
-float[] XYplotSampleNumbers = new float[10000];
+float[][] XYplotData = new float[XYplotDims[0]][XYplotDims[1]];
+// This value grows and is used for slicing
+int XYplotCurrentSize = 1;
+
+
+// ************************
+// ** Variables for Data **
+// ************************
+
+
+
+
+
+
+
+
+
+
+
 
 // helper for saving the executing path
 String topSketchPath = "";
+
+
+
+
+
+
+
+
+
+
 
 // Log File
 PrintWriter logFile;
@@ -120,9 +152,6 @@ void setup()
   for (int i=0; i<XYplotData.length; i++) {
     for (int k=0; k<XYplotData[0].length; k++) {
       XYplotData[i][k] = 0;
-      if (i==0)
-        XYplotSampleNumbers[k] = k;
-    }
   }
   
   
@@ -180,6 +209,9 @@ void draw()
 
     // split the string at delimiter (space)
     String[] nums = split(myString, ' ');
+    
+    
+    
 
     // build the arrays for bar charts and line graphs
     for (i=0; i<nums.length; i++) {
@@ -212,7 +244,7 @@ void draw()
   // draw the line graphs
   XYplot.DrawAxis();
   XYplot.GraphColor = XYplotColor;
-  XYplot.DotXY(XYplotData[1], XYplotData[2]);
+  XYplot.DotXY(Arrays.copyOfRange(XYplotData[1], XYplotData[1].length - XYplotCurrentSize, XYplotData[1].length), XYplotData[2]);
   
   
   
@@ -226,8 +258,6 @@ void draw()
 //int buttonActiveColor = color(120,255,120);
 //int buttonInactiveColor = color(255,120,120);
 //int[] buttonIndicatorSize = {50,50};
-  
- 
   
   rect(buttonForwardOrigin[0], buttonForwardOrigin[1], buttonIndicatorSize[0], buttonIndicatorSize[1]);
   rect(buttonBackOrigin[0], buttonBackOrigin[1],  buttonIndicatorSize[0], buttonIndicatorSize[1]);
