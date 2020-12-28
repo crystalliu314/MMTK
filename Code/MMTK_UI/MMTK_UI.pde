@@ -14,7 +14,7 @@ import java.awt.Frame;
 import java.awt.BorderLayout;
 import controlP5.*; // http://www.sojamo.de/libraries/controlP5/
 import processing.serial.*;
-import java.utils.Arrays;
+import java.util.Arrays;
 
 // If you want to debug the plotter without using a real serial port set this to true
 boolean mockupSerial = true;
@@ -54,21 +54,11 @@ int [] buttonTareOrigin = {800,600};
 int [] buttonStartOrigin = {900,600};
 int [] buttonAuxOrigin = {1000,600};
 
-float speed = 0.0;
-int position = 0;
-float loadCell = 0.0;
-int feedBack = 0;
-int MMTKState = 0;
-boolean eStop = false;
-boolean stall = false;
-boolean direction = false;
-float inputVolts = 12.0;
-
 // Generate the plot
-int[] XYplotDims = {14, 10000};
+int[] XYplotDataDims = {14, 10000};
 
 Graph XYplot = new Graph(XYplotOrigin[0], XYplotOrigin[1], XYplotSize[0], XYplotSize[1], XYplotColor);
-float[][] XYplotData = new float[XYplotDims[0]][XYplotDims[1]];
+float[][] XYplotData = new float[XYplotDataDims[0]][XYplotDataDims[1]];
 // This value grows and is used for slicing
 int XYplotCurrentSize = 1;
 
@@ -78,13 +68,15 @@ int XYplotCurrentSize = 1;
 // ************************
 
 
-
-
-
-
-
-
-
+float speed = 0.0;
+int position = 0;
+float loadCell = 0.0;
+int feedBack = 0;
+int MMTKState = 0;
+boolean eStop = false;
+boolean stall = false;
+boolean direction = false;
+float inputVolts = 12.0;
 
 
 
@@ -152,6 +144,7 @@ void setup()
   for (int i=0; i<XYplotData.length; i++) {
     for (int k=0; k<XYplotData[0].length; k++) {
       XYplotData[i][k] = 0;
+    }
   }
   
   
@@ -176,13 +169,20 @@ void setup()
 }
 
 
+
+
+
+
+
+
 // *******************************
 // ** MAIN DRAW LOOP START HERE **
 // *******************************
 
 
-byte[] inBuffer = new byte[100]; // holds serial message
+byte[] inBuffer = new byte[1000]; // holds serial message
 int i = 0; // loop variable
+int j = 0;
 
 void draw()
 {  
@@ -204,35 +204,72 @@ void draw()
     }
 
     // Print out the data for debugging and logging
-    // System.out.println(myString);
-    // logFile.println(myString);
-
-    // split the string at delimiter (space)
-    String[] nums = split(myString, ' ');
+    System.out.println(myString);
+    logFile.println(myString);
     
     
-    
-
-    // build the arrays for bar charts and line graphs
-    for (i=0; i<nums.length; i++) {
-      System.out.print(nums[i] + " ");
+    if (myString.contains("TARE")) {
+      // This is a tare frame, empty the array and ignore it
+      // Also ignore the next line with indices
+      serialPort.readBytesUntil('\r', inBuffer);
+      XYplotCurrentSize = 1;
       
-      // update line graph
-      try {
-        if (i<XYplotData.length) {
-          for (int k=0; k<XYplotData[i].length-1; k++) {
-            XYplotData[i][k] = XYplotData[i][k+1];
-            
-          }
+    } else {
+      // split the string at delimiter (space)
+      String[] tempData = split(myString, ' ');   
 
-          XYplotData[i][XYplotData[i].length-1] = float(nums[i]);
+      // build the arrays for bar charts and line graphs
+      if (tempData.length == 15) {
+        // This is a normal data frame
+        
+      } else {
+        // invalid message ignore it
+        System.out.println("Corrupted Serial Message Frame Ignored");
+        logFile.println("Corrupted Serial Message Frame Ignored");
+      }
+      
+      if (XYplotCurrentSize >= XYplotData.length) {
+        // If the current data is longer than our buffer
+        // Have to expand the buffer and continue
+        
+        int newLength = XYplotDataDims[1] + XYplotData.length;
+        float[][] tempXYData = new float[XYplotDataDims[0]][newLength];
+
+        // Copy data to this bigger array
+        for (i=0; i<tempXYData.length; i++) {
+          System.arraycopy(XYplotData[i], 0, tempXYData[i], 0, XYplotData[i].length);          
         }
         
-              }
-      catch (Exception e) {
+        
       }
+    
+      for (i=0; i<tempData.length; i++) {
+          
+          
+          
+          // update line graph
+          try {
+            if (i<XYplotData.length) {
+              for (int k=0; k<XYplotData[i].length-1; k++) {
+                XYplotData[i][k] = XYplotData[i][k+1];
+                
+              }
+    
+              XYplotData[i][XYplotData[i].length-1] = float(tempData[i]);
+            }
+            
+          }
+          catch (Exception e) {
+          }
+        }
+      }
+      
+      
+    
     }
-  }
+
+    
+    
   
   // draw the bar chart
   background(200); 
