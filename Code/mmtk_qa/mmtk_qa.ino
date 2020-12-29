@@ -6,7 +6,7 @@
 // QA Mode Toggle
 // #define QAMODE true
 
-#define HEADER_TEXT "SPEED\tPOSITION\tLOADCELL\tFEEDBACK_COUNT\tSTATE\tESTOP\tSTALL\tDIRECTION\tINPUT_VOLTAGE\tBT_FWD\tBT_BAK\tBT_TARE\tBT_START\tBT_AUX\n"
+#define HEADER_TEXT "NEW_DATA\tSPEED\tPOSITION\tLOADCELL\tFEEDBACK_COUNT\tSTATE\tESTOP\tSTALL\tDIRECTION\tINPUT_VOLTAGE\tBT_FWD\tBT_BAK\tBT_TARE\tBT_START\tBT_AUX\n"
 
 // General Vars
 double TMC_PulsePerRev = 0.0f;
@@ -18,6 +18,13 @@ bool currentIndexPin = 0;
 long stepperPosition = 0;
 long stepperFeedbackPosition = 0;
 float stepperSpeed = 0.0f;
+// Set this to select if printing of data should continute when MMTK is haulted
+bool printWhileStopped = true;
+// Set when there is a new data point from load cell
+bool newLsData = false;
+
+unsigned long loopLastMillis = 0;
+unsigned long millisPerLoop = 40;
 
 #ifdef READ_POWER_VOLTAGE
   float powerInput = 0.0f;
@@ -192,7 +199,8 @@ float getCurrentSpeed() {
 }
 
 void setup() {
-  
+  loopLastMillis = millis();
+
   cli(); //stop interrupts
 
   // #############
@@ -394,6 +402,11 @@ void loop() {
         break;
       }
       break;
+      // If motor stalled, and we are configured to haut movement when stalled
+      if ((bool)STEPPER_HAULT_WHEN_STALL && stepperStall) {
+        MMTKNextState = hold;
+        break;
+      }
 
     case stopped: // Stopped, Motor is Disabled (HIGH-Z)
       if (auxButton == press) {
@@ -516,8 +529,8 @@ void loop() {
   {
   case running: // Transition into running state
       // Next State is hold
-      stepperDirection = 1; // Run Forward
-      digitalWrite(STEPPER_DIR, HIGH);
+      stepperDirection = 0; // Run Forward
+      digitalWrite(STEPPER_DIR, stepperDirection);
       TIMSK1 |= (1 << OCIE1A); // Start Motor
       digitalWrite(STEPPER_ENN, LOW); // Motor is Disabled, unlocked
       digitalWrite(LED_RUN, HIGH); // RUN LED is ON
@@ -597,6 +610,9 @@ void loop() {
   // Remove the if statement if you wish to print slower and only new new loadcell value is available
   if (loadcell.is_ready()) {
     ls_reading = loadcell.get_units(1);
+    newLsData = true;
+  } else {
+    newLsData = false;
   }
 
   #ifdef QAMODE
@@ -637,13 +653,25 @@ void loop() {
 
   #endif
 
+
+  // Limit Rate of the main loop here so we do not overwhelm the UI
+  if ((millis() - loopLastMillis) < millisPerLoop) {
+    return;
+  }
+  loopLastMillis = millis();
+
   // Logging
   // Logging format
-  // SPEED POSITION LOADCELL FEEDBACK_COUNT STATE ESTOP STALL DIRECTION INPUT_VOLTAGE
-  if (MMTKState != stopped) {  
+  // NEW_DATA SPEED POSITION LOADCELL FEEDBACK_COUNT STATE ESTOP STALL DIRECTION INPUT_VOLTAGE
+  if (MMTKState != stopped || printWhileStopped) {  
+
+    Serial.print(newLsData ? 1:0);
+    Serial.print("\t");
+
     Serial.print(stepperSpeed);
     Serial.print("\t");
-    Serial.print(stepperPosition);
+    float stepperPositionFloat = (float) stepperPosition / TMC_MICROSTEPS / MECH_STEP_PER_REV * MECH_MM_PER_REV;
+    Serial.print(stepperPositionFloat);
     Serial.print("\t");
     Serial.print(ls_reading);
     Serial.print("\t");

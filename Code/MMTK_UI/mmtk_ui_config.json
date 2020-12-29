@@ -1,0 +1,11 @@
+{
+  "mainPlotXMax": 25,
+  "mainPlotXMin": -1,
+  "mainPlotYMax": 600,
+  "mainPlotYMin": -1,
+  "mainPlotXLabel": " Displacment (mm) ",
+  "mainPlotYLabel": " Force (N) ",
+  "mainPlotTitle": " Force vs Displacement ",
+  "logAllData": false,
+  "printAllData": false
+}

@@ -15,9 +15,10 @@ import java.awt.BorderLayout;
 import controlP5.*; // http://www.sojamo.de/libraries/controlP5/
 import processing.serial.*;
 import java.util.Arrays;
+PFont buttonTitle_f, stateText_f, indicatorText_f;
 
 // If you want to debug the plotter without using a real serial port set this to true
-boolean mockupSerial = true;
+boolean mockupSerial = false;
 
 // Serial Setup
 String serialPortName;
@@ -26,75 +27,104 @@ Serial serialPort;  // Create object from Serial class
 // interface stuff
 ControlP5 cp5;
 
-// Settings for the plotter are saved in this file
-JSONObject plotterConfigJSON;
+// Settings for MMUK UI are stored in this config file
+JSONObject mmtkUIConfig;
 
 // ***********************
 // ** Drawing Constants **
 // ***********************
+
+// Screen
 int[] screenSize = {1080, 720};
 
-int[] XYplotOrigin = {100, 170};
-int[] XYplotSize = {400, 300};
+// XY Plot
+int[] XYplotOrigin = {100, 125};
+int[] XYplotSize = {630, 530};
 int XYplotColor = color(20, 20, 200);
 
-int[] eStopIndicatorOrigin = {500, 600};
-int[] eStopIndicatorSize = {50,50};
-int eStopActiveColor = color(250,0,0);
-int eStopInactiveColor = color(0,250,0);
+// Generic Text Color
+int textColor = color(0,0,0);
 
+// MMTK Logo
+int[] mmtkLogoOrigin = {0,0};
+int[] mmtkLogoSize = {310,62};
+
+
+// Button Indicators
 int buttonActiveColor = color(120,255,120);
 int buttonInactiveColor = color(255,120,120);
 int buttonBorderColor = 10;
 int[] buttonIndicatorSize = {50,50};
 
-int [] buttonForwardOrigin = {600,600};
-int [] buttonBackOrigin = {700,600};
-int [] buttonTareOrigin = {800,600};
-int [] buttonStartOrigin = {900,600};
-int [] buttonAuxOrigin = {1000,600};
+int [] buttonForwardOrigin = {800,650};
+int [] buttonBackOrigin = {850,650};
+int [] buttonTareOrigin = {900,650};
+int [] buttonStartOrigin = {950,650};
+int [] buttonAuxOrigin = {1000,650};
+
+// MMTK States
+String[] MMTKstateEnum = {"Running", "Stopped", "Hold", "Jog Forward", "Jog Back", "Fast Jog Forward", "Fast Jog Back", " - "};
+int[] stateIndicatorOrigin = {800, 450};
+int[] stateIndicatorSize = {250,100};
+int[] stateTextLocation = {stateIndicatorOrigin[0] + stateIndicatorSize[0]/2, 510};
+int stateIndicatorBackgroundColor = color(250,180,180);
+
+// eStop Indicator
+int[] eStopIndicatorOrigin = {800, 550};
+int[] eStopIndicatorSize = {250, 50};
+int eStopActiveColor = color(250,0,0);
+int eStopInactiveColor = color(0,250,0);
+
+// motor stall indicator
+int[] stallIndicatorOrigin = {800, 600};
+int[] stallIndicatorSize = {250,50};
+int stallActiveColor = color(250,0,0);
+int stallInactiveColor = color(0,250,0);
+
 
 // Generate the plot
-int[] XYplotDataDims = {14, 10000};
+int[] XYplotFloatDataDims = {4, 10000};
+int[] XYplotIntDataDims = {5, 10000};
 
 Graph XYplot = new Graph(XYplotOrigin[0], XYplotOrigin[1], XYplotSize[0], XYplotSize[1], XYplotColor);
-float[][] XYplotData = new float[XYplotDataDims[0]][XYplotDataDims[1]];
+float[][] XYplotFloatData = new float[XYplotFloatDataDims[0]][XYplotFloatDataDims[1]];
+int[][] XYplotIntData = new int[XYplotIntDataDims[0]][XYplotIntDataDims[1]];
 // This value grows and is used for slicing
-int XYplotCurrentSize = 1;
+int XYplotCurrentSize = 0;
 
 
 // ************************
 // ** Variables for Data **
 // ************************
 
-
+int newLoadcellData = 0;
 float speed = 0.0;
-int position = 0;
+float position = 0.0;
 float loadCell = 0.0;
 int feedBack = 0;
 int MMTKState = 0;
-boolean eStop = false;
-boolean stall = false;
-boolean direction = false;
+int eStop = 0;
+int stall = 0;
+int direction = 0;
 float inputVolts = 12.0;
 
+int btBak = 0;
+int btFwd = 0;
+int btTare = 0;
+int btStart = 0;
+int btAux = 0;
 
 
 // helper for saving the executing path
 String topSketchPath = "";
 
-
-
-
-
-
-
-
-
-
-
 // Log File
 PrintWriter logFile;
+boolean logAllData;
+
+// Console Print Configs
+boolean printAllData;
+
 
 // MMTK logo image
 PImage mmtkLogo;
@@ -122,49 +152,42 @@ void setup()
     System.out.println(e);
   }
   
-  logFile.println("Started Log File:     " + logFileName);
+  logFile.print("Started Log File:     " + logFileName);
   logFile.flush(); // Writes the remaining data to the file
-  
+    
   // settings save file
   topSketchPath = sketchPath();
-  plotterConfigJSON = loadJSONObject(topSketchPath+"/plotter_config.json");
-  
-  surface.setTitle("Realtime plotter");
-  
-  // settings save file
-  topSketchPath = sketchPath();
-  plotterConfigJSON = loadJSONObject(topSketchPath+"/plotter_config.json");
+  mmtkUIConfig = loadJSONObject(topSketchPath+"/mmtk_ui_config.json");
 
   // gui
   cp5 = new ControlP5(this);
+  buttonTitle_f = createFont("Arial", 10, true); 
+  indicatorText_f = createFont("Arial", 16, true);
+  stateText_f = createFont("Arial", 24, true);
   
   // init charts
   setChartSettings();
-  // build x axis values for the line graph
-  for (int i=0; i<XYplotData.length; i++) {
-    for (int k=0; k<XYplotData[0].length; k++) {
-      XYplotData[i][k] = 0;
-    }
-  }
+  
+  logAllData = mmtkUIConfig.getBoolean("logAllData");
+  printAllData = mmtkUIConfig.getBoolean("printAllData");
   
   
   // start serial communication
-  //serialPortName = Serial.list()[0];
+  System.out.println(Serial.list());
+  serialPortName = Serial.list()[0];
   if (!mockupSerial) {
     //String serialPortName = Serial.list()[3];
-    serialPort = new Serial(this, serialPortName, 115200);
+    System.out.println(serialPortName);
+    serialPort = new Serial(this, serialPortName, 250000);
   }
   else
     serialPort = null;
-    
-    
-  // build the gui
-  int x = 170;
-  int y = 60;
 
   
   // Draw MMTK Logo image
   mmtkLogo = loadImage("/images/mmtk-logo.png");
+  background(200); 
+  image(mmtkLogo, mmtkLogoOrigin[0], mmtkLogoOrigin[1], mmtkLogoSize[0],mmtkLogoSize[1]);
 
 }
 
@@ -180,7 +203,6 @@ void setup()
 // *******************************
 
 
-byte[] inBuffer = new byte[1000]; // holds serial message
 int i = 0; // loop variable
 int j = 0;
 
@@ -193,95 +215,130 @@ void draw()
     String myString = "";
     if (!mockupSerial) {
       try {
-        serialPort.readBytesUntil('\r', inBuffer);
+        myString = serialPort.readStringUntil('\n');
       }
       catch (Exception e) {
       }
-      myString = new String(inBuffer);
     }
     else {
       myString = mockupSerialFunction();
     }
-
-    // Print out the data for debugging and logging
-    System.out.println(myString);
-    logFile.println(myString);
     
+    if (myString == null) {
+      return;
+    }
     
     if (myString.contains("TARE")) {
       // This is a tare frame, empty the array and ignore it
       // Also ignore the next line with indices
-      serialPort.readBytesUntil('\r', inBuffer);
-      XYplotCurrentSize = 1;
+      serialPort.readBytesUntil('\n');
+      XYplotCurrentSize = 0;
       
     } else {
       // split the string at delimiter (space)
-      String[] tempData = split(myString, ' ');   
+      String[] tempData = split(myString, '\t');   
 
       // build the arrays for bar charts and line graphs
-      if (tempData.length == 15) {
+      if (tempData.length == 16) {
         // This is a normal data frame
+        // SPEED POSITION LOADCELL FEEDBACK_COUNT STATE ESTOP STALL DIRECTION INPUT_VOLTAGE BT_FWD BT_BAK BT_TARE BT_START BT_AUX and a space
+        
+        try {
+          newLoadcellData = Integer.parseInt(trim(tempData[0]));
+          speed = Float.parseFloat(trim(tempData[1]));
+          position = Float.parseFloat(trim(tempData[2]));
+          loadCell = Float.parseFloat(trim(tempData[3]));
+          feedBack = Integer.parseInt(trim(tempData[4]));
+          MMTKState = Integer.parseInt(trim(tempData[5]));
+          eStop = Integer.parseInt(trim(tempData[6]));
+          stall = Integer.parseInt(trim(tempData[7]));
+          direction = Integer.parseInt(trim(tempData[8]));
+          inputVolts = Float.parseFloat(trim(tempData[9]));
+          
+          btFwd = Integer.parseInt(trim(tempData[10]));
+          btBak = Integer.parseInt(trim(tempData[11]));
+          btTare = Integer.parseInt(trim(tempData[12]));
+          btStart = Integer.parseInt(trim(tempData[13]));
+          btAux = Integer.parseInt(trim(tempData[14]));
+        }
+        catch (NumberFormatException e) {
+          System.out.println(e);
+        }
         
       } else {
         // invalid message ignore it
         System.out.println("Corrupted Serial Message Frame Ignored");
-        logFile.println("Corrupted Serial Message Frame Ignored");
       }
       
-      if (XYplotCurrentSize >= XYplotData.length) {
+      
+      // Update data to plot only if there is a new data point
+      if (newLoadcellData == 1) {
         // If the current data is longer than our buffer
         // Have to expand the buffer and continue
-        
-        int newLength = XYplotDataDims[1] + XYplotData.length;
-        float[][] tempXYData = new float[XYplotDataDims[0]][newLength];
-
-        // Copy data to this bigger array
-        for (i=0; i<tempXYData.length; i++) {
-          System.arraycopy(XYplotData[i], 0, tempXYData[i], 0, XYplotData[i].length);          
-        }
-        
-        
-      }
-    
-      for (i=0; i<tempData.length; i++) {
-          
-          
-          
-          // update line graph
-          try {
-            if (i<XYplotData.length) {
-              for (int k=0; k<XYplotData[i].length-1; k++) {
-                XYplotData[i][k] = XYplotData[i][k+1];
-                
-              }
-    
-              XYplotData[i][XYplotData[i].length-1] = float(tempData[i]);
-            }
-            
+        if (XYplotCurrentSize >= XYplotIntData[0].length) {
+          System.out.println("=========== expand buffer ==============");
+          int newLength = XYplotIntDataDims[1] + XYplotIntData[0].length;
+          int[][] tempIntData = new int[XYplotIntDataDims[0]][newLength];
+          float[][] tempFloatData = new float[XYplotFloatDataDims[0]][newLength];
+  
+          // Copy data to this bigger array
+          for (i=0; i<tempIntData.length; i++) {
+            System.arraycopy(XYplotIntData[i], 0, tempIntData[i], 0, XYplotIntData[i].length);    
           }
-          catch (Exception e) {
+          for (i=0; i<XYplotFloatData.length; i++) {
+            System.arraycopy(XYplotFloatData[i], 0, tempFloatData[i], 0, XYplotFloatData[i].length);    
           }
+          XYplotIntData = tempIntData;
+          XYplotFloatData = tempFloatData;
         }
+      
+        // update the data buffer        
+          
+          
+          XYplotFloatData[0][XYplotCurrentSize] = speed;
+          XYplotFloatData[1][XYplotCurrentSize] = position;
+          XYplotFloatData[2][XYplotCurrentSize] = loadCell;
+          XYplotFloatData[3][XYplotCurrentSize] = inputVolts;
+          
+          XYplotIntData[0][XYplotCurrentSize] = feedBack;
+          XYplotIntData[1][XYplotCurrentSize] = MMTKState;
+          XYplotIntData[2][XYplotCurrentSize] = eStop;
+          XYplotIntData[3][XYplotCurrentSize] = stall;
+          XYplotIntData[4][XYplotCurrentSize] = direction;
+          
+          XYplotCurrentSize ++;
+          
       }
+      
+      
+      // Print out the data for debugging and logging
+      if (printAllData || newLoadcellData == 1) { 
+        System.out.print(myString); 
+      }
+      
+      if (logAllData || newLoadcellData == 1) { 
+        logFile.print(myString); 
+        logFile.flush(); // Writes the remaining data to the file
+      }
+    }
       
       
     
     }
-
     
+  // Redraw plot only if there is new data
+  if (newLoadcellData == 1) {
+    
+    // Copy data to plot into new array for plotting
+    float[] plotDisplacement = Arrays.copyOfRange(XYplotFloatData[1], 0, XYplotCurrentSize);
+    float[] plotForce = Arrays.copyOfRange(XYplotFloatData[2], 0, XYplotCurrentSize);
     
   
-  // draw the bar chart
-  background(200); 
-  
-  
-  // Draw the MMTK Logo
-  image(mmtkLogo, 0, 0, 300, 100);
-
-  // draw the line graphs
-  XYplot.DrawAxis();
-  XYplot.GraphColor = XYplotColor;
-  XYplot.DotXY(Arrays.copyOfRange(XYplotData[1], XYplotData[1].length - XYplotCurrentSize, XYplotData[1].length), XYplotData[2]);
+    // draw the line graphs
+    XYplot.DrawAxis();
+    XYplot.GraphColor = XYplotColor;
+    XYplot.DotXY(plotDisplacement, plotForce);
+  }
   
   
   
@@ -291,27 +348,88 @@ void draw()
   stroke(buttonBorderColor);
   fill(buttonActiveColor);
   
+  textFont(buttonTitle_f);
+  textAlign(LEFT);
   
-//int buttonActiveColor = color(120,255,120);
-//int buttonInactiveColor = color(255,120,120);
-//int[] buttonIndicatorSize = {50,50};
-  
+  if (btFwd >= 1) {
+    fill(buttonActiveColor);
+  } else {
+    fill(buttonInactiveColor);
+  }
   rect(buttonForwardOrigin[0], buttonForwardOrigin[1], buttonIndicatorSize[0], buttonIndicatorSize[1]);
+  fill(textColor);
+  text("Forward\nButton", buttonForwardOrigin[0]+10, buttonForwardOrigin[1]+buttonIndicatorSize[1]/2-5);
+  
+  if (btBak >= 1) {
+    fill(buttonActiveColor);
+  } else {
+    fill(buttonInactiveColor);
+  }
   rect(buttonBackOrigin[0], buttonBackOrigin[1],  buttonIndicatorSize[0], buttonIndicatorSize[1]);
+  fill(textColor);
+  text("Back\nButton", buttonBackOrigin[0]+10, buttonBackOrigin[1]+buttonIndicatorSize[1]/2-5);
+  
+  if (btTare >= 1) {
+    fill(buttonActiveColor);
+  } else {
+    fill(buttonInactiveColor);
+  }
   rect(buttonTareOrigin[0], buttonTareOrigin[1], buttonIndicatorSize[0], buttonIndicatorSize[1]);
+  fill(textColor);
+  text("Tare\nButton", buttonTareOrigin[0]+10, buttonTareOrigin[1]+buttonIndicatorSize[1]/2-5);
+  
+  if (btStart >= 1) {
+    fill(buttonActiveColor);
+  } else {
+    fill(buttonInactiveColor);
+  }
   rect(buttonStartOrigin[0], buttonStartOrigin[1], buttonIndicatorSize[0], buttonIndicatorSize[1]);
+  fill(textColor);
+  text("Start\nButton", buttonStartOrigin[0]+10, buttonStartOrigin[1]+buttonIndicatorSize[1]/2-5);
+  
+  if (btAux >= 1) {
+    fill(buttonActiveColor);
+  } else {
+    fill(buttonInactiveColor);
+  }
   rect(buttonAuxOrigin[0], buttonAuxOrigin[1], buttonIndicatorSize[0], buttonIndicatorSize[1]);
+  fill(textColor);
+  text("Aux\nButton", buttonAuxOrigin[0]+10, buttonAuxOrigin[1]+buttonIndicatorSize[1]/2-5);
+  
+  textFont(indicatorText_f);
+  
+  // eStop and stall indicators
+  if (stall >= 1) {
+    fill(stallActiveColor);
+  } else {
+    fill(stallInactiveColor);
+  }
+  rect(stallIndicatorOrigin[0], stallIndicatorOrigin[1], stallIndicatorSize[0], stallIndicatorSize[1]);
+  fill(textColor);
+  text("Motor Stall Indicator", stallIndicatorOrigin[0]+10, stallIndicatorOrigin[1]+20);
+  
+  if (eStop >= 1) {
+    fill(eStopActiveColor);
+  } else {
+    fill(eStopInactiveColor);
+  }
+  rect(eStopIndicatorOrigin[0], eStopIndicatorOrigin[1], eStopIndicatorSize[0], eStopIndicatorSize[1]);
+  fill(textColor);
+  text("eStop Indicator", eStopIndicatorOrigin[0]+10, eStopIndicatorOrigin[1]+20);
+  
+  
+  // State readout
+  fill(stateIndicatorBackgroundColor);
+  rect(stateIndicatorOrigin[0], stateIndicatorOrigin[1], stateIndicatorSize[0], stateIndicatorSize[1]);
+  fill(textColor);
+  text("MMTK State: ", stateIndicatorOrigin[0] + 10, stateIndicatorOrigin[1] + 20);
+  
+  textAlign(CENTER);
+  textFont(stateText_f);
+  text(MMTKstateEnum[MMTKState], stateTextLocation[0], stateTextLocation[1]);
+  
+  
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -325,40 +443,12 @@ void draw()
 
 // called each time the chart settings are changed by the user 
 void setChartSettings() {
-  XYplot.xLabel=" Displacment (mm) ";
-  XYplot.yLabel=" Force (N) ";
-  XYplot.Title="";  
+  XYplot.xLabel=mmtkUIConfig.getString("mainPlotXLabel");
+  XYplot.yLabel=mmtkUIConfig.getString("mainPlotYLabel");
+  XYplot.Title=mmtkUIConfig.getString("mainPlotTitle");  
   XYplot.xDiv=2;  
-  XYplot.xMax=1000; 
-  XYplot.xMin=-10;  
-  XYplot.yMax=1000; 
-  XYplot.yMin=-10;
-}
-
-// handle gui actions
-void controlEvent(ControlEvent theEvent) {
-  if (theEvent.isAssignableFrom(Textfield.class) || theEvent.isAssignableFrom(Toggle.class) || theEvent.isAssignableFrom(Button.class)) {
-    String parameter = theEvent.getName();
-    String value = "";
-    if (theEvent.isAssignableFrom(Textfield.class))
-      value = theEvent.getStringValue();
-    else if (theEvent.isAssignableFrom(Toggle.class) || theEvent.isAssignableFrom(Button.class))
-      value = theEvent.getValue()+"";
-
-    plotterConfigJSON.setString(parameter, value);
-    saveJSONObject(plotterConfigJSON, topSketchPath+"/plotter_config.json");
-  }
-  setChartSettings();
-}
-
-// get gui settings from settings file
-String getPlotterConfigString(String id) {
-  String r = "";
-  try {
-    r = plotterConfigJSON.getString(id);
-  } 
-  catch (Exception e) {
-    r = "";
-  }
-  return r;
+  XYplot.xMax=mmtkUIConfig.getInt("mainPlotXMax"); 
+  XYplot.xMin=mmtkUIConfig.getInt("mainPlotXMin");  
+  XYplot.yMax=mmtkUIConfig.getInt("mainPlotYMax"); 
+  XYplot.yMin=mmtkUIConfig.getInt("mainPlotYMin");
 }

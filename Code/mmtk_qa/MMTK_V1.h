@@ -48,11 +48,13 @@
 #define STEPPER_INDEX_PORT PINC
 #define STEPPER_INDEX_PIN 5
 
+#define STEPPER_HAULT_WHEN_STALL 1
+
 #define TMC_R_SENS 0.10f
 #define TMC_ADDRESS 0b00
-#define TMC_RMS_CURRENT 1950
+#define TMC_RMS_CURRENT 1850
 #define TMC_MICROSTEPS 8
-#define TMC_STALL_VALUE 50
+#define TMC_STALL_VALUE 64
 #define TMC_SS_BAUD 115200
 
 #define BT_FW 2 // S5 - BT3
@@ -70,7 +72,7 @@
 
 // Load Cell Calibrations
 #define LS_MV_PER_V 2
-#define LS_MAX_FORCE 1961 // Test jog with 200KG load cell
+#define LS_MAX_FORCE 1961 // Test jig with 200KG load cell
 // #define LS_MAX_FORCE 981 // INT Approximaion, floats are way to expensive on 8 bit
 #define LS_GAIN 128
 #define LS_ZERO_OFFET 0 // Offset for center value of loadcell

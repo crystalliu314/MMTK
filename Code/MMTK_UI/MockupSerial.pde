@@ -9,8 +9,9 @@ Random rand = new Random();
 
 // These values are retained after function exits
 
+int mockNewData = 0;
 float mockSpeed = 0.0;
-int mockPosition = 0;
+float mockPosition = 0;
 float mockLoadCell = 0.0;
 int mockFeedBack = 0;
 int mockState = 0;
@@ -25,17 +26,13 @@ boolean mockBtStart = false;
 boolean mockBtAux = false;
 
 String mockupSerialFunction() {
-  mockPosition += 1;
+  mockPosition += 0.1;
   
-  if (mockLoadCell > 1000) {
+  if (mockPosition > 150) {
     mockPosition = 0;
   }
   
-  if (mockPosition > 1000) {
-    mockPosition = 0;
-  }
-  
-  mockLoadCell = mockPosition * mockPosition;
+  mockLoadCell = rand.nextFloat() * 500;
   
   mockFeedBack += 1;
   
@@ -43,11 +40,11 @@ String mockupSerialFunction() {
   
   mockInputVolts = 11.5 + rand.nextFloat();
   
-  if (mockPosition % 25 == 0) {
+  if (mockPosition % 5 <= 0.1) {
     mockState = ThreadLocalRandom.current().nextInt(0, 6);
   }
   
-  if (mockPosition % 10 == 0) {
+  if (mockPosition % 1 <= 0.1) {
     mockEstop = rand.nextFloat() > 0.3;
     mockStall = rand.nextFloat() > 0.4;
     mockDirection = rand.nextFloat() > 0.5;
@@ -57,6 +54,13 @@ String mockupSerialFunction() {
     mockBtStart = rand.nextFloat() > 0.5;
     mockBtAux = rand.nextFloat() > 0.6;
   }
+  
+  if (mockNewData == 1) {
+    mockNewData = 0;
+  } else {
+    mockNewData = 1;
+  }
+    
   
   
 
@@ -139,7 +143,7 @@ String mockupSerialFunction() {
       break;
     }
     if (i < 14)
-      r += '\r';
+      r += '\n';
   }
   delay(10);
   return r;
