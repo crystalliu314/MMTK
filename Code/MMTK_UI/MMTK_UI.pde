@@ -378,7 +378,7 @@ void draw()
   text("MMTK State: ", stateIndicatorOrigin[0] + 10, stateIndicatorOrigin[1] + 20);
   text("Displacment: ", positionIndicatorOrigin[0] + 10, positionIndicatorOrigin[1] + 20);
   text("Force: ", forceIndicatorOrigin[0] + 10, forceIndicatorOrigin[1] + 20);
-  text("Strain Rate: ", velocityIndicatorOrigin[0] + 10, velocityIndicatorOrigin[1] + 20);
+  text("Velocity: ", velocityIndicatorOrigin[0] + 10, velocityIndicatorOrigin[1] + 20);
   
   // Indicator value Texts
   textAlign(CENTER);
@@ -388,7 +388,7 @@ void draw()
   textFont(indicatorNumbers_f);
   text(String.format("%.02f", position) + " mm", positionTextLocation[0], positionTextLocation[1]);
   text(String.format("%.01f", loadCell) + " N", forceTextLocation[0], forceTextLocation[1]);
-  text(String.format("%.02f", velocity) + " mm/min", velocityTextLocation[0], velocityTextLocation[1]);
+  text(String.format("%.02f", velocity) + " mm/m", velocityTextLocation[0], velocityTextLocation[1]);
 }
 
 

@@ -18,20 +18,20 @@ int[] textIndicatorSize = {250,100};
 int[] booleanIndicatorSize = {250,50};
 
 // Position Indicator
-int[] positionIndicatorOrigin = {800, 150};
+int[] positionIndicatorOrigin = {800, 100};
 int[] positionTextLocation = {positionIndicatorOrigin[0] + textIndicatorSize[0]/2, positionIndicatorOrigin[1] + 60};
 
 // Force Indicator
-int[] forceIndicatorOrigin = {800, 250};
+int[] forceIndicatorOrigin = {800, 200};
 int[] forceTextLocation = {forceIndicatorOrigin[0] + textIndicatorSize[0]/2, forceIndicatorOrigin[1] + 60};
 
 // Velocity Indicator
-int[] velocityIndicatorOrigin = {800, 350};
+int[] velocityIndicatorOrigin = {800, 300};
 int[] velocityTextLocation = {velocityIndicatorOrigin[0] + textIndicatorSize[0]/2, velocityIndicatorOrigin[1] + 60};
 
 // MMTK States
 String[] MMTKstateEnum = {"Running", "Stopped", "Hold", "Jog Forward", "Jog Back", "Fast Jog Forward", "Fast Jog Back", " - "};
-int[] stateIndicatorOrigin = {800, 450};
+int[] stateIndicatorOrigin = {800, 400};
 int[] stateTextLocation = {stateIndicatorOrigin[0] + textIndicatorSize[0]/2, stateIndicatorOrigin[1] + 60};
 
 // eStop Indicator
