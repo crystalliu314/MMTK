@@ -32,7 +32,11 @@ String mockupSerialFunction() {
     mockPosition = 0;
   }
   
-  mockLoadCell = rand.nextFloat() * 500;
+  if (mockLoadCell > 500) {
+    mockLoadCell = 0;
+  }
+  
+  mockLoadCell += rand.nextFloat();
   
   mockFeedBack += 1;
   
@@ -61,90 +65,68 @@ String mockupSerialFunction() {
     mockNewData = 1;
   }
     
-  
-  
-
+    
   String r = "";
-  for (int i = 0; i<14; i++) {
-    switch (i) {
-    case 0:
-      r += mockSpeed+" ";
-      break;
-    case 1:
-      r += mockPosition+" ";
-      break;
-    case 2:
-      r += mockLoadCell+" ";
-      break;
-    case 3:
-      r += mockFeedBack+" ";
-      break;
-    case 4:
-      r += mockState+" ";
-      break;
-    case 5:
-      if (mockEstop) {
-        r += "1 ";
-      } else {
-        r += "0 ";
-      }
-      break;
-    case 6:
-      if (mockStall) {
-        r += "1 ";
-      } else {
-        r += "0 ";
-      }
-      break;
-    case 7:
-      if (mockDirection) {
-        r += "1 ";
-      } else {
-        r += "0 ";
-      }
-      break;
-    case 8:
-      r += mockInputVolts+" ";
-      break;
-    case 9:
-      if (mockBtFwd) {
-        r += "1 ";
-      } else {
-        r += "0 ";
-      }
-      break;
-    case 10:
-      if (mockBtBak) {
-        r += "1 ";
-      } else {
-        r += "0 ";
-      }
-      break;
-    case 11:
-      if (mockBtTare) {
-        r += "1 ";
-      } else {
-        r += "0 ";
-      }
-      break;
-    case 12:
-      if (mockBtStart) {
-        r += "1 ";
-      } else {
-        r += "0 ";
-      }
-      break;
-    case 13:
-      if (mockBtAux) {
-        r += "1 ";
-      } else {
-        r += "0 ";
-      }
-      break;
-    }
-    if (i < 14)
-      r += '\n';
+  mockNewData = rand.nextFloat() > 0.5 ? 1 : 0;
+  
+  r += mockNewData+"\t";
+  r += mockSpeed+"\t";
+  r += mockPosition+"\t";
+  r += mockLoadCell+"\t";
+  r += mockFeedBack+"\t";
+  r += mockState+"\t";
+  
+  if (mockEstop) {
+    r += "1\t";
+  } else {
+    r += "0\t";
   }
+  
+  if (mockStall) {
+    r += "1\t";
+  } else {
+    r += "0\t";
+  }
+  
+  if (mockDirection) {
+    r += "1\t";
+  } else {
+    r += "0\t";
+  }
+  
+  r += mockInputVolts+"\t";
+  
+  if (mockBtFwd) {
+    r += "1\t";
+  } else {
+    r += "0\t";
+  }
+  
+  if (mockBtBak) {
+    r += "1\t";
+  } else {
+    r += "0\t";
+  }
+  
+  if (mockBtTare) {
+    r += "1\t";
+  } else {
+    r += "0\t";
+  }
+  
+  if (mockBtStart) {
+    r += "1\t";
+  } else {
+    r += "0\t";
+  }
+  
+  if (mockBtAux) {
+    r += "1\t";
+  } else {
+    r += "0\t";
+  }
+  
+  r += '\n';
   delay(10);
   return r;
 }

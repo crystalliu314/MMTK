@@ -15,10 +15,10 @@ import java.awt.BorderLayout;
 import controlP5.*; // http://www.sojamo.de/libraries/controlP5/
 import processing.serial.*;
 import java.util.Arrays;
-PFont buttonTitle_f, stateText_f, indicatorText_f;
+PFont buttonTitle_f, mmtkState_f, indicatorTitle_f, indicatorNumbers_f;
 
 // If you want to debug the plotter without using a real serial port set this to true
-boolean mockupSerial = false;
+boolean mockupSerial = true;
 
 // Serial Setup
 String serialPortName;
@@ -30,61 +30,14 @@ ControlP5 cp5;
 // Settings for MMUK UI are stored in this config file
 JSONObject mmtkUIConfig;
 
-// ***********************
-// ** Drawing Constants **
-// ***********************
-
-// Screen
-int[] screenSize = {1080, 720};
+// Generate the plot
+int[] XYplotFloatDataDims = {4, 10000};
+int[] XYplotIntDataDims = {5, 10000};
 
 // XY Plot
 int[] XYplotOrigin = {100, 125};
 int[] XYplotSize = {630, 530};
 int XYplotColor = color(20, 20, 200);
-
-// Generic Text Color
-int textColor = color(0,0,0);
-
-// MMTK Logo
-int[] mmtkLogoOrigin = {0,0};
-int[] mmtkLogoSize = {310,62};
-
-
-// Button Indicators
-int buttonActiveColor = color(120,255,120);
-int buttonInactiveColor = color(255,120,120);
-int buttonBorderColor = 10;
-int[] buttonIndicatorSize = {50,50};
-
-int [] buttonForwardOrigin = {800,650};
-int [] buttonBackOrigin = {850,650};
-int [] buttonTareOrigin = {900,650};
-int [] buttonStartOrigin = {950,650};
-int [] buttonAuxOrigin = {1000,650};
-
-// MMTK States
-String[] MMTKstateEnum = {"Running", "Stopped", "Hold", "Jog Forward", "Jog Back", "Fast Jog Forward", "Fast Jog Back", " - "};
-int[] stateIndicatorOrigin = {800, 450};
-int[] stateIndicatorSize = {250,100};
-int[] stateTextLocation = {stateIndicatorOrigin[0] + stateIndicatorSize[0]/2, 510};
-int stateIndicatorBackgroundColor = color(250,180,180);
-
-// eStop Indicator
-int[] eStopIndicatorOrigin = {800, 550};
-int[] eStopIndicatorSize = {250, 50};
-int eStopActiveColor = color(250,0,0);
-int eStopInactiveColor = color(0,250,0);
-
-// motor stall indicator
-int[] stallIndicatorOrigin = {800, 600};
-int[] stallIndicatorSize = {250,50};
-int stallActiveColor = color(250,0,0);
-int stallInactiveColor = color(0,250,0);
-
-
-// Generate the plot
-int[] XYplotFloatDataDims = {4, 10000};
-int[] XYplotIntDataDims = {5, 10000};
 
 Graph XYplot = new Graph(XYplotOrigin[0], XYplotOrigin[1], XYplotSize[0], XYplotSize[1], XYplotColor);
 float[][] XYplotFloatData = new float[XYplotFloatDataDims[0]][XYplotFloatDataDims[1]];
@@ -98,7 +51,7 @@ int XYplotCurrentSize = 0;
 // ************************
 
 int newLoadcellData = 0;
-float speed = 0.0;
+float velocity = 0.0;
 float position = 0.0;
 float loadCell = 0.0;
 int feedBack = 0;
@@ -159,11 +112,13 @@ void setup()
   topSketchPath = sketchPath();
   mmtkUIConfig = loadJSONObject(topSketchPath+"/mmtk_ui_config.json");
 
-  // gui
+  // Initialize GUI components
   cp5 = new ControlP5(this);
   buttonTitle_f = createFont("Arial", 10, true); 
-  indicatorText_f = createFont("Arial", 16, true);
-  stateText_f = createFont("Arial", 24, true);
+  indicatorTitle_f = createFont("Arial", 16, true);
+  mmtkState_f = createFont("Arial", 24, true);
+  indicatorNumbers_f = createFont("Arial", 35, true);
+  
   
   // init charts
   setChartSettings();
@@ -173,10 +128,10 @@ void setup()
   
   
   // start serial communication
-  System.out.println(Serial.list());
-  serialPortName = Serial.list()[0];
   if (!mockupSerial) {
     //String serialPortName = Serial.list()[3];
+    System.out.println(Serial.list());
+    serialPortName = Serial.list()[0];
     System.out.println(serialPortName);
     serialPort = new Serial(this, serialPortName, 250000);
   }
@@ -190,10 +145,6 @@ void setup()
   image(mmtkLogo, mmtkLogoOrigin[0], mmtkLogoOrigin[1], mmtkLogoSize[0],mmtkLogoSize[1]);
 
 }
-
-
-
-
 
 
 
@@ -245,7 +196,7 @@ void draw()
         
         try {
           newLoadcellData = Integer.parseInt(trim(tempData[0]));
-          speed = Float.parseFloat(trim(tempData[1]));
+          velocity = Float.parseFloat(trim(tempData[1]));
           position = Float.parseFloat(trim(tempData[2]));
           loadCell = Float.parseFloat(trim(tempData[3]));
           feedBack = Integer.parseInt(trim(tempData[4]));
@@ -292,10 +243,8 @@ void draw()
           XYplotFloatData = tempFloatData;
         }
       
-        // update the data buffer        
-          
-          
-          XYplotFloatData[0][XYplotCurrentSize] = speed;
+          // update the data buffer
+          XYplotFloatData[0][XYplotCurrentSize] = velocity;
           XYplotFloatData[1][XYplotCurrentSize] = position;
           XYplotFloatData[2][XYplotCurrentSize] = loadCell;
           XYplotFloatData[3][XYplotCurrentSize] = inputVolts;
@@ -396,7 +345,7 @@ void draw()
   fill(textColor);
   text("Aux\nButton", buttonAuxOrigin[0]+10, buttonAuxOrigin[1]+buttonIndicatorSize[1]/2-5);
   
-  textFont(indicatorText_f);
+  textFont(indicatorTitle_f);
   
   // eStop and stall indicators
   if (stall >= 1) {
@@ -404,31 +353,42 @@ void draw()
   } else {
     fill(stallInactiveColor);
   }
-  rect(stallIndicatorOrigin[0], stallIndicatorOrigin[1], stallIndicatorSize[0], stallIndicatorSize[1]);
+  rect(stallIndicatorOrigin[0], stallIndicatorOrigin[1], booleanIndicatorSize[0], booleanIndicatorSize[1]);
   fill(textColor);
-  text("Motor Stall Indicator", stallIndicatorOrigin[0]+10, stallIndicatorOrigin[1]+20);
+  text("Motor Stall", stallIndicatorOrigin[0]+10, stallIndicatorOrigin[1]+20);
   
   if (eStop >= 1) {
     fill(eStopActiveColor);
   } else {
     fill(eStopInactiveColor);
   }
-  rect(eStopIndicatorOrigin[0], eStopIndicatorOrigin[1], eStopIndicatorSize[0], eStopIndicatorSize[1]);
+  rect(eStopIndicatorOrigin[0], eStopIndicatorOrigin[1], booleanIndicatorSize[0], booleanIndicatorSize[1]);
   fill(textColor);
-  text("eStop Indicator", eStopIndicatorOrigin[0]+10, eStopIndicatorOrigin[1]+20);
+  text("eStop", eStopIndicatorOrigin[0]+10, eStopIndicatorOrigin[1]+20);
   
+  // Indicator boxes
+  fill(textIndicatorBackgroundColor);
+  rect(stateIndicatorOrigin[0], stateIndicatorOrigin[1], textIndicatorSize[0], textIndicatorSize[1]);
+  rect(forceIndicatorOrigin[0], forceIndicatorOrigin[1], textIndicatorSize[0], textIndicatorSize[1]);
+  rect(velocityIndicatorOrigin[0], velocityIndicatorOrigin[1], textIndicatorSize[0], textIndicatorSize[1]);
+  rect(positionIndicatorOrigin[0], positionIndicatorOrigin[1], textIndicatorSize[0], textIndicatorSize[1]);
   
-  // State readout
-  fill(stateIndicatorBackgroundColor);
-  rect(stateIndicatorOrigin[0], stateIndicatorOrigin[1], stateIndicatorSize[0], stateIndicatorSize[1]);
+  // Indicator title texts
   fill(textColor);
   text("MMTK State: ", stateIndicatorOrigin[0] + 10, stateIndicatorOrigin[1] + 20);
+  text("Displacment: ", positionIndicatorOrigin[0] + 10, positionIndicatorOrigin[1] + 20);
+  text("Force: ", forceIndicatorOrigin[0] + 10, forceIndicatorOrigin[1] + 20);
+  text("Strain Rate: ", velocityIndicatorOrigin[0] + 10, velocityIndicatorOrigin[1] + 20);
   
+  // Indicator value Texts
   textAlign(CENTER);
-  textFont(stateText_f);
+  textFont(mmtkState_f);
   text(MMTKstateEnum[MMTKState], stateTextLocation[0], stateTextLocation[1]);
   
-  
+  textFont(indicatorNumbers_f);
+  text(String.format("%.02f", position) + " mm", positionTextLocation[0], positionTextLocation[1]);
+  text(String.format("%.01f", loadCell) + " N", forceTextLocation[0], forceTextLocation[1]);
+  text(String.format("%.02f", velocity) + " mm/min", velocityTextLocation[0], velocityTextLocation[1]);
 }
 
 
