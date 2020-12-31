@@ -15,10 +15,11 @@ import java.awt.BorderLayout;
 import controlP5.*; // http://www.sojamo.de/libraries/controlP5/
 import processing.serial.*;
 import java.util.Arrays;
+import javax.swing.JOptionPane;
 PFont buttonTitle_f, mmtkState_f, indicatorTitle_f, indicatorNumbers_f;
 
 // If you want to debug the plotter without using a real serial port set this to true
-boolean mockupSerial = true;
+boolean mockupSerial = false;
 
 // Serial Setup
 String serialPortName;
@@ -55,7 +56,7 @@ float velocity = 0.0;
 float position = 0.0;
 float loadCell = 0.0;
 int feedBack = 0;
-int MMTKState = 0;
+int MMTKState = 7;
 int eStop = 0;
 int stall = 0;
 int direction = 0;
@@ -126,23 +127,38 @@ void setup()
   logAllData = mmtkUIConfig.getBoolean("logAllData");
   printAllData = mmtkUIConfig.getBoolean("printAllData");
   
+  String[] serialPortList = Serial.list();
+  String[] serialPortChoices = new String[serialPortList.length + 1];
+  for (i = 0; i < Serial.list().length; i++) {
+    serialPortChoices[i] = serialPortList[0];
+  }
+  serialPortChoices[serialPortChoices.length - 1] = "- Mock Serial For Testing -";
   
-  // start serial communication
-  if (!mockupSerial) {
-    //String serialPortName = Serial.list()[3];
-    System.out.println(Serial.list());
-    serialPortName = Serial.list()[0];
+  
+  serialPortName = (String) JOptionPane.showInputDialog(null, "Please Select The Serial Port for MMTK","Serial Port", JOptionPane.QUESTION_MESSAGE, null, serialPortChoices, serialPortChoices[0]);
+ 
+  // If User Picked Mock Serial, use mock serial
+  if (serialPortName == serialPortChoices[serialPortChoices.length - 1]) {
+    mockupSerial = true;
+    serialPort = null;
+  } else {
     System.out.println(serialPortName);
     serialPort = new Serial(this, serialPortName, 250000);
   }
-  else
-    serialPort = null;
 
   
   // Draw MMTK Logo image
   mmtkLogo = loadImage("/images/mmtk-logo.png");
   background(200); 
   image(mmtkLogo, mmtkLogoOrigin[0], mmtkLogoOrigin[1], mmtkLogoSize[0],mmtkLogoSize[1]);
+  
+  
+  // Draw No Data Text under the plot, if there is no data this will be shown
+  textFont(indicatorNumbers_f);
+  textAlign(CENTER);
+  fill(0);
+  
+  text("NO DATA", XYplotOrigin[0]+XYplotSize[0]/2, XYplotOrigin[1]+XYplotSize[1]/2);
 
 }
 
@@ -270,10 +286,8 @@ void draw()
         logFile.flush(); // Writes the remaining data to the file
       }
     }
-      
-      
-    
-    }
+  }
+  // == Finish Reading Data From Serial
     
   // Redraw plot only if there is new data
   if (newLoadcellData == 1) {
