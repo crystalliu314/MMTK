@@ -9,7 +9,7 @@ int[] screenSize = {1080, 720};
 int textColor = color(0,0,0);
 
 // MMTK Logo
-int[] mmtkLogoOrigin = {0,0};
+int[] mmtkLogoOrigin = {5,2};
 int[] mmtkLogoSize = {310,62};
 
 
@@ -34,13 +34,18 @@ String[] MMTKstateEnum = {"Running", "Stopped", "Hold", "Jog Forward", "Jog Back
 int[] stateIndicatorOrigin = {800, 310};
 int[] stateTextLocation = {stateIndicatorOrigin[0] + textIndicatorSize[0]/2, stateIndicatorOrigin[1] + 60};
 
+// Velocity Indicator
+int[] maxForceIndicatorOrigin = {800, 410};
+int[] maxForceTextLocation = {maxForceIndicatorOrigin[0] + textIndicatorSize[0]/2, maxForceIndicatorOrigin[1] + 60};
+
+
 // eStop Indicator
-int[] eStopIndicatorOrigin = {800, 410};
+int[] eStopIndicatorOrigin = {800, 560};
 int eStopActiveColor = color(250,0,0);
 int eStopInactiveColor = color(0,250,0);
 
 // motor stall indicator
-int[] stallIndicatorOrigin = {800, 460};
+int[] stallIndicatorOrigin = {800, 610};
 int stallActiveColor = color(250,0,0);
 int stallInactiveColor = color(0,250,0);
 
@@ -50,8 +55,8 @@ int buttonInactiveColor = color(255,120,120);
 int buttonBorderColor = 10;
 int[] buttonIndicatorSize = {55,55};
 
-int [] buttonForwardOrigin = {800,650};
-int [] buttonBackOrigin = {855,650};
-int [] buttonTareOrigin = {910,650};
-int [] buttonStartOrigin = {965,650};
-int [] buttonAuxOrigin = {1020,650};
+int [] buttonForwardOrigin = {800,660};
+int [] buttonBackOrigin = {855,660};
+int [] buttonTareOrigin = {910,660};
+int [] buttonStartOrigin = {965,660};
+int [] buttonAuxOrigin = {1020,660};
