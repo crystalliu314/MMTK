@@ -1,4 +1,4 @@
-/**
+ /**
  * MMTK UI
  *
  * Simple UI sketch to plot the output data and show state of buttons and stuff
@@ -95,45 +95,6 @@ void settings() {
 
 void setup() 
 {
-  // Create a new file in the sketch directory
-  String logFileName = "logs/MMTK" 
-                       +" " + String.format("%04d", year()) 
-                       + "-" + String.format("%02d", month()) 
-                       + "-" + String.format("%02d", day()) 
-                       + " " + String.format("%02d", hour()) 
-                       + "-" + String.format("%02d", minute()) 
-                       + "-" + String.format("%02d", second()) 
-                       + ".txt";
-  try {
-   logFile = createWriter(logFileName); 
-  }
-  catch (Exception e) {
-    System.out.println(e);
-  }
-  
-  logFile.println("Started Log File:     " + logFileName);
-  logFile.flush(); // Writes the remaining data to the file
-    
-  // settings save file
-  topSketchPath = sketchPath();
-  mmtkUIConfig = loadJSONObject(topSketchPath+"/mmtk_ui_config.json");
-  JSONArray correctionFactorTemp = mmtkUIConfig.getJSONArray("machineDeflectionCorrection");
-  //correctionFactors[0] = correctionFactorTemp.getFloat(0);
-  //correctionFactors[1] = correctionFactorTemp.getFloat(1);
-
-  // Initialize GUI components
-  cp5 = new ControlP5(this);
-  buttonTitle_f = createFont("Arial", 10, true); 
-  indicatorTitle_f = createFont("Arial", 16, true);
-  mmtkState_f = createFont("Arial", 24, true);
-  indicatorNumbers_f = createFont("Arial", 35, true);
-  
-  
-  // init charts
-  setChartSettings();
-  
-  logAllData = mmtkUIConfig.getBoolean("logAllData");
-  printAllData = mmtkUIConfig.getBoolean("printAllData");
   
   String[] serialPortList = Serial.list();
   String[] serialPortChoices = new String[serialPortList.length + 1];
@@ -149,14 +110,51 @@ void setup()
   if (serialPortName == serialPortChoices[serialPortChoices.length - 1]) {
     mockupSerial = true;
     serialPort = null;
+    serialPortName = "MOCK";
   } else {
     System.out.println(serialPortName);
     serialPort = new Serial(this, serialPortName, 250000);
   }
   
-  logFile.println("Data Source:     " + serialPort + "\n");
+  // Create a new file in the sketch directory
+  String logFileName = "logs/MMTK" 
+                       +" " + String.format("%04d", year()) 
+                       + "-" + String.format("%02d", month()) 
+                       + "-" + String.format("%02d", day()) 
+                       + " " + String.format("%02d", hour()) 
+                       + "-" + String.format("%02d", minute()) 
+                       + "-" + String.format("%02d", second())
+                       + "-" + serialPortName
+                       + ".txt";
+                       
+  try {
+   logFile = createWriter(logFileName); 
+  }
+  catch (Exception e) {
+    System.out.println(e);
+  }
   
+  logFile.println("Started Log File:     " + logFileName);
+  logFile.println("Data Source:     " + serialPortName + "\n");
+  logFile.flush(); // Writes the remaining data to the file
+    
+  // settings save file
+  topSketchPath = sketchPath();
+  mmtkUIConfig = loadJSONObject(topSketchPath+"/mmtk_ui_config.json");
 
+  // Initialize GUI components
+  cp5 = new ControlP5(this);
+  buttonTitle_f = createFont("Arial", 10, true); 
+  indicatorTitle_f = createFont("Arial", 16, true);
+  mmtkState_f = createFont("Arial", 24, true);
+  indicatorNumbers_f = createFont("Arial", 35, true);
+  
+  
+  // init charts
+  setChartSettings();
+  
+  logAllData = mmtkUIConfig.getBoolean("logAllData");
+  printAllData = mmtkUIConfig.getBoolean("printAllData");
   
   // Draw MMTK Logo image
   mmtkLogo = loadImage("/images/mmtk-logo.png");
