@@ -9,8 +9,8 @@ int[] screenSize = {1080, 720};
 int textColor = color(0,0,0);
 
 // MMTK Logo
-int[] mmtkLogoOrigin = {5,2};
-int[] mmtkLogoSize = {310,62};
+int[] mmtkLogoOrigin = {2,5};
+int[] mmtkLogoSize = {792,58};
 
 
 int textIndicatorBackgroundColor = color(200,200,255);
@@ -18,24 +18,24 @@ int[] textIndicatorSize = {275,100};
 int[] booleanIndicatorSize = {275,50};
 
 // Position Indicator
-int[] positionIndicatorOrigin = {800, 10};
+int[] positionIndicatorOrigin = {800, 5};
 int[] positionTextLocation = {positionIndicatorOrigin[0] + textIndicatorSize[0]/2, positionIndicatorOrigin[1] + 60};
 
 // Force Indicator
-int[] forceIndicatorOrigin = {800, 110};
+int[] forceIndicatorOrigin = {800, 105};
 int[] forceTextLocation = {forceIndicatorOrigin[0] + textIndicatorSize[0]/2, forceIndicatorOrigin[1] + 60};
 
 // Velocity Indicator
-int[] velocityIndicatorOrigin = {800, 210};
+int[] velocityIndicatorOrigin = {800, 205};
 int[] velocityTextLocation = {velocityIndicatorOrigin[0] + textIndicatorSize[0]/2, velocityIndicatorOrigin[1] + 60};
 
 // MMTK States
 String[] MMTKstateEnum = {"Running", "Stopped", "Hold", "Jog Forward", "Jog Back", "Fast Jog Forward", "Fast Jog Back", " - "};
-int[] stateIndicatorOrigin = {800, 310};
+int[] stateIndicatorOrigin = {800, 305};
 int[] stateTextLocation = {stateIndicatorOrigin[0] + textIndicatorSize[0]/2, stateIndicatorOrigin[1] + 60};
 
 // Velocity Indicator
-int[] maxForceIndicatorOrigin = {800, 410};
+int[] maxForceIndicatorOrigin = {800, 405};
 int[] maxForceTextLocation = {maxForceIndicatorOrigin[0] + textIndicatorSize[0]/2, maxForceIndicatorOrigin[1] + 60};
 
 

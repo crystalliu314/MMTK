@@ -36,8 +36,8 @@ int[] XYplotFloatDataDims = {4, 10000};
 int[] XYplotIntDataDims = {5, 10000};
 
 // XY Plot
-int[] XYplotOrigin = {100, 125};
-int[] XYplotSize = {630, 530};
+int[] XYplotOrigin = {98, 125};
+int[] XYplotSize = {640, 530};
 int XYplotColor = color(20, 20, 200);
 
 Graph XYplot = new Graph(XYplotOrigin[0], XYplotOrigin[1], XYplotSize[0], XYplotSize[1], XYplotColor);
@@ -95,6 +95,12 @@ void settings() {
 
 void setup() 
 {
+  // settings save file
+  topSketchPath = sketchPath();
+  mmtkUIConfig = loadJSONObject(topSketchPath+"/mmtk_ui_config.json");
+
+  PImage icon = loadImage(topSketchPath+"/images/icon.png");
+  surface.setIcon(icon);
   
   String[] serialPortList = Serial.list();
   String[] serialPortChoices = new String[serialPortList.length + 1];
@@ -138,10 +144,6 @@ void setup()
   logFile.println("Data Source:     " + serialPortName + "\n");
   logFile.flush(); // Writes the remaining data to the file
     
-  // settings save file
-  topSketchPath = sketchPath();
-  mmtkUIConfig = loadJSONObject(topSketchPath+"/mmtk_ui_config.json");
-
   // Initialize GUI components
   cp5 = new ControlP5(this);
   buttonTitle_f = createFont("Arial", 10, true); 
@@ -157,7 +159,7 @@ void setup()
   printAllData = mmtkUIConfig.getBoolean("printAllData");
   
   // Draw MMTK Logo image
-  mmtkLogo = loadImage("/images/mmtk-logo.png");
+  mmtkLogo = loadImage(topSketchPath+"/images/mmtk-logo.png");
   background(200); 
   image(mmtkLogo, mmtkLogoOrigin[0], mmtkLogoOrigin[1], mmtkLogoSize[0],mmtkLogoSize[1]);
   
