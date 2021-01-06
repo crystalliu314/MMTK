@@ -27,6 +27,7 @@ Serial serialPort;  // Create object from Serial class
 
 // interface stuff
 ControlP5 cp5;
+ControlFrame cf;
 
 // Settings for MMUK UI are stored in this config file
 JSONObject mmtkUIConfig;
@@ -109,6 +110,7 @@ void setup()
   }
   serialPortChoices[serialPortChoices.length - 1] = "- Mock Serial For Testing -";
   
+  cf = new ControlFrame(this, 500, 300, "MMTK Control Panel");
   
   serialPortName = (String) JOptionPane.showInputDialog(null, "Please Select The Serial Port for MMTK","Serial Port", JOptionPane.QUESTION_MESSAGE, null, serialPortChoices, serialPortChoices[0]);
  

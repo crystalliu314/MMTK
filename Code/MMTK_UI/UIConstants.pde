@@ -60,3 +60,6 @@ int [] buttonBackOrigin = {855,660};
 int [] buttonTareOrigin = {910,660};
 int [] buttonStartOrigin = {965,660};
 int [] buttonAuxOrigin = {1020,660};
+
+
+// Control Window Constants

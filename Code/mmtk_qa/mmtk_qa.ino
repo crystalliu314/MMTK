@@ -23,6 +23,8 @@ bool printWhileStopped = true;
 // Set when there is a new data point from load cell
 bool newLsData = false;
 
+unsigned int stepperRunTimer = STEPPER_DEFAULT_TIMER; // Set Normal Jog Speed
+
 unsigned long loopLastMillis = 0;
 unsigned long millisPerLoop = 40;
 
@@ -63,12 +65,6 @@ ISR(TIMER1_COMPA_vect) {
     return;
   }
 
-  if (stepperDirection) {
-    stepperPosition--;
-  } else {
-    stepperPosition++;
-  }
-
   #ifdef USE_DIRECT_PORT_MANIPULATION_FOR_STEP
     STEPPER_STEP_PORT ^= 1 << STEPPER_STEP_PIN;
   #else
@@ -94,6 +90,14 @@ ISR(TIMER1_COMPA_vect) {
   #else 
     stepperStall = digitalRead(STEPPER_DIAG);
   #endif
+ 
+  if (!stepperStall) {
+    if (stepperDirection) {
+      stepperPosition--;
+    } else {
+      stepperPosition++;
+    }
+  }
 
 }
 
@@ -193,9 +197,17 @@ float getCurrentSpeed() {
   if (eStopInput || !TIMSK1) {
     return 0.0f;
   } else {
-    return ( (float)(F_CPU / 8 / TMC_MICROSTEPS) / MECH_STEP_PER_REV / OCR1A * MECH_MM_PER_REV * 60);
+    return ( (float)(F_CPU / 8 / TMC_MICROSTEPS) / MECH_STEP_PER_REV / (unsigned int)OCR1A * MECH_MM_PER_REV * 60);
   }
   
+}
+
+void tareAll() {
+  loadcell.tare();
+  stepperPosition = 0;
+  stepperFeedbackPosition = 0;
+  Serial.println(" ========= TARE ==========");
+  Serial.print(HEADER_TEXT);
 }
 
 void setup() {
@@ -378,6 +390,72 @@ void loop() {
 
   MMTKNextState = noChange;
 
+  // ****************************
+  // ** Serial Command Parsing **
+  // ****************************
+
+  if (Serial.available()) {
+    int incomingByte = Serial.read();
+
+    if (incomingByte == 'v' || incomingByte == 'V') {
+      // Set Speed Command
+      float newSpeed = Serial.parseFloat();
+      if (!isnan(newSpeed)) {
+        // convert mm/s to step timer
+        unsigned int newTimerValue;
+
+        if (newSpeed < 6.0f) newSpeed = 6.0;
+        // The equation below causes a interger overflow, so swap around order to remedy that
+        // newTimerValue = (int) ((F_CPU * 60 * MECH_MM_PER_REV) / (newSpeed * MECH_STEP_PER_REV * TMC_MICROSTEPS * 8));
+        newTimerValue = (unsigned int) (F_CPU / 8 / TMC_MICROSTEPS * 60 * MECH_MM_PER_REV / MECH_STEP_PER_REV / newSpeed);
+        Serial.print(F("== NEW SPEED: "));
+        Serial.print(newSpeed);
+        Serial.print(F(" -- "));
+        Serial.println(newTimerValue);
+
+        // Verify value is valid
+        if ( newTimerValue < STEPPER_MAX_TIMER && newTimerValue > STEPPER_MIN_TIMER) {
+          stepperRunTimer = newTimerValue;
+          OCR1A = stepperRunTimer;
+          stepperSpeed = getCurrentSpeed();
+        }
+      }
+      
+    }
+
+    if (incomingByte == 'b' || incomingByte == 'B') {
+      if (Serial.readStringUntil('\n') == "egin") {
+        // Start Running
+        if (MMTKState == hold) {
+          MMTKNextState = running;
+        }
+      }
+    }
+
+    if (incomingByte == 's' || incomingByte == 'S') {      
+      if (MMTKState == running) {
+        MMTKNextState = hold;
+      }
+    }
+
+    if (incomingByte == 't' || incomingByte == 'T') {
+      if (Serial.readStringUntil('\n') == "are") {
+        if (MMTKState != running) {
+          tareAll();
+        }
+      }
+    }
+    
+
+
+    // Other start symbols ignored
+
+
+  }
+
+
+
+
   switch (MMTKState) {
     case running: // This is the running and printing stage
       // Press Forward Make Stepper Faster
@@ -415,11 +493,7 @@ void loop() {
         break;
       }
       if (tareButton == press || tareButton == down) {
-        loadcell.tare();
-        stepperPosition = 0;
-        stepperFeedbackPosition = 0;
-        Serial.println(" ========= TARE ==========");
-        Serial.print(HEADER_TEXT);
+          tareAll();
         break;
       }
       break;
@@ -452,11 +526,7 @@ void loop() {
         break;
       }
       if (tareButton == press || tareButton == down) {
-        loadcell.tare();
-        stepperPosition = 0;
-        stepperFeedbackPosition = 0;
-        Serial.println(" ========= TARE ==========");
-        Serial.print(HEADER_TEXT);
+          tareAll();
         break;
       }
       break;
@@ -535,6 +605,7 @@ void loop() {
       digitalWrite(STEPPER_ENN, LOW); // Motor is Disabled, unlocked
       digitalWrite(LED_RUN, HIGH); // RUN LED is ON
       digitalWrite(LED_AUX, LOW); // AUX LES is OFF
+      OCR1A = stepperRunTimer;
       stepperSpeed = getCurrentSpeed();
       MMTKState = running;
     break;
@@ -553,7 +624,7 @@ void loop() {
       digitalWrite(STEPPER_ENN, LOW); // Motor is Enabled, locked
       digitalWrite(LED_RUN, LOW); // RUN LED is OFF
       digitalWrite(LED_AUX, LOW); // AUX LED is OFF
-      OCR1A = STEPPER_DEFAULT_TIMER; // Set Normal Jog Speed
+      OCR1A = stepperRunTimer;
       stepperSpeed = getCurrentSpeed();
       MMTKState = hold;
       delay(10);
