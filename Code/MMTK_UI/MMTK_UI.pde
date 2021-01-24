@@ -423,7 +423,7 @@ void draw()
   // Indicator title texts
   fill(textColor);
   text("MMTK State: ", stateIndicatorOrigin[0] + 10, stateIndicatorOrigin[1] + 20);
-  text("Displacment: ", positionIndicatorOrigin[0] + 10, positionIndicatorOrigin[1] + 20);
+  text("Displacement: ", positionIndicatorOrigin[0] + 10, positionIndicatorOrigin[1] + 20);
   text("Force: ", forceIndicatorOrigin[0] + 10, forceIndicatorOrigin[1] + 20);
   text("Velocity: ", velocityIndicatorOrigin[0] + 10, velocityIndicatorOrigin[1] + 20);
   text("Max Force: ", maxForceIndicatorOrigin[0] + 10, maxForceIndicatorOrigin[1] + 20);
@@ -436,7 +436,7 @@ void draw()
   textFont(indicatorNumbers_f);
   text(String.format("%.02f", position) + " mm", positionTextLocation[0], positionTextLocation[1]);
   text(String.format("%.01f", loadCell) + " N", forceTextLocation[0], forceTextLocation[1]);
-  text(String.format("%.02f", velocity) + " mm/m", velocityTextLocation[0], velocityTextLocation[1]);
+  text(String.format("%.02f", velocity) + " mm/min", velocityTextLocation[0], velocityTextLocation[1]);
   text(String.format("%.01f", maxForce) + " N", maxForceTextLocation[0], maxForceTextLocation[1]);
 }
 
