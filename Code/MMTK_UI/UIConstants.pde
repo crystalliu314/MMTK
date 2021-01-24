@@ -10,7 +10,7 @@ int textColor = color(0,0,0);
 
 // MMTK Logo
 int[] mmtkLogoOrigin = {2,5};
-int[] mmtkLogoSize = {792,58};
+int[] mmtkLogoSize = {1050,58};
 
 int x = 1080, y = 5;
 int dx = 0, dy = 100;
