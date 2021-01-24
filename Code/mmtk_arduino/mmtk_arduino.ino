@@ -44,7 +44,7 @@ typedef enum {down, up, press, release} ButtonState_t;
 ButtonState_t forwardButton, backButton, startButton, tareButton, auxButton;
 
 HX711 loadcell;
-float ls_reading;
+float LC_reading;
 
 #ifdef QAMODE
 // QA mode only vars
@@ -64,12 +64,6 @@ ISR(TIMER1_COMPA_vect) {
   if (eStopInput) {
     return;
   }
-
-  #ifdef USE_DIRECT_PORT_MANIPULATION_FOR_STEP
-    STEPPER_STEP_PORT ^= 1 << STEPPER_STEP_PIN;
-  #else
-    digitalWrite(STEPPER_STEP, !digitalRead(STEPPER_STEP));
-  #endif
 
   // Check Index Pin, if that is high, increment index counter
   #ifdef USE_DIRECT_PORT_MANIPULATION_FOR_INDEX
@@ -99,58 +93,13 @@ ISR(TIMER1_COMPA_vect) {
     }
   }
 
-}
-
-/*
-
-// *************
-// PCINT conflict with software serial
-// If you are advanterous you can patch SoftwareSerial to resolve this
-// *************
-
-
-// Pin Change ISR for ESTOP Sense, stop motor asap to avoid losing count
-ISR(PCINT0_vect) { 
-  // Currently only one PCINT is enabled, so we know this is the only pin that could have changed
-  // If more PCINT is unmasked, there would need to be checking logic
-  #ifdef USE_DIRECT_PORT_MANIPULATION_FOR_ENN_SENSE
-    stepperStopped = (STEPPER_ENN_SENS_PORT & (1 << STEPPER_ENN_SENS_PIN));
+  #ifdef USE_DIRECT_PORT_MANIPULATION_FOR_STEP
+    STEPPER_STEP_PORT ^= 1 << STEPPER_STEP_PIN;
   #else
-    stepperStopped = digitalRead(STEPPER_ENN_SENS);
+    digitalWrite(STEPPER_STEP, !digitalRead(STEPPER_STEP));
   #endif
-  if (stepperStopped) {
-    MMTKState = stopped;
-  }
+
 }
-
-// Pin Change ISR for Index and Diag Sense
-ISR(PCINT1_vect) { 
-
-  // Check Diag Pin, if that is high, motor stalled
-  #ifdef USE_DIRECT_PORT_MANIPULATION_FOR_DIAG
-    stepperStall =  (STEPPER_DIAG_PORT & (1 << STEPPER_DIAG_PIN));
-  #else 
-    stepperStall = digitalRead(STEPPER_DIAG);
-  #endif
-
-  #ifdef USE_DIRECT_PORT_MANIPULATION_FOR_INDEX
-    currentIndexPin = (STEPPER_INDEX_PORT & (1 << STEPPER_INDEX_PIN));
-  #else 
-    currentIndexPin = digitalRead(STEPPER_INDEX);
-  #endif
-
-  // Check Index Pin, if that is high, increment index counter
-  if (!lastIndexPin && currentIndexPin) {
-      if (stepperDirection) {
-        stepperFeedbackPosition++;
-      } else {
-        stepperFeedbackPosition--;
-      }
-  }
-  lastIndexPin = currentIndexPin;
-}
-
-*/
 
 // ******************
 // Helper Functions
@@ -291,23 +240,6 @@ void setup() {
     TIMSK1 |= (1 << OCIE1A);
   }
 
-  // // Setup PCINT interrupt
-  // // Arduino Pin 9: PB1 PCINT1 (interrupt PCINT0)
-  // {
-  //   // Unmask PCINT1 pin
-  //   PCMSK0 |= (1 << PCINT1);
-  //   PCMSK1 |= (1 << PCINT12);
-  //   PCMSK1 |= (1 << PCINT13);
-
-  //   // Clear PCINT0 and 1 flag, proably not nessenary
-  //   PCIFR |= (1 << PCIF0);
-  //   PCIFR |= (1 << PCIF1);
-
-  //   // Enable Interrupt for PCINT0
-  //   PCICR |= (1 << PCIE0);
-  //   PCICR |= (1 << PCIE1);
-  // }
-
   }
 
 
@@ -317,21 +249,21 @@ void setup() {
 
   // Initialize HX711
   {
-  unsigned long ls_divider = 0;
+  unsigned long LC_divider = 0;
 
-  switch (LS_GAIN) {
+  switch (LC_GAIN) {
     case 128:
       // HX711 full range at 128 gain is +-20mv
       // 8388608 is max digital value (max + or -)
       // Load Cell supply voltage: 5
-      // (8388608 / 20) * (DRIVE_VOLTAGE * LS_MV_PER_V) / LS_MAX_FORCE
+      // (8388608 / 20) * (DRIVE_VOLTAGE * LC_MV_PER_V) / LC_MAX_FORCE
       // Numbers pre devided to easy computation at run time
-      ls_divider = (unsigned long) (8388608 / LS_MAX_FORCE / 20 * LS_DRIVE_VOLTAGE * LS_MV_PER_V);
+      LC_divider = (unsigned long) (8388608 / LC_MAX_FORCE / 20 * LC_DRIVE_VOLTAGE * LC_MV_PER_V);
       break;
 
     case 64:
       // HX711 full range at 64 gain is +-40mv
-      ls_divider = (unsigned long) (8388608 / LS_MAX_FORCE / 40 * LS_DRIVE_VOLTAGE * LS_MV_PER_V);
+      LC_divider = (unsigned long) (8388608 / LC_MAX_FORCE / 40 * LC_DRIVE_VOLTAGE * LC_MV_PER_V);
       break;
 
     default:
@@ -339,9 +271,9 @@ void setup() {
       break;
   }
 
-  loadcell.begin(LOADCELL_DATA, LOADCELL_CLOCK, LS_GAIN);
-  loadcell.set_scale(ls_divider);
-  loadcell.set_offset(LS_ZERO_OFFET);
+  loadcell.begin(LOADCELL_DATA, LOADCELL_CLOCK);
+  loadcell.set_scale(LC_divider);
+  loadcell.set_offset(LC_ZERO_OFFET);
   }
   
 
@@ -401,7 +333,7 @@ void loop() {
       // Set Speed Command
       float newSpeed = Serial.parseFloat();
       if (!isnan(newSpeed)) {
-        // convert mm/s to step timer
+        // convert mm/min to step timer
         unsigned int newTimerValue;
 
         if (newSpeed < 6.0f) newSpeed = 6.0;
@@ -446,11 +378,7 @@ void loop() {
       }
     }
     
-
-
     // Other start symbols ignored
-
-
   }
 
 
@@ -604,7 +532,7 @@ void loop() {
       TIMSK1 |= (1 << OCIE1A); // Start Motor
       digitalWrite(STEPPER_ENN, LOW); // Motor is Disabled, unlocked
       digitalWrite(LED_RUN, HIGH); // RUN LED is ON
-      digitalWrite(LED_AUX, LOW); // AUX LES is OFF
+      digitalWrite(LED_AUX, LOW); // AUX LED is OFF
       OCR1A = stepperRunTimer;
       stepperSpeed = getCurrentSpeed();
       MMTKState = running;
@@ -676,21 +604,22 @@ void loop() {
   default: // No change
     break;
   }
-
-  // Read Loacell
-  // Remove the if statement if you wish to print slower and only new new loadcell value is available
-  if (loadcell.is_ready()) {
-    ls_reading = loadcell.get_units(1);
-    newLsData = true;
-  } else {
-    newLsData = false;
-    
-    // Limit Rate of the main loop here so we do not overwhelm the UI
+      
+  // Limit Rate of the main loop here so we do not overwhelm the UI
     if ((millis() - loopLastMillis) < millisPerLoop) {
       return;
     }
     loopLastMillis = millis();
+
+  // Read Loacell
+  // Remove the if statement if you wish to print slower and only new new loadcell value is available
+  if (loadcell.is_ready()) {
+    LC_reading = loadcell.get_units(1);
+    newLsData = true;
+  } else {
+    newLsData = false;
   }
+
 
   #ifdef QAMODE
   if (forwardButton == press) {
@@ -744,7 +673,7 @@ void loop() {
     float stepperPositionFloat = (float) stepperPosition / TMC_MICROSTEPS / MECH_STEP_PER_REV * MECH_MM_PER_REV;
     Serial.print(stepperPositionFloat);
     Serial.print("\t");
-    Serial.print(ls_reading);
+    Serial.print(LC_reading);
     Serial.print("\t");
     Serial.print(stepperFeedbackPosition);
     Serial.print("\t");
@@ -757,13 +686,8 @@ void loop() {
     Serial.print(stepperDirection);
     Serial.print("\t");
 
-    #ifdef READ_INPUT_VOLTAGE
-      Serial.print(powerInput);
-      Serial.print("\t");
-    #else
-      Serial.print(powerInput);
-      Serial.print("\t");
-    #endif
+    Serial.print(powerInput);
+    Serial.print("\t");
     
     Serial.print(forwardButton);
     Serial.print("\t");

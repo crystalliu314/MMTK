@@ -71,13 +71,13 @@
 
 
 // Load Cell Calibrations
-#define LS_MV_PER_V 2
-// #define LS_MAX_FORCE 1961 // Test jig with 200KG load cell
-#define LS_MAX_FORCE 981 // INT Approximaion, floats are way to expensive on 8 bit
-#define LS_GAIN 128
-#define LS_ZERO_OFFET 0 // Offset for center value of loadcell
-#define LS_GAIN_OFFSET 0 // Offset for scale of loadcell
-#define LS_DRIVE_VOLTAGE 4.2
+#define LC_MV_PER_V 2
+// #define LC_MAX_FORCE 1961 // Test jig with 200KG load cell
+#define LC_MAX_FORCE 981 // INT Approximaion, floats are way to expensive on 8 bit
+#define LC_GAIN 128
+#define LC_ZERO_OFFET 0 // Offset for center value of loadcell
+#define LC_GAIN_OFFSET 0 // Offset for scale of loadcell
+#define LC_DRIVE_VOLTAGE 4.2
 
 // Power input sensing
 #define READ_POWER_VOLTAGE // Read Voltage, slightly slower per loop
