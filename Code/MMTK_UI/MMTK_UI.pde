@@ -38,7 +38,7 @@ int[] XYplotIntDataDims = {5, 10000};
 
 // XY Plot
 int[] XYplotOrigin = {98, 125};
-int[] XYplotSize = {640, 530};
+int[] XYplotSize = {900, 580};
 int XYplotColor = color(20, 20, 200);
 
 Graph XYplot = new Graph(XYplotOrigin[0], XYplotOrigin[1], XYplotSize[0], XYplotSize[1], XYplotColor);
