@@ -6,16 +6,16 @@ public class ControlFrame extends PApplet {
   int w, h;
 
   float mmtkVel = 50.0;
-  int bgColor = 100;
+  int bgColor = 200;
 
   public void settings() {
-    size(w, h);
+    size(400, 270);
     
   }
 
   public void setup() {
     surface.setLocation(100, 100);
-    surface.setResizable(false);
+    surface.setResizable(true);
     surface.setVisible(true);
     frameRate(25);
     cp5 = new ControlP5(this);
@@ -24,32 +24,53 @@ public class ControlFrame extends PApplet {
     int x = 0;
     int y = 0;
     
-    cp5.addTextlabel("label")
-      .setText("Set Movment Speed (mm per second)")
-      .setPosition(x=5, y=5)
-      .setFont(createFont("Georgia", 24));
+    fill(0, 0, 0);
     
-    cp5.addTextfield("runVel")
-      .setPosition(x=15, y=35)
+    cp5.addTextlabel("label")
+      .setText("MMTK Control Panel")
+      .setPosition(x=15, y=5)
+      .setColorValue(color(0, 0, 0))
+      .setFont(createFont("Arial", 22));
+    
+    cp5.addTextfield("input speed")
+      .setPosition(x=15, y=50)
+      .setColorValue(color(0, 0, 0))
+      .setColorCursor(color(0, 0, 0))
+      .setColorLabel(color(0, 0, 0))
+      .setColorBackground(color(255, 255, 255))
+      .setFont(createFont("Arial", 14))
       .setText("50")
       .setSize(100,30)
-      .setAutoClear(true);
-      
+      .setAutoClear(false);
+    
+    cp5.addButton("5kg calibration")
+      .setValue(1)
+      .setColorBackground(color(0, 102, 204))
+      .setFont(createFont("Arial Black", 10))
+      .setPosition(x=15, y=115)
+      .setSize(250,25);
+    
+    
     cp5.addButton("Tare")
       .setValue(1)
-      .setPosition(x=5, y=100)
-      .setSize(150,25);
+      .setFont(createFont("Arial Black", 10))
+      .setPosition(x=15, y=155)
+      .setSize(250,25);
     
     cp5.addButton("Start")
       .setValue(1)
-      .setPosition(x=5, y=150)
+      .setFont(createFont("Arial Black", 10))
+      .setPosition(x=15, y=195)
       .setSize(100,50);
       
      
     cp5.addButton("Stop")
       .setValue(1)
+      .setFont(createFont("Arial Black", 10))
       .setPosition(x+150, y)
       .setSize(100,50);
+      
+ 
 
     textFont(createFont("Arial", 16, true));
 
@@ -69,10 +90,11 @@ public class ControlFrame extends PApplet {
 
       print("set "+parameter+" "+value+";\n");
       
-      if (parameter == "runVel") {
+      if (parameter == "input speed") {
         mmtkVel = float(value);
         serialPort.write("V" + mmtkVel + "\n");
       }
+      
       
       // Send Serial Commands to MMTK
       if (!mockupSerial) {
@@ -82,6 +104,8 @@ public class ControlFrame extends PApplet {
           serialPort.write("Tare\n");
         } else if (parameter == "Stop") {
           serialPort.write("Stop\n");
+        } else if (parameter == "5kg calibration"){
+          serialPort.write("Calibration\n");
         }
       }
       
@@ -90,7 +114,7 @@ public class ControlFrame extends PApplet {
 
   public void draw() {
     background(bgColor);
-    text("Speed Set: " + String.format("%.03f", mmtkVel) + " MM/min", 125, 55);
+    text("Current Speed: " + String.format("%.02f", mmtkVel) + " mm/min", 125, 70);
   }
 
   private ControlFrame() {

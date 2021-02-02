@@ -75,7 +75,7 @@
 // #define LC_MAX_FORCE 1961 // Test jig with 200KG load cell
 #define LC_MAX_FORCE 981 // INT Approximaion, floats are way to expensive on 8 bit
 #define LC_GAIN 128
-#define LC_ZERO_OFFET 0 // Offset for center value of loadcell
+#define LC_ZERO_OFFSET 0 // Offset for center value of loadcell
 #define LC_GAIN_OFFSET 0 // Offset for scale of loadcell
 #define LC_DRIVE_VOLTAGE 4.2
 

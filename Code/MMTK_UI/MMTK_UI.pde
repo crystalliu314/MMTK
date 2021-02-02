@@ -425,7 +425,7 @@ void draw()
   text("MMTK State: ", stateIndicatorOrigin[0] + 10, stateIndicatorOrigin[1] + 20);
   text("Displacement: ", positionIndicatorOrigin[0] + 10, positionIndicatorOrigin[1] + 20);
   text("Force: ", forceIndicatorOrigin[0] + 10, forceIndicatorOrigin[1] + 20);
-  text("Velocity: ", velocityIndicatorOrigin[0] + 10, velocityIndicatorOrigin[1] + 20);
+  text("Speed: ", velocityIndicatorOrigin[0] + 10, velocityIndicatorOrigin[1] + 20);
   text("Max Force: ", maxForceIndicatorOrigin[0] + 10, maxForceIndicatorOrigin[1] + 20);
   
   // Indicator value Texts

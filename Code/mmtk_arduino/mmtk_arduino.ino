@@ -27,6 +27,7 @@ unsigned int stepperRunTimer = STEPPER_DEFAULT_TIMER; // Set Normal Jog Speed
 
 unsigned long loopLastMillis = 0;
 unsigned long millisPerLoop = 40;
+unsigned long LC_divider = 0;
 
 #ifdef READ_POWER_VOLTAGE
   float powerInput = 0.0f;
@@ -249,7 +250,7 @@ void setup() {
 
   // Initialize HX711
   {
-  unsigned long LC_divider = 0;
+
 
   switch (LC_GAIN) {
     case 128:
@@ -272,8 +273,8 @@ void setup() {
   }
 
   loadcell.begin(LOADCELL_DATA, LOADCELL_CLOCK);
-  loadcell.set_scale(LC_divider);
-  loadcell.set_offset(LC_ZERO_OFFET);
+  loadcell.set_scale(LC_divider + LC_GAIN_OFFSET);
+  loadcell.set_offset(LC_ZERO_OFFSET);
   }
   
 
@@ -362,6 +363,10 @@ void loop() {
           MMTKNextState = running;
         }
       }
+    }
+    if (incomingByte == 'c' || incomingByte == 'C') {      
+      LC_divider = loadcell.get_value(1)/49;
+      loadcell.set_scale(LC_divider + LC_GAIN_OFFSET);
     }
 
     if (incomingByte == 's' || incomingByte == 'S') {      
