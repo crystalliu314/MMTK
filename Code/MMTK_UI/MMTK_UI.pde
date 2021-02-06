@@ -106,7 +106,7 @@ void setup()
   String[] serialPortList = Serial.list();
   String[] serialPortChoices = new String[serialPortList.length + 1];
   for (i = 0; i < Serial.list().length; i++) {
-    serialPortChoices[i] = serialPortList[0];
+    serialPortChoices[i] = serialPortList[i];
   }
   serialPortChoices[serialPortChoices.length - 1] = "- Mock Serial For Testing -";
   
