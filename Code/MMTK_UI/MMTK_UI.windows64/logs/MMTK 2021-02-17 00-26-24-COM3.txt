@@ -1,3 +1,0 @@
-Started Log File:     logs/MMTK 2021-02-17 00-26-24-COM3.txt
-Data Source:     COM3
-
