@@ -9,7 +9,7 @@ public class ControlFrame extends PApplet {
   int bgColor = 200;
 
   public void settings() {
-    size(400, 270);
+    size(400, 230);
     
   }
 
@@ -42,25 +42,19 @@ public class ControlFrame extends PApplet {
       .setText("50")
       .setSize(100,30)
       .setAutoClear(false);
-    
-    cp5.addButton("5kg calibration")
-      .setValue(1)
-      .setColorBackground(color(0, 102, 204))
-      .setFont(createFont("Arial Black", 10))
-      .setPosition(x=15, y=115)
-      .setSize(250,25);
+   
     
     
     cp5.addButton("Tare")
       .setValue(1)
       .setFont(createFont("Arial Black", 10))
-      .setPosition(x=15, y=155)
+      .setPosition(x=15, y=115)
       .setSize(250,25);
     
     cp5.addButton("Start")
       .setValue(1)
       .setFont(createFont("Arial Black", 10))
-      .setPosition(x=15, y=195)
+      .setPosition(x=15, y=155)
       .setSize(100,50);
       
      
