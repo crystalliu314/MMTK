@@ -1,7 +1,8 @@
 #include <arduino.h>
-#include <TMCStepper.h>
+#include <EEPROM.h>
 #include <HX711.h>
 #include "MMTK_V1.h" 
+#include <TMCStepper.h>
 
 // QA Mode Toggle
 // #define QAMODE true
@@ -28,6 +29,7 @@ unsigned int stepperRunTimer = STEPPER_DEFAULT_TIMER; // Set Normal Jog Speed
 unsigned long loopLastMillis = 0;
 unsigned long millisPerLoop = 40;
 unsigned long LC_divider = 0;
+long LC_offset = 0;
 
 #ifdef READ_POWER_VOLTAGE
   float powerInput = 0.0f;
@@ -251,30 +253,40 @@ void setup() {
   // Initialize HX711
   {
 
-
-  switch (LC_GAIN) {
-    case 128:
-      // HX711 full range at 128 gain is +-20mv
-      // 8388608 is max digital value (max + or -)
-      // Load Cell supply voltage: 5
-      // (8388608 / 20) * (DRIVE_VOLTAGE * LC_MV_PER_V) / LC_MAX_FORCE
-      // Numbers pre devided to easy computation at run time
-      LC_divider = (unsigned long) (8388608 / LC_MAX_FORCE / 20 * LC_DRIVE_VOLTAGE * LC_MV_PER_V);
-      break;
-
-    case 64:
-      // HX711 full range at 64 gain is +-40mv
-      LC_divider = (unsigned long) (8388608 / LC_MAX_FORCE / 40 * LC_DRIVE_VOLTAGE * LC_MV_PER_V);
-      break;
-
-    default:
-      Serial.print(" = ERROR = \n Load Cell Gain Invalid");
-      break;
+  // Check EEPROM if there is a stored value. Do this by verifying eeprom magic value
+  unsigned long eepromMagicRead = 0UL;
+  if (EEPROM.get(EEPROM_MAGIC_VALUE_ADDRESS, eepromMagicRead) == EEPROM_MAGIC_VALUE) {
+    // eeprom magic match
+    EEPROM.get(EEPROM_LC_DIVIDER_ADDRESS, LC_divider);
+    EEPROM.get(EEPROM_LC_OFFSET_ADDRESS, LC_offset);
+  } 
+  else 
+  {
+    switch (LC_DEFAULT_GAIN) {
+        case 128:
+          // HX711 full range at 128 gain is +-20mv
+          // 8388608 is max digital value (max + or -)
+          // Load Cell supply voltage: 5
+          // (8388608 / 20) * (DRIVE_VOLTAGE * LC_MV_PER_V) / LC_MAX_FORCE
+          // Numbers pre devided to easy computation at run time
+          LC_divider = (unsigned long) (8388608 / LC_MAX_FORCE / 20 * LC_DRIVE_VOLTAGE * LC_MV_PER_V);
+          break;
+  
+        case 64:
+          // HX711 full range at 64 gain is +-40mv
+          LC_divider = (unsigned long) (8388608 / LC_MAX_FORCE / 40 * LC_DRIVE_VOLTAGE * LC_MV_PER_V);
+          break;
+  
+        default:
+          Serial.print(" = ERROR = \n Load Cell Gain Invalid");
+          break;
+      }
+      LC_offset = LC_DEFAULT_ZERO_OFFSET;
   }
 
   loadcell.begin(LOADCELL_DATA, LOADCELL_CLOCK);
-  loadcell.set_scale(LC_divider + LC_GAIN_OFFSET);
-  loadcell.set_offset(LC_ZERO_OFFSET);
+  loadcell.set_scale(LC_divider);
+  loadcell.set_offset(LC_offset);
   }
   
 
@@ -365,8 +377,11 @@ void loop() {
       }
     }
     if (incomingByte == 'c' || incomingByte == 'C') {      
-      LC_divider = loadcell.get_value(1)/49;
-      loadcell.set_scale(LC_divider + LC_GAIN_OFFSET);
+      LC_divider = loadcell.get_value(10)/49;
+      loadcell.set_scale(LC_divider);
+      EEPROM.put(EEPROM_MAGIC_VALUE_ADDRESS, (unsigned long)EEPROM_MAGIC_VALUE);
+      EEPROM.put(EEPROM_LC_DIVIDER_ADDRESS, LC_divider);
+      EEPROM.put(EEPROM_LC_OFFSET_ADDRESS, loadcell.get_offset());
     }
 
     if (incomingByte == 's' || incomingByte == 'S') {      
@@ -766,6 +781,3 @@ void loop() {
 
 
 }
-
-
-

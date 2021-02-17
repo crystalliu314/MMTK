@@ -74,12 +74,17 @@
 #define LC_MV_PER_V 2
 // #define LC_MAX_FORCE 1961 // Test jig with 200KG load cell
 #define LC_MAX_FORCE 981 // INT Approximaion, floats are way to expensive on 8 bit
-#define LC_GAIN 128
-#define LC_ZERO_OFFSET 0 // Offset for center value of loadcell
-#define LC_GAIN_OFFSET 0 // Offset for scale of loadcell
+#define LC_DEFAULT_GAIN 128
+#define LC_DEFAULT_ZERO_OFFSET 0 // Offset for center value of loadcell
 #define LC_DRIVE_VOLTAGE 4.2
 
 // Power input sensing
 #define READ_POWER_VOLTAGE // Read Voltage, slightly slower per loop
 #define POWER_SENSE A0
 #define POWER_SENSE_SCALE 51.2 // Bits per Volt
+
+// EEPROM Constants
+#define EEPROM_MAGIC_VALUE 0x7A8176B3
+#define EEPROM_MAGIC_VALUE_ADDRESS 0x01
+#define EEPROM_LC_DIVIDER_ADDRESS 0x05
+#define EEPROM_LC_OFFSET_ADDRESS 0x09
