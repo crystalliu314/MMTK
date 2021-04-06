@@ -5,7 +5,7 @@
 #include <TMCStepper.h>
 
 // QA Mode Toggle
-// #define QAMODE true
+//#define QAMODE true
 
 #define HEADER_TEXT "NEW_DATA\tSPEED\tPOSITION\tLOADCELL\tFEEDBACK_COUNT\tSTATE\tESTOP\tSTALL\tDIRECTION\tINPUT_VOLTAGE\tBT_FWD\tBT_BAK\tBT_TARE\tBT_START\tBT_AUX\n"
 
@@ -676,7 +676,7 @@ void loop() {
 
   // Logging in QA Mode
   // Normal format + button states
-
+  delay(100);
   #endif
 
 
@@ -690,7 +690,7 @@ void loop() {
 
     Serial.print(stepperSpeed);
     Serial.print("\t");
-    float stepperPositionFloat = (float) stepperPosition / TMC_MICROSTEPS / MECH_STEP_PER_REV * MECH_MM_PER_REV;
+    float stepperPositionFloat = (float) stepperPosition / TMC_MICROSTEPS / MECH_STEP_PER_REV * MECH_MM_PER_REV/2;
     Serial.print(stepperPositionFloat);
     Serial.print("\t");
     Serial.print(LC_reading);
