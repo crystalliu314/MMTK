@@ -4,12 +4,10 @@
 public class ControlFrame extends PApplet {
 
   int w, h;
-
-  float mmtkVel = 50.0;
-  int bgColor = 200;
-
+  
+  
   public void settings() {
-    size(400, 230);
+    size(800, 480);
     
   }
 
@@ -64,8 +62,79 @@ public class ControlFrame extends PApplet {
       .setPosition(x+150, y)
       .setSize(100,50);
       
- 
+    cp5.addButton("Square")
+      .setValue(1)
+      .setFont(createFont("Arial Black", 10))
+      .setPosition(x, y=255)
+      .setSize(100,50);
+      
+    cp5.addButton("Sinusoid")
+      .setValue(1)
+      .setFont(createFont("Arial Black", 10))
+      .setPosition(x+150, y=255)
+      .setSize(100,50);
 
+    cp5.addTextfield("stretch length (mm)")
+      .setPosition(x=15, y+60)
+      .setColorValue(color(0, 0, 0))
+      .setColorCursor(color(0, 0, 0))
+      .setColorLabel(color(0, 0, 0))
+      .setColorBackground(color(255, 255, 255))
+      .setFont(createFont("Arial", 14))
+      .setText("10")
+      .setSize(100,30)
+      .setAutoClear(false);
+      
+    cp5.addButton("Run")
+      .setValue(1)
+      .setFont(createFont("Arial Black", 10))
+      .setPosition(x+190, y+60)
+      .setSize(100,50);
+   
+    cp5.addTextfield("time A")
+      .setPosition(x, y = 375)
+      .setColorValue(color(0, 0, 0))
+      .setColorCursor(color(0, 0, 0))
+      .setColorLabel(color(0, 0, 0))
+      .setColorBackground(color(255, 255, 255))
+      .setFont(createFont("Arial", 14))
+      .setText("2")
+      .setSize(50,30)
+      .setAutoClear(false);
+      
+    cp5.addTextfield("time B")
+      .setPosition(x+80, y)
+      .setColorValue(color(0, 0, 0))
+      .setColorCursor(color(0, 0, 0))
+      .setColorLabel(color(0, 0, 0))
+      .setColorBackground(color(255, 255, 255))
+      .setFont(createFont("Arial", 14))
+      .setText("2")
+      .setSize(50,30)
+      .setAutoClear(false);
+
+    cp5.addTextfield("time C")
+      .setPosition(x+160, y)
+      .setColorValue(color(0, 0, 0))
+      .setColorCursor(color(0, 0, 0))
+      .setColorLabel(color(0, 0, 0))
+      .setColorBackground(color(255, 255, 255))
+      .setFont(createFont("Arial", 14))
+      .setText("2")
+      .setSize(50,30)
+      .setAutoClear(false);
+      
+    cp5.addTextfield("time D")
+      .setPosition(x+240, y)
+      .setColorValue(color(0, 0, 0))
+      .setColorCursor(color(0, 0, 0))
+      .setColorLabel(color(0, 0, 0))
+      .setColorBackground(color(255, 255, 255))
+      .setFont(createFont("Arial", 14))
+      .setText("2")
+      .setSize(50,30)
+      .setAutoClear(false);
+      
     textFont(createFont("Arial", 16, true));
 
   }
@@ -89,7 +158,42 @@ public class ControlFrame extends PApplet {
         serialPort.write("V" + mmtkVel + "\n");
       }
       
+      if (parameter == "stretch length (mm)") {
+        stretchL = float(value)*1000;
+      }
       
+      if (parameter == "time A") {
+        timeA = float(value)*1000;
+      }
+ 
+      if (parameter == "time B") {
+        timeB = float(value)*1000;
+      }
+      
+      if (parameter == "time C") {
+        timeC = float(value)*1000;
+      }
+      
+      if (parameter == "time D") {
+        timeD = float(value)*1000;
+      }
+      
+      cycleT = (timeA + timeB + timeC + timeD);
+      
+      if (parameter == "Run") {
+        patternReady = 1;
+        startT = millis();
+      }
+      
+      if (parameter == "Square") {
+        squareWave = 1;
+      }
+      
+      if (parameter == "Sinusoid") {
+        sinWave = 1;
+      }
+      
+ 
       // Send Serial Commands to MMTK
       if (!mockupSerial) {
         if (parameter == "Start") {

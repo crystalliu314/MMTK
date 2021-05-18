@@ -47,12 +47,34 @@ int[][] XYplotIntData = new int[XYplotIntDataDims[0]][XYplotIntDataDims[1]];
 // This value grows and is used for slicing
 int XYplotCurrentSize = 0;
 
+int patternReady = 0;
+int squareWave = 0;
+int sinWave = 0;
+int startT = 0;
+int currentT = 0;
+int runT = 0;
+int cycleN = 0;
+double roundN = 0;
+
+float mmtkVel = 50.0;
+int bgColor = 200;
+float stretchL = 10000;
+float timeA = 5000;
+float timeB = 2000;
+float timeC = 5000;
+float timeD = 2000;
+float cycleT = 0;
+float currentt = 0.0;
+float nextPosition = 0;
+float nextVel = 0;
+
 
 // ************************
 // ** Variables for Data **
 // ************************
 
 int newLoadcellData = 0;
+int sendData = 0;
 float velocity = 0.0;
 float position = 0.0;
 float positionCorrected = 0.0;
@@ -99,6 +121,7 @@ void setup()
   // settings save file
   topSketchPath = sketchPath();
   mmtkUIConfig = loadJSONObject(topSketchPath+"/mmtk_ui_config.json");
+  cycleT = (timeA + timeB + timeC + timeD);
 
   PImage icon = loadImage(topSketchPath+"/images/icon.png");
   surface.setIcon(icon);
@@ -121,7 +144,7 @@ void setup()
     serialPortName = "MOCK";
   } else {
     System.out.println(serialPortName);
-    serialPort = new Serial(this, serialPortName, 250000);
+    serialPort = new Serial(this, serialPortName, 115200);
   }
   
   // Create a new file in the sketch directory
@@ -172,7 +195,10 @@ void setup()
   fill(0);
   
   text("NO DATA", XYplotOrigin[0]+XYplotSize[0]/2, XYplotOrigin[1]+XYplotSize[1]/2);
-
+  
+  patternReady = 0;
+  squareWave = 0;
+  sinWave = 0;
 }
 
 
@@ -208,6 +234,10 @@ void draw()
       return;
     }
     
+    if (myString.contains("z")){
+      sendData = 1;
+    }
+    
     if (myString.contains("TARE")) {
       // This is a tare frame, empty the array and ignore it
       // Also ignore the next line with indices
@@ -216,8 +246,8 @@ void draw()
       XYplotCurrentSize = 0;
       maxForce = 0.0;
       maxDisplacment = 0.0;
-      
-    } else {
+    } 
+    else {
       // split the string at delimiter (space)
       String[] tempData = split(myString, '\t');   
 
@@ -250,10 +280,47 @@ void draw()
           System.out.println(e);
         }
         
-      } else {
-        // invalid message ignore it
-        System.out.println("Corrupted Serial Message Frame Ignored");
+      } 
+    
+     if ((sendData == 1) && (patternReady == 1)){
+        currentT = millis();
+        runT = (currentT - startT);
+        roundN = Math.floor(runT/cycleT);
+        cycleN = (int) roundN;
+        currentt = runT - cycleN*cycleT;
+        
+        if (squareWave == 1){
+        if (currentt <= timeA){
+          nextPosition = currentt/timeA * stretchL;
+          nextVel = stretchL/timeA*120;
+        }
+        else if (currentt > timeA && currentt < (timeA + timeB)){
+          nextPosition = stretchL;
+        }
+        else if (currentt >= (timeA+timeB) && currentt <= (timeA+timeB+timeC)){
+          nextPosition = stretchL - (currentt - timeA - timeB)/timeC * stretchL;
+          nextVel = stretchL/timeC*120;
+        }
+        else if (currentt > (timeA+timeB+timeC) && currentt < (timeA+timeB+timeC+timeD)){
+          nextPosition = 0;
+        }
+        int nextP = (int) nextPosition;
+        String printthis = "p" + nextP + "\nv" + nextVel + "\n";
+        serialPort.write(printthis);
+        System.out.println(printthis);
+        System.out.println(patternReady);
+        //System.out.println(startT);
+        //System.out.println(currentT);
+        //System.out.println(runT);
+        //System.out.println(roundN);
+        //System.out.println(cycleN);
+        //System.out.println(cycleT);
+        //System.out.println(currentt);     
+        
+        
+        sendData = 0;
       }
+     }
       
       
       // Update data to plot only if there is a new data point
@@ -334,8 +401,6 @@ void draw()
     XYplot.GraphColor = XYplotColor;
     XYplot.DotXY(plotDisplacement, plotForce);
   }
-  
-  
   
   // Draw / update buttons
   
