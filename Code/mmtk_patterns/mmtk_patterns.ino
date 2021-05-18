@@ -18,7 +18,10 @@ bool lastIndexPin = 0;
 bool currentIndexPin = 0;
 long stepperPosition = 0;
 long stepperFeedbackPosition = 0;
+long nextPositionTemp = 0;
+long nextPosition = 0;
 float stepperSpeed = 0.0f;
+int newTimerValue;
 // Set this to select if printing of data should continute when MMTK is haulted
 bool printWhileStopped = true;
 // Set when there is a new data point from load cell
@@ -67,7 +70,21 @@ ISR(TIMER1_COMPA_vect) {
   if (eStopInput) {
     return;
   }
-
+  
+  if (MMTKState == running){
+    if (stepperPosition < nextPosition){
+      stepperDirection = 0;
+      digitalWrite(STEPPER_DIR, stepperDirection);
+    }
+    else if (stepperPosition > nextPosition){
+      stepperDirection = 1;
+      digitalWrite(STEPPER_DIR, stepperDirection);
+    }
+    else if (stepperPosition == nextPosition){
+      return;
+    }
+  }
+  
   // Check Index Pin, if that is high, increment index counter
   #ifdef USE_DIRECT_PORT_MANIPULATION_FOR_INDEX
     if (STEPPER_INDEX_PORT & (1 << STEPPER_INDEX_PIN)) {
@@ -96,12 +113,13 @@ ISR(TIMER1_COMPA_vect) {
     }
   }
 
+
   #ifdef USE_DIRECT_PORT_MANIPULATION_FOR_STEP
     STEPPER_STEP_PORT ^= 1 << STEPPER_STEP_PIN;
   #else
     digitalWrite(STEPPER_STEP, !digitalRead(STEPPER_STEP));
   #endif
-
+  
 }
 
 // ******************
@@ -339,7 +357,7 @@ void loop() {
   // ** Serial Command Parsing **
   // ****************************
 
-  if (Serial.available()) {
+  while (Serial.available()) {
     int incomingByte = Serial.read();
 
     if (incomingByte == 'v' || incomingByte == 'V') {
@@ -347,25 +365,26 @@ void loop() {
       float newSpeed = Serial.parseFloat();
       if (!isnan(newSpeed)) {
         // convert mm/min to step timer
-        unsigned int newTimerValue;
 
         if (newSpeed < 6.0f) newSpeed = 6.0;
         // The equation below causes a interger overflow, so swap around order to remedy that
         // newTimerValue = (int) ((F_CPU * 60 * MECH_MM_PER_REV) / (newSpeed * MECH_STEP_PER_REV * TMC_MICROSTEPS * 8));
-        newTimerValue = (unsigned int) (F_CPU / 8 / TMC_MICROSTEPS * 60 * MECH_MM_PER_REV / MECH_STEP_PER_REV / newSpeed);
+        newTimerValue = (F_CPU / 8 / TMC_MICROSTEPS * 60 * MECH_MM_PER_REV / MECH_STEP_PER_REV / newSpeed);
         Serial.print(F("== NEW SPEED: "));
         Serial.print(newSpeed);
         Serial.print(F(" -- "));
         Serial.println(newTimerValue);
 
         // Verify value is valid
-        if ( newTimerValue < STEPPER_MAX_TIMER && newTimerValue > STEPPER_MIN_TIMER) {
-          stepperRunTimer = newTimerValue;
-          OCR1A = stepperRunTimer;
-          stepperSpeed = getCurrentSpeed();
-        }
+
       }
       
+    }
+
+    if (incomingByte == 'p' || incomingByte == 'P'){
+      // Position
+      nextPositionTemp = Serial.parseInt();
+      Serial.read();
     }
 
     if (incomingByte == 'b' || incomingByte == 'B') {
@@ -400,13 +419,20 @@ void loop() {
     
     // Other start symbols ignored
   }
-
-
+  
+  if ( newTimerValue < STEPPER_MAX_TIMER && newTimerValue > STEPPER_MIN_TIMER) {
+      stepperRunTimer = newTimerValue;
+      OCR1A = stepperRunTimer;
+      stepperSpeed = getCurrentSpeed();
+    }
+    nextPosition = nextPositionTemp;
 
 
   switch (MMTKState) {
     case running: // This is the running and printing stage
       // Press Forward Make Stepper Faster
+      Serial.println("z");
+      
       if (forwardButton == press) {
         if ((OCR1A + STEPPER_SPEED_INCREMENT) < STEPPER_MAX_TIMER) {
           OCR1A += STEPPER_SPEED_INCREMENT;
@@ -433,6 +459,8 @@ void loop() {
         MMTKNextState = hold;
         break;
       }
+
+
 
     case stopped: // Stopped, Motor is Disabled (HIGH-Z)
       if (auxButton == press) {
@@ -547,15 +575,27 @@ void loop() {
   {
   case running: // Transition into running state
       // Next State is hold
-      stepperDirection = 0; // Run Forward
-      digitalWrite(STEPPER_DIR, stepperDirection);
+      
+//      stepperDirection = 0; // Run Forward
+//      digitalWrite(STEPPER_DIR, stepperDirection);
+//      TIMSK1 |= (1 << OCIE1A); // Start Motor
+//      digitalWrite(STEPPER_ENN, LOW); // Motor is Disabled, unlocked
+//      digitalWrite(LED_RUN, HIGH); // RUN LED is ON
+//      digitalWrite(LED_AUX, LOW); // AUX LED is OFF
+//      OCR1A = stepperRunTimer; 
+//      stepperSpeed = getCurrentSpeed();
+//      MMTKState = running;
+        // previous running one direction
+
       TIMSK1 |= (1 << OCIE1A); // Start Motor
       digitalWrite(STEPPER_ENN, LOW); // Motor is Disabled, unlocked
       digitalWrite(LED_RUN, HIGH); // RUN LED is ON
       digitalWrite(LED_AUX, LOW); // AUX LED is OFF
-      OCR1A = stepperRunTimer;
+      OCR1A = stepperRunTimer; 
       stepperSpeed = getCurrentSpeed();
       MMTKState = running;
+      
+      
     break;
   case stopped:
       // Next State is Stop
