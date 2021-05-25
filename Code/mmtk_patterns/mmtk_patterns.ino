@@ -167,7 +167,7 @@ float getCurrentSpeed() {
   if (eStopInput || !TIMSK1) {
     return 0.0f;
   } else {
-    return ( (float)(F_CPU / 8 / TMC_MICROSTEPS) / MECH_STEP_PER_REV / (unsigned int)OCR1A * MECH_MM_PER_REV * 60);
+    return ( (float)(F_CPU / 8 / TMC_MICROSTEPS) / MECH_STEP_PER_REV / (unsigned int)OCR1A * MECH_MM_PER_REV * 60/2);
   }
   
 }
@@ -369,11 +369,11 @@ void loop() {
         if (newSpeed < 6.0f) newSpeed = 6.0;
         // The equation below causes a interger overflow, so swap around order to remedy that
         // newTimerValue = (int) ((F_CPU * 60 * MECH_MM_PER_REV) / (newSpeed * MECH_STEP_PER_REV * TMC_MICROSTEPS * 8));
-        newTimerValue = (F_CPU / 8 / TMC_MICROSTEPS * 60 * MECH_MM_PER_REV / MECH_STEP_PER_REV / newSpeed);
-        Serial.print(F("== NEW SPEED: "));
-        Serial.print(newSpeed);
-        Serial.print(F(" -- "));
-        Serial.println(newTimerValue);
+        newTimerValue = (F_CPU / 8 / TMC_MICROSTEPS * 60 * MECH_MM_PER_REV / MECH_STEP_PER_REV / newSpeed/2);
+//        Serial.print(F("== NEW SPEED: "));
+//        Serial.print(newSpeed);
+//        Serial.print(F(" -- "));
+//        Serial.println(newTimerValue);
 
         // Verify value is valid
 
@@ -425,13 +425,13 @@ void loop() {
       OCR1A = stepperRunTimer;
       stepperSpeed = getCurrentSpeed();
     }
-    nextPosition = nextPositionTemp;
+    nextPosition = nextPositionTemp * 2 * TMC_MICROSTEPS * MECH_STEP_PER_REV / MECH_MM_PER_REV /1000;
 
 
   switch (MMTKState) {
     case running: // This is the running and printing stage
       // Press Forward Make Stepper Faster
-      Serial.println("z");
+      //Serial.println("z");
       
       if (forwardButton == press) {
         if ((OCR1A + STEPPER_SPEED_INCREMENT) < STEPPER_MAX_TIMER) {
@@ -759,6 +759,7 @@ void loop() {
     Serial.print("\t");
     Serial.print(auxButton);
     Serial.print("\t");
+
 
     
   #ifdef QAMODE

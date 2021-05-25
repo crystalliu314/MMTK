@@ -25,80 +25,80 @@ public class ControlFrame extends PApplet {
     fill(0, 0, 0);
     
     cp5.addTextlabel("label")
-      .setText("MMTK Control Panel")
+      .setText("Cell Stretcher Control Panel")
       .setPosition(x=15, y=5)
       .setColorValue(color(0, 0, 0))
       .setFont(createFont("Arial", 22));
     
-    cp5.addTextfield("input speed")
-      .setPosition(x=15, y=50)
-      .setColorValue(color(0, 0, 0))
-      .setColorCursor(color(0, 0, 0))
-      .setColorLabel(color(0, 0, 0))
-      .setColorBackground(color(255, 255, 255))
-      .setFont(createFont("Arial", 14))
-      .setText("50")
-      .setSize(100,30)
-      .setAutoClear(false);
+    //cp5.addTextfield("input speed")
+    //  .setPosition(x=15, y=50)
+    //  .setColorValue(color(0, 0, 0))
+    //  .setColorCursor(color(0, 0, 0))
+    //  .setColorLabel(color(0, 0, 0))
+    //  .setColorBackground(color(255, 255, 255))
+    //  .setFont(createFont("Arial", 14))
+    //  .setText("50")
+    //  .setSize(100,30)
+    //  .setAutoClear(false);
    
     
     
-    cp5.addButton("Tare")
-      .setValue(1)
-      .setFont(createFont("Arial Black", 10))
-      .setPosition(x=15, y=115)
-      .setSize(250,25);
+    //cp5.addButton("Tare")
+    //  .setValue(1)
+    //  .setFont(createFont("Arial Black", 10))
+    //  .setPosition(x=15, y=115)
+    //  .setSize(250,25);
     
-    cp5.addButton("Start")
-      .setValue(1)
-      .setFont(createFont("Arial Black", 10))
-      .setPosition(x=15, y=155)
-      .setSize(100,50);
+    //cp5.addButton("Start")
+    //  .setValue(1)
+    //  .setFont(createFont("Arial Black", 10))
+    //  .setPosition(x=15, y=155)
+    //  .setSize(100,50);
       
      
-    cp5.addButton("Stop")
-      .setValue(1)
-      .setFont(createFont("Arial Black", 10))
-      .setPosition(x+150, y)
-      .setSize(100,50);
+    //cp5.addButton("Stop")
+    //  .setValue(1)
+    //  .setFont(createFont("Arial Black", 10))
+    //  .setPosition(x+150, y)
+    //  .setSize(100,50);
       
     cp5.addButton("Square")
       .setValue(1)
       .setFont(createFont("Arial Black", 10))
-      .setPosition(x, y=255)
-      .setSize(100,50);
+      .setPosition(x, y=50)
+      .setSize(100,25);
       
     cp5.addButton("Sinusoid")
       .setValue(1)
       .setFont(createFont("Arial Black", 10))
-      .setPosition(x+150, y=255)
-      .setSize(100,50);
+      .setPosition(x+150, y=50)
+      .setSize(100,25);
 
     cp5.addTextfield("stretch length (mm)")
-      .setPosition(x=15, y+60)
+      .setPosition(x=15, y+80)
       .setColorValue(color(0, 0, 0))
       .setColorCursor(color(0, 0, 0))
       .setColorLabel(color(0, 0, 0))
       .setColorBackground(color(255, 255, 255))
       .setFont(createFont("Arial", 14))
-      .setText("10")
+      .setText("20")
       .setSize(100,30)
       .setAutoClear(false);
       
     cp5.addButton("Run")
       .setValue(1)
       .setFont(createFont("Arial Black", 10))
-      .setPosition(x+190, y+60)
+      .setPosition(x+190, y+80)
       .setSize(100,50);
    
     cp5.addTextfield("time A")
-      .setPosition(x, y = 375)
+      .setPosition(x, y = 195)
       .setColorValue(color(0, 0, 0))
       .setColorCursor(color(0, 0, 0))
-      .setColorLabel(color(0, 0, 0))
-      .setColorBackground(color(255, 255, 255))
+      .setColorLabel(color(68, 114, 196))
+      .setColorBackground(color(68, 114, 196))
       .setFont(createFont("Arial", 14))
-      .setText("2")
+      .setText("5.0")
       .setSize(50,30)
       .setAutoClear(false);
       
@@ -106,10 +106,10 @@ public class ControlFrame extends PApplet {
       .setPosition(x+80, y)
       .setColorValue(color(0, 0, 0))
       .setColorCursor(color(0, 0, 0))
-      .setColorLabel(color(0, 0, 0))
-      .setColorBackground(color(255, 255, 255))
+      .setColorLabel(color(237, 125, 49))
+      .setColorBackground(color(237, 125, 49))
       .setFont(createFont("Arial", 14))
-      .setText("2")
+      .setText("2.0")
       .setSize(50,30)
       .setAutoClear(false);
 
@@ -117,10 +117,10 @@ public class ControlFrame extends PApplet {
       .setPosition(x+160, y)
       .setColorValue(color(0, 0, 0))
       .setColorCursor(color(0, 0, 0))
-      .setColorLabel(color(0, 0, 0))
-      .setColorBackground(color(255, 255, 255))
+      .setColorLabel(color(255, 192, 0))
+      .setColorBackground(color(255, 192, 0))
       .setFont(createFont("Arial", 14))
-      .setText("2")
+      .setText("5.0")
       .setSize(50,30)
       .setAutoClear(false);
       
@@ -128,14 +128,40 @@ public class ControlFrame extends PApplet {
       .setPosition(x+240, y)
       .setColorValue(color(0, 0, 0))
       .setColorCursor(color(0, 0, 0))
-      .setColorLabel(color(0, 0, 0))
-      .setColorBackground(color(255, 255, 255))
+      .setColorLabel(color(112, 173, 71))
+      .setColorBackground(color(112, 173, 71))
       .setFont(createFont("Arial", 14))
-      .setText("2")
+      .setText("2.0")
       .setSize(50,30)
       .setAutoClear(false);
       
+    cp5.addTextfield("Hour")
+      .setPosition(x=15, y=285)
+      .setColorValue(color(0, 0, 0))
+      .setColorCursor(color(0, 0, 0))
+      .setColorLabel(color(0, 0, 0))
+      .setColorBackground(color(255, 255, 255))
+      .setFont(createFont("Arial", 14))
+      .setText("0")
+      .setSize(50,30)
+      .setAutoClear(false);
+      
+    cp5.addTextfield("Min")
+      .setPosition(x+80, y)
+      .setColorValue(color(0, 0, 0))
+      .setColorCursor(color(0, 0, 0))
+      .setColorLabel(color(0, 0, 0))
+      .setColorBackground(color(255, 255, 255))
+      .setFont(createFont("Arial", 14))
+      .setText("0")
+      .setSize(50,30)
+      .setAutoClear(false);
+      
+      
+      
     textFont(createFont("Arial", 16, true));
+    
+
 
   }
 
@@ -187,10 +213,12 @@ public class ControlFrame extends PApplet {
       
       if (parameter == "Square") {
         squareWave = 1;
+        sinWave = 0;
       }
       
       if (parameter == "Sinusoid") {
         sinWave = 1;
+        squareWave = 0;
       }
       
  
@@ -212,7 +240,20 @@ public class ControlFrame extends PApplet {
 
   public void draw() {
     background(bgColor);
-    text("Current Speed: " + String.format("%.02f", mmtkVel) + " mm/min", 125, 70);
+    //text("Current Speed: " + String.format("%.02f", mmtkVel) + " mm/min", 125, 70);
+    text("Wave Form: ", 15, 100);
+    if (squareWave == 1){
+    text("Square", 105, 100);
+    wavePattern = loadImage(topSketchPath+"/images/SquarePattern.jpg");
+    image(wavePattern, 350, 50, 293, 181);
+    }
+    if (sinWave == 1){
+    text("Sinusoid", 105, 100);
+    wavePattern = loadImage(topSketchPath+"/images/SinPattern.jpg");
+    image(wavePattern, 350, 50, 293, 181);
+    }
+    text("Machine run time: ", 15, 270);
+
   }
 
   private ControlFrame() {
