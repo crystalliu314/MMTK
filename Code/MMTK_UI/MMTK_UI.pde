@@ -16,6 +16,7 @@ import controlP5.*; // http://www.sojamo.de/libraries/controlP5/
 import processing.serial.*;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
+import java.lang.Math.*;
 PFont buttonTitle_f, mmtkState_f, indicatorTitle_f, indicatorNumbers_f;
 
 // If you want to debug the plotter without using a real serial port set this to true
@@ -33,7 +34,7 @@ ControlFrame cf;
 JSONObject mmtkUIConfig;
 
 // Generate the plot
-int[] XYplotFloatDataDims = {4, 10000};
+int[] XYplotFloatDataDims = {5, 10000};
 int[] XYplotIntDataDims = {5, 10000};
 
 // XY Plot
@@ -52,21 +53,24 @@ int squareWave = 0;
 int sinWave = 0;
 int startT = 0;
 int currentT = 0;
-int runT = 0;
+float runT = 0;
 int cycleN = 0;
 double roundN = 0;
 
 float mmtkVel = 50.0;
 int bgColor = 200;
-float stretchL = 10000;
+float stretchL = 20000;
 float timeA = 5000;
 float timeB = 2000;
 float timeC = 5000;
 float timeD = 2000;
 float cycleT = 0;
 float currentt = 0.0;
+float lastt = 0.0;
 float nextPosition = 0;
 float nextVel = 0;
+double nextPosition1 = 0;
+double nextVel1 = 0;
 
 
 // ************************
@@ -110,6 +114,9 @@ boolean printAllData;
 
 // MMTK logo image
 PImage mmtkLogo;
+
+// Pattern image
+PImage wavePattern;
 
 
 void settings() {
@@ -188,6 +195,7 @@ void setup()
   background(200); 
   image(mmtkLogo, mmtkLogoOrigin[0], mmtkLogoOrigin[1], mmtkLogoSize[0],mmtkLogoSize[1]);
   
+
   
   // Draw No Data Text under the plot, if there is no data this will be shown
   textFont(indicatorNumbers_f);
@@ -234,9 +242,6 @@ void draw()
       return;
     }
     
-    if (myString.contains("z")){
-      sendData = 1;
-    }
     
     if (myString.contains("TARE")) {
       // This is a tare frame, empty the array and ignore it
@@ -280,47 +285,76 @@ void draw()
           System.out.println(e);
         }
         
-      } 
-    
+      }
+      
+      if(MMTKState == 0){
+        sendData = 1;
+      }
+     
      if ((sendData == 1) && (patternReady == 1)){
+        lastt = currentt;
         currentT = millis();
         runT = (currentT - startT);
         roundN = Math.floor(runT/cycleT);
         cycleN = (int) roundN;
-        currentt = runT - cycleN*cycleT;
+        currentt = (float) (runT - cycleN*cycleT);
         
         if (squareWave == 1){
-        if (currentt <= timeA){
-          nextPosition = currentt/timeA * stretchL;
-          nextVel = stretchL/timeA*120;
-        }
-        else if (currentt > timeA && currentt < (timeA + timeB)){
-          nextPosition = stretchL;
-        }
-        else if (currentt >= (timeA+timeB) && currentt <= (timeA+timeB+timeC)){
-          nextPosition = stretchL - (currentt - timeA - timeB)/timeC * stretchL;
-          nextVel = stretchL/timeC*120;
-        }
-        else if (currentt > (timeA+timeB+timeC) && currentt < (timeA+timeB+timeC+timeD)){
-          nextPosition = 0;
-        }
+          if (currentt <= timeA){
+            nextPosition = currentt/timeA * stretchL;
+            nextVel = stretchL/timeA*60;
+  
+          }
+          else if (currentt > timeA && currentt < (timeA + timeB)){
+            nextPosition = stretchL;
+          }
+          else if (currentt >= (timeA+timeB) && currentt <= (timeA+timeB+timeC)){
+            nextPosition = stretchL - (currentt - timeA - timeB)/timeC * stretchL;
+            nextVel = stretchL/timeC*60;
+          }
+          else if (currentt > (timeA+timeB+timeC) && currentt < (timeA+timeB+timeC+timeD)){
+            nextPosition = 0;
+          }
         int nextP = (int) nextPosition;
-        String printthis = "p" + nextP + "\nv" + nextVel + "\n";
+        float nextV = (float) nextVel;
+        String printthis = "p" + nextP + "\nv" + nextV + "\n";
         serialPort.write(printthis);
         System.out.println(printthis);
-        System.out.println(patternReady);
-        //System.out.println(startT);
-        //System.out.println(currentT);
-        //System.out.println(runT);
-        //System.out.println(roundN);
-        //System.out.println(cycleN);
-        //System.out.println(cycleT);
-        //System.out.println(currentt);     
+        }
         
+        if (sinWave == 1){
+          if (currentt <= timeA){
+            nextPosition1 = (Math.sin(currentt/timeA * Math.PI-Math.PI*0.5)+1)*0.5*stretchL;
+            float nextt = currentt + currentt - lastt;
+            double nextVel0 = Math.max(60*Math.cos(currentt/timeA * Math.PI - Math.PI/2)*Math.PI*stretchL/(2*timeA), 10);
+            double nextVel2 = Math.max(60*Math.cos(nextt/timeA * Math.PI - Math.PI/2)*Math.PI*stretchL/(2*timeA), 10);
+            nextVel1 = nextVel2;
+          }
+          else if (currentt > timeA && currentt < (timeA + timeB)){
+            nextPosition1 = stretchL;
+            nextVel1 = stretchL/timeA*60;
+          }
+          else if (currentt >= (timeA+timeB) && currentt <= (timeA+timeB+timeC)){
+            currentt = currentt - timeA - timeB;
+            nextPosition1 = (Math.sin(currentt/timeC * Math.PI+Math.PI*0.5)+1)*0.5*stretchL;
+            nextVel1 = Math.max (Math.abs(60*Math.cos(currentt/timeC * Math.PI + Math.PI*0.5)*Math.PI*stretchL/(2*timeC)), 10);
+          }
+          else if (currentt > (timeA+timeB+timeC) && currentt < (timeA+timeB+timeC+timeD)){
+            nextPosition1 = 0;
+            nextVel1 = stretchL/timeC*60;
+          }
+        
+        int nextP = (int) nextPosition1;
+        float nextV = (float) nextVel1;
+        String printthis = "p" + nextP + "\nv" + nextV + "\n";
+        serialPort.write(printthis);
+        System.out.println(printthis);
+        }
+
+        //System.out.println(currentT);
         
         sendData = 0;
       }
-     }
       
       
       // Update data to plot only if there is a new data point
@@ -347,8 +381,12 @@ void draw()
           // update the data buffer
           XYplotFloatData[0][XYplotCurrentSize] = velocity;
           XYplotFloatData[1][XYplotCurrentSize] = position;
+          float nextP = (float) nextPosition1/1000;
+          //XYplotFloatData[1][XYplotCurrentSize] = (float) (Math.sin(currentt/timeA * Math.PI*0.5-Math.PI*0.25)+1.0);
           XYplotFloatData[2][XYplotCurrentSize] = loadCell;
-          XYplotFloatData[3][XYplotCurrentSize] = inputVolts;
+          //XYplotFloatData[3][XYplotCurrentSize] = inputVolts;
+          XYplotFloatData[3][XYplotCurrentSize] = runT/1000;
+          XYplotFloatData[4][XYplotCurrentSize] = nextP;
           
           XYplotIntData[0][XYplotCurrentSize] = feedBack;
           XYplotIntData[1][XYplotCurrentSize] = MMTKState;
@@ -386,8 +424,9 @@ void draw()
   if (newLoadcellData == 1) {
     
     // Copy data to plot into new array for plotting
+    float[] plotTime = Arrays.copyOfRange(XYplotFloatData[3], 0, XYplotCurrentSize);
     float[] plotDisplacement = Arrays.copyOfRange(XYplotFloatData[1], 0, XYplotCurrentSize);
-    float[] plotForce = Arrays.copyOfRange(XYplotFloatData[2], 0, XYplotCurrentSize);
+    float[] plotNewDisplacement = Arrays.copyOfRange(XYplotFloatData[4], 0, XYplotCurrentSize);
     
     // check if graph need to expand
     if ( maxDisplacment > XYplot.xMax || maxForce > XYplot.xMin ) {
@@ -399,7 +438,9 @@ void draw()
     // draw the line graphs
     XYplot.DrawAxis();
     XYplot.GraphColor = XYplotColor;
-    XYplot.DotXY(plotDisplacement, plotForce);
+    XYplot.DotXY(plotTime, plotDisplacement);
+    XYplot.GraphColor = color(200, 20, 20);
+    //XYplot.DotXY(plotTime, plotNewDisplacement);
   }
   
   // Draw / update buttons
