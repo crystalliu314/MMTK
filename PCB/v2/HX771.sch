@@ -1,0 +1,435 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 2 8
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L MMTK:HX711 U1
+U 1 1 5F6A990D
+P 5000 3350
+F 0 "U1" H 5450 2950 50  0000 L CNN
+F 1 "HX711" H 5450 2850 50  0000 L CNN
+F 2 "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm" H 4950 3450 50  0001 C CNN
+F 3 "" H 4950 3450 50  0001 C CNN
+	1    5000 3350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5600 2850 5600 3250
+Wire Wire Line
+	5800 2550 5850 2550
+Wire Wire Line
+	5850 2550 5850 3250
+Wire Wire Line
+	5850 2550 6050 2550
+Wire Wire Line
+	6050 2550 6050 3250
+Connection ~ 5850 2550
+$Comp
+L MMTK-rescue:R_US-Device-MMTK-rescue R10
+U 1 1 5F6AC44B
+P 5350 2850
+F 0 "R10" H 5550 2800 50  0000 R CNN
+F 1 "20K" H 5550 2900 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 5390 2840 50  0001 C CNN
+F 3 "~" H 5350 2850 50  0001 C CNN
+	1    5350 2850
+	-1   0    0    1   
+$EndComp
+$Comp
+L MMTK-rescue:R_US-Device-MMTK-rescue R9
+U 1 1 5F6ADA4B
+P 5150 3100
+F 0 "R9" V 5350 3400 50  0000 C CNN
+F 1 "8.2K" V 5250 3350 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 5190 3090 50  0001 C CNN
+F 3 "~" H 5150 3100 50  0001 C CNN
+	1    5150 3100
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	5350 2700 5350 2550
+Wire Wire Line
+	5350 2550 5400 2550
+Wire Wire Line
+	5350 3000 5350 3100
+Wire Wire Line
+	5300 3100 5350 3100
+Connection ~ 5350 3100
+Wire Wire Line
+	5350 3100 5350 3250
+$Comp
+L MMTK-rescue:GND-power-MMTK-rescue #PWR0113
+U 1 1 5F6AEA4A
+P 4650 3200
+F 0 "#PWR0113" H 4650 2950 50  0001 C CNN
+F 1 "GND" H 4655 3027 50  0000 C CNN
+F 2 "" H 4650 3200 50  0001 C CNN
+F 3 "" H 4650 3200 50  0001 C CNN
+	1    4650 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK-rescue:C-Device-MMTK-rescue C10
+U 1 1 5F6B1CE1
+P 4550 4450
+F 0 "C10" H 4665 4496 50  0000 L CNN
+F 1 "100n" H 4665 4405 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 4588 4300 50  0001 C CNN
+F 3 "~" H 4550 4450 50  0001 C CNN
+	1    4550 4450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4550 4300 4550 4200
+Wire Wire Line
+	4550 4200 4900 4200
+Wire Wire Line
+	4550 4600 4550 4650
+Wire Wire Line
+	5450 4650 5450 4450
+Wire Wire Line
+	5450 4650 5750 4650
+Wire Wire Line
+	5750 4650 5750 4450
+Connection ~ 5450 4650
+$Comp
+L MMTK-rescue:GND-power-MMTK-rescue #PWR0114
+U 1 1 5F6B3359
+P 5450 4750
+F 0 "#PWR0114" H 5450 4500 50  0001 C CNN
+F 1 "GND" H 5455 4577 50  0000 C CNN
+F 2 "" H 5450 4750 50  0001 C CNN
+F 3 "" H 5450 4750 50  0001 C CNN
+	1    5450 4750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4550 4650 5450 4650
+Wire Wire Line
+	5450 4750 5450 4650
+$Comp
+L MMTK-rescue:GND-power-MMTK-rescue #PWR0115
+U 1 1 5F6B4A96
+P 6650 4300
+F 0 "#PWR0115" H 6650 4050 50  0001 C CNN
+F 1 "GND" H 6655 4127 50  0000 C CNN
+F 2 "" H 6650 4300 50  0001 C CNN
+F 3 "" H 6650 4300 50  0001 C CNN
+	1    6650 4300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6450 4100 6650 4100
+Wire Wire Line
+	6650 4100 6650 4300
+Text HLabel 6800 3700 2    50   Input ~ 0
+DOUT
+Wire Wire Line
+	6450 3700 6800 3700
+Text HLabel 6800 3850 2    50   Input ~ 0
+PD_SCK
+Wire Wire Line
+	6450 3850 6800 3850
+Connection ~ 5350 2550
+Wire Wire Line
+	4150 2550 4150 3550
+Wire Wire Line
+	4150 2550 5350 2550
+$Comp
+L MMTK-rescue:C-Device-MMTK-rescue C4
+U 1 1 5F6BCC16
+P 3300 3800
+F 0 "C4" H 3415 3846 50  0000 L CNN
+F 1 "10u" H 3415 3755 50  0000 L CNN
+F 2 "Capacitor_SMD:C_1206_3216Metric" H 3338 3650 50  0001 C CNN
+F 3 "~" H 3300 3800 50  0001 C CNN
+	1    3300 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK-rescue:C-Device-MMTK-rescue C12
+U 1 1 5F6BD4B5
+P 7850 3850
+F 0 "C12" H 7965 3896 50  0000 L CNN
+F 1 "100n" H 7965 3805 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 7888 3700 50  0001 C CNN
+F 3 "~" H 7850 3850 50  0001 C CNN
+	1    7850 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK-rescue:C-Device-MMTK-rescue C13
+U 1 1 5F6BDA6C
+P 8250 3850
+F 0 "C13" H 8365 3896 50  0000 L CNN
+F 1 "100n" H 8365 3805 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 8288 3700 50  0001 C CNN
+F 3 "~" H 8250 3850 50  0001 C CNN
+	1    8250 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK-rescue:C-Device-MMTK-rescue C8
+U 1 1 5F6BEBA9
+P 3700 3800
+F 0 "C8" H 3815 3846 50  0000 L CNN
+F 1 "100n" H 3815 3755 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 3738 3650 50  0001 C CNN
+F 3 "~" H 3700 3800 50  0001 C CNN
+	1    3700 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK-rescue:C-Device-MMTK-rescue C14
+U 1 1 5F6BF2E5
+P 8650 3850
+F 0 "C14" H 8765 3896 50  0000 L CNN
+F 1 "100n" H 8765 3805 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 8688 3700 50  0001 C CNN
+F 3 "~" H 8650 3850 50  0001 C CNN
+	1    8650 3850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3300 3650 3300 3550
+Wire Wire Line
+	3300 3550 3700 3550
+Wire Wire Line
+	3700 3550 3700 3650
+Wire Wire Line
+	3300 3950 3300 4050
+Wire Wire Line
+	3300 4050 3700 4050
+Wire Wire Line
+	3700 4050 3700 3950
+$Comp
+L MMTK-rescue:L-Device-MMTK-rescue L2
+U 1 1 5F6C154C
+P 3950 3550
+F 0 "L2" V 3769 3550 50  0000 C CNN
+F 1 "3.3uH" V 3860 3550 50  0000 C CNN
+F 2 "Inductor_SMD:L_0805_2012Metric" H 3950 3550 50  0001 C CNN
+F 3 "~" H 3950 3550 50  0001 C CNN
+	1    3950 3550
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4150 3550 4900 3550
+Wire Wire Line
+	4150 3550 4100 3550
+Connection ~ 4150 3550
+Wire Wire Line
+	3700 3550 3800 3550
+Connection ~ 3700 3550
+$Comp
+L MMTK-rescue:GND-power-MMTK-rescue #PWR0116
+U 1 1 5F6C4E97
+P 3300 4150
+F 0 "#PWR0116" H 3300 3900 50  0001 C CNN
+F 1 "GND" H 3305 3977 50  0000 C CNN
+F 2 "" H 3300 4150 50  0001 C CNN
+F 3 "" H 3300 4150 50  0001 C CNN
+	1    3300 4150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3300 4150 3300 4050
+Wire Wire Line
+	4900 3700 4150 3700
+Wire Wire Line
+	4900 3800 4250 3800
+Wire Wire Line
+	7850 4000 7850 4100
+Wire Wire Line
+	7850 4100 8250 4100
+Wire Wire Line
+	8650 4100 8650 4000
+Wire Wire Line
+	8250 4000 8250 4100
+Connection ~ 8250 4100
+Wire Wire Line
+	8250 4100 8650 4100
+$Comp
+L MMTK-rescue:GND-power-MMTK-rescue #PWR0117
+U 1 1 5F6CC278
+P 8250 4200
+F 0 "#PWR0117" H 8250 3950 50  0001 C CNN
+F 1 "GND" H 8255 4027 50  0000 C CNN
+F 2 "" H 8250 4200 50  0001 C CNN
+F 3 "" H 8250 4200 50  0001 C CNN
+	1    8250 4200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8250 4200 8250 4100
+Wire Wire Line
+	7850 3700 7850 3600
+Wire Wire Line
+	7850 3600 8250 3600
+Wire Wire Line
+	8650 3600 8650 3700
+Connection ~ 8250 3600
+Wire Wire Line
+	8250 3600 8650 3600
+$Comp
+L MMTK-rescue:+5V-power-MMTK-rescue #PWR0118
+U 1 1 5F6D3A84
+P 6450 2500
+F 0 "#PWR0118" H 6450 2350 50  0001 C CNN
+F 1 "+5V" H 6465 2673 50  0000 C CNN
+F 2 "" H 6450 2500 50  0001 C CNN
+F 3 "" H 6450 2500 50  0001 C CNN
+	1    6450 2500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6050 2550 6450 2550
+Wire Wire Line
+	6450 2550 6450 2500
+Connection ~ 6050 2550
+$Comp
+L MMTK-rescue:+5V-power-MMTK-rescue #PWR0119
+U 1 1 5F6D61C0
+P 8250 3450
+F 0 "#PWR0119" H 8250 3300 50  0001 C CNN
+F 1 "+5V" H 8265 3623 50  0000 C CNN
+F 2 "" H 8250 3450 50  0001 C CNN
+F 3 "" H 8250 3450 50  0001 C CNN
+	1    8250 3450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8250 3700 8250 3600
+Wire Wire Line
+	8250 3450 8250 3600
+$Comp
+L MMTK-rescue:C-Device-MMTK-rescue C6
+U 1 1 5F6DA4EE
+P 3450 5050
+F 0 "C6" H 3565 5096 50  0000 L CNN
+F 1 "100n" H 3565 5005 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 3488 4900 50  0001 C CNN
+F 3 "~" H 3450 5050 50  0001 C CNN
+	1    3450 5050
+	1    0    0    -1  
+$EndComp
+$Comp
+L MMTK-rescue:R_US-Device-MMTK-rescue R8
+U 1 1 5F6DD935
+P 2850 5200
+F 0 "R8" V 2645 5200 50  0000 C CNN
+F 1 "100R" V 2736 5200 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 2890 5190 50  0001 C CNN
+F 3 "~" H 2850 5200 50  0001 C CNN
+	1    2850 5200
+	0    1    1    0   
+$EndComp
+$Comp
+L MMTK-rescue:R_US-Device-MMTK-rescue R5
+U 1 1 5F6DF6B7
+P 2850 4900
+F 0 "R5" V 2645 4900 50  0000 C CNN
+F 1 "100R" V 2736 4900 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 2890 4890 50  0001 C CNN
+F 3 "~" H 2850 4900 50  0001 C CNN
+	1    2850 4900
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3000 4900 3450 4900
+Wire Wire Line
+	3450 5200 3000 5200
+Wire Wire Line
+	3450 4900 4150 4900
+Wire Wire Line
+	4150 3700 4150 4900
+Connection ~ 3450 4900
+Wire Wire Line
+	4250 5200 3450 5200
+Wire Wire Line
+	4250 3800 4250 5200
+Connection ~ 3450 5200
+Wire Wire Line
+	1750 5000 2500 5000
+Wire Wire Line
+	2500 5000 2500 4900
+Wire Wire Line
+	2500 4900 2700 4900
+Wire Wire Line
+	2700 5200 2500 5200
+Wire Wire Line
+	2500 5200 2500 5100
+Wire Wire Line
+	2500 5100 1750 5100
+Wire Wire Line
+	1750 4900 2300 4900
+Wire Wire Line
+	2300 4900 2300 3550
+Wire Wire Line
+	2300 3550 3300 3550
+Connection ~ 3300 3550
+$Comp
+L MMTK-rescue:GND-power-MMTK-rescue #PWR0120
+U 1 1 5F6ECCD6
+P 2300 5400
+F 0 "#PWR0120" H 2300 5150 50  0001 C CNN
+F 1 "GND" H 2305 5227 50  0000 C CNN
+F 2 "" H 2300 5400 50  0001 C CNN
+F 3 "" H 2300 5400 50  0001 C CNN
+	1    2300 5400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2300 5200 2300 5400
+Wire Wire Line
+	1750 5200 2300 5200
+Wire Wire Line
+	4650 3200 4650 3100
+Wire Wire Line
+	4650 3100 5000 3100
+NoConn ~ 4900 3950
+NoConn ~ 4900 4050
+NoConn ~ 5900 4450
+$Comp
+L MMTK-rescue:Screw_Terminal_01x04-Connector-MMTK-rescue J3
+U 1 1 5F8440E0
+P 1550 5100
+F 0 "J3" H 1468 4675 50  0000 C CNN
+F 1 "LoadCell" H 1468 4766 50  0000 C CNN
+F 2 "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-4-3.5-H_1x04_P3.50mm_Horizontal" H 1550 5100 50  0001 C CNN
+F 3 "~" H 1550 5100 50  0001 C CNN
+	1    1550 5100
+	-1   0    0    1   
+$EndComp
+$Comp
+L dk_Transistors-Bipolar-BJT-Single:MMBT4403LT1G Q1
+U 1 1 5FA05B6B
+P 5600 2650
+F 0 "Q1" V 5947 2650 60  0000 C CNN
+F 1 "MMBT4403LT1G" V 5841 2650 60  0000 C CNN
+F 2 "digikey-footprints:SOT-23-3" H 5800 2850 60  0001 L CNN
+F 3 "http://www.onsemi.com/pub/Collateral/MMBT4403LT1-D.PDF" H 5800 2950 60  0001 L CNN
+F 4 "MMBT4403LT1GOSCT-ND" H 5800 3050 60  0001 L CNN "Digi-Key_PN"
+F 5 "MMBT4403LT1G" H 5800 3150 60  0001 L CNN "MPN"
+F 6 "Discrete Semiconductor Products" H 5800 3250 60  0001 L CNN "Category"
+F 7 "Transistors - Bipolar (BJT) - Single" H 5800 3350 60  0001 L CNN "Family"
+F 8 "http://www.onsemi.com/pub/Collateral/MMBT4403LT1-D.PDF" H 5800 3450 60  0001 L CNN "DK_Datasheet_Link"
+F 9 "/product-detail/en/on-semiconductor/MMBT4403LT1G/MMBT4403LT1GOSCT-ND/1139820" H 5800 3550 60  0001 L CNN "DK_Detail_Page"
+F 10 "TRANS PNP 40V 0.6A SOT23" H 5800 3650 60  0001 L CNN "Description"
+F 11 "ON Semiconductor" H 5800 3750 60  0001 L CNN "Manufacturer"
+F 12 "Active" H 5800 3850 60  0001 L CNN "Status"
+	1    5600 2650
+	0    1    -1   0   
+$EndComp
+$EndSCHEMATC

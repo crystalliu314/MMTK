@@ -1,0 +1,1 @@
+kikit panelize grid --space 3 --gridsize 3 2 --tabwidth 3 --tabheight 3 --htabs 3 --vtabs 5 --mousebites 0.5 1 0 --panelsize 300 200 --tolerance 100 --framecutV --radius 1 MMTK.kicad_pcb MMTK_panel.kicad_pcb
