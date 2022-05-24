@@ -201,8 +201,4 @@ Wire Wire Line
 Connection ~ 5000 3300
 Wire Wire Line
 	5000 3300 5400 3300
-Text Notes 1600 5100 0    50   ~ 0
-ENN_ARD_IN High\n  -> Q5 Short\n  -> STOP Enabled\n\nENN_ARD_IN Low\n  -> Q5 Open\n  -> STOP Dependent on Switch\n\nEnable is Active Low
-Text Notes 7400 3250 0    50   ~ 0
-ENN_OUT Low:\n  -> Q2 Short\n  -> LED ON\n\nENN_OUT High\n  -> Q2 Open\n  -> LED Off
 $EndSCHEMATC

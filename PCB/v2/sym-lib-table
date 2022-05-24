@@ -1,4 +1,4 @@
 (sym_lib_table
-  (lib (name MMTK)(type Legacy)(uri ${KIPRJMOD}/MMTK.lib)(options "")(descr ""))
+  (lib (name MMTK)(type Legacy)(uri ${KIPRJMOD}/../shared/MMTK.lib)(options "")(descr ""))
   (lib (name MMTK-rescue)(type Legacy)(uri ${KIPRJMOD}/MMTK-rescue.lib)(options "")(descr ""))
 )
