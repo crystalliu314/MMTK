@@ -256,20 +256,6 @@ F 3 "~" H 3500 2900 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L MMTK-rescue:R_US-Device-MMTK-rescue-MMTK-rescue R?
-U 1 1 5EE1FE67
-P 3500 3400
-AR Path="/5EBF47FB/5EE1FE67" Ref="R?"  Part="1" 
-AR Path="/5EB8593E/5EE1FE67" Ref="R3"  Part="1" 
-AR Path="/5F79E13B/5EE1FE67" Ref="R3"  Part="1" 
-F 0 "R3" V 3295 3400 50  0000 C CNN
-F 1 "100K/1%" V 3386 3400 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 3540 3390 50  0001 C CNN
-F 3 "~" H 3500 3400 50  0001 C CNN
-	1    3500 3400
-	-1   0    0    1   
-$EndComp
-$Comp
 L MMTK-rescue:GND-power-MMTK-rescue-MMTK-rescue #PWR?
 U 1 1 5EE1FE6D
 P 3500 3650
@@ -524,5 +510,16 @@ F 2 "Resistor_SMD:R_0603_1608Metric" V 8640 3390 50  0001 C CNN
 F 3 "~" H 8600 3400 50  0001 C CNN
 	1    8600 3400
 	-1   0    0    1   
+$EndComp
+$Comp
+L MMTK-rescue:R_US-Device-MMTK-rescue-MMTK-rescue R?
+U 1 1 628D9011
+P 3500 3400
+F 0 "R?" H 3568 3446 50  0000 L CNN
+F 1 "110K" H 3568 3355 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 3540 3390 50  0001 C CNN
+F 3 "~" H 3500 3400 50  0001 C CNN
+	1    3500 3400
+	1    0    0    -1  
 $EndComp
 $EndSCHEMATC

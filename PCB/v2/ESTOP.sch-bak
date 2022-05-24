@@ -16,193 +16,264 @@ $EndDescr
 $Comp
 L MMTK-rescue:LED-Device-MMTK-rescue-MMTK-rescue D?
 U 1 1 5F91E4E1
-P 6750 3200
+P 7100 2150
 AR Path="/5F700C8F/5F91E4E1" Ref="D?"  Part="1" 
 AR Path="/5F791A23/5F91E4E1" Ref="D3"  Part="1" 
 AR Path="/5F91E4E1" Ref="D3"  Part="1" 
-F 0 "D3" H 6743 2945 50  0000 C CNN
-F 1 "RED" H 6743 3036 50  0000 C CNN
-F 2 "LED_SMD:LED_0603_1608Metric" H 6750 3200 50  0001 C CNN
-F 3 "~" H 6750 3200 50  0001 C CNN
-	1    6750 3200
+F 0 "D3" H 7093 1895 50  0000 C CNN
+F 1 "RED" H 7093 1986 50  0000 C CNN
+F 2 "LED_SMD:LED_0603_1608Metric" H 7100 2150 50  0001 C CNN
+F 3 "~" H 7100 2150 50  0001 C CNN
+	1    7100 2150
 	0    -1   -1   0   
 $EndComp
 Wire Wire Line
-	6750 2950 6750 3050
+	7100 1900 7100 2000
 Wire Wire Line
-	6750 3350 6750 3500
+	7100 2300 7100 2450
 $Comp
 L MMTK-rescue:R_US-Device-MMTK-rescue-MMTK-rescue R?
 U 1 1 5F91E4E9
-P 6750 2800
+P 7100 1750
 AR Path="/5F6F52D9/5F91E4E9" Ref="R?"  Part="1" 
 AR Path="/5F91E4E9" Ref="R?"  Part="1" 
 AR Path="/5F791A23/5F91E4E9" Ref="R25"  Part="1" 
 AR Path="/5F700C8F/5F91E4E9" Ref="R?"  Part="1" 
-F 0 "R25" V 6545 2800 50  0000 C CNN
-F 1 "200R/1%" V 6636 2800 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 6790 2790 50  0001 C CNN
-F 3 "~" H 6750 2800 50  0001 C CNN
-	1    6750 2800
+F 0 "R25" V 6895 1750 50  0000 C CNN
+F 1 "200R/1%" V 6986 1750 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 7140 1740 50  0001 C CNN
+F 3 "~" H 7100 1750 50  0001 C CNN
+	1    7100 1750
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	5700 3750 5700 3500
+	6050 2700 6050 2450
 $Comp
 L MMTK-rescue:GND-power-MMTK-rescue-MMTK-rescue #PWR?
 U 1 1 5F91F147
-P 6750 3500
+P 7100 2450
 AR Path="/5F7781FA/5F91F147" Ref="#PWR?"  Part="1" 
 AR Path="/5F91F147" Ref="#PWR?"  Part="1" 
 AR Path="/5F791A23/5F91F147" Ref="#PWR0157"  Part="1" 
-F 0 "#PWR0157" H 6750 3250 50  0001 C CNN
-F 1 "GND" H 6755 3327 50  0000 C CNN
-F 2 "" H 6750 3500 50  0001 C CNN
-F 3 "" H 6750 3500 50  0001 C CNN
-	1    6750 3500
+F 0 "#PWR0157" H 7100 2200 50  0001 C CNN
+F 1 "GND" H 7105 2277 50  0000 C CNN
+F 2 "" H 7100 2450 50  0001 C CNN
+F 3 "" H 7100 2450 50  0001 C CNN
+	1    7100 2450
 	1    0    0    -1  
 $EndComp
-Text HLabel 5850 4550 2    50   Input ~ 0
+Text HLabel 6200 3500 2    50   Input ~ 0
 ENN_OUT
 $Comp
 L MMTK-rescue:Screw_Terminal_01x02-Connector-MMTK-rescue-MMTK-rescue J7
 U 1 1 5F79D733
-P 3600 3850
-F 0 "J7" H 3518 3525 50  0000 C CNN
-F 1 "ESTOP_SOFT" H 3518 3616 50  0000 C CNN
-F 2 "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-2-3.5-H_1x02_P3.50mm_Horizontal" H 3600 3850 50  0001 C CNN
-F 3 "~" H 3600 3850 50  0001 C CNN
-	1    3600 3850
+P 3950 2800
+F 0 "J7" H 3868 2475 50  0000 C CNN
+F 1 "ESTOP_SOFT" H 3868 2566 50  0000 C CNN
+F 2 "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-2-3.5-H_1x02_P3.50mm_Horizontal" H 3950 2800 50  0001 C CNN
+F 3 "~" H 3950 2800 50  0001 C CNN
+	1    3950 2800
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	3800 3750 4100 3750
+	4150 2700 4450 2700
 Wire Wire Line
-	3800 3850 4100 3850
+	4150 2800 4450 2800
 $Comp
 L MMTK-rescue:+5V-power-MMTK-rescue-MMTK-rescue #PWR?
 U 1 1 5F79EA8F
-P 4100 2400
+P 4450 1350
 AR Path="/5F79EA8F" Ref="#PWR?"  Part="1" 
 AR Path="/5F791A23/5F79EA8F" Ref="#PWR0151"  Part="1" 
-F 0 "#PWR0151" H 4100 2250 50  0001 C CNN
-F 1 "+5V" H 4115 2573 50  0000 C CNN
-F 2 "" H 4100 2400 50  0001 C CNN
-F 3 "" H 4100 2400 50  0001 C CNN
-	1    4100 2400
+F 0 "#PWR0151" H 4450 1200 50  0001 C CNN
+F 1 "+5V" H 4465 1523 50  0000 C CNN
+F 2 "" H 4450 1350 50  0001 C CNN
+F 3 "" H 4450 1350 50  0001 C CNN
+	1    4450 1350
 	1    0    0    -1  
 $EndComp
 $Comp
 L MMTK-rescue:R_US-Device-MMTK-rescue-MMTK-rescue R?
 U 1 1 5F9260F5
-P 4100 2800
+P 4450 1750
 AR Path="/5F6A985A/5F9260F5" Ref="R?"  Part="1" 
 AR Path="/5F791A23/5F9260F5" Ref="R33"  Part="1" 
-F 0 "R33" H 4300 2750 50  0000 R CNN
-F 1 "20K" H 4300 2850 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 4140 2790 50  0001 C CNN
-F 3 "~" H 4100 2800 50  0001 C CNN
-	1    4100 2800
+F 0 "R33" H 4650 1700 50  0000 R CNN
+F 1 "20K" H 4650 1800 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 4490 1740 50  0001 C CNN
+F 3 "~" H 4450 1750 50  0001 C CNN
+	1    4450 1750
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	4100 2400 4100 2650
+	4450 1350 4450 1600
 $Comp
 L MMTK-rescue:+5V-power-MMTK-rescue-MMTK-rescue #PWR?
 U 1 1 5F797738
-P 5700 2400
+P 6050 1350
 AR Path="/5F797738" Ref="#PWR?"  Part="1" 
 AR Path="/5F791A23/5F797738" Ref="#PWR0150"  Part="1" 
-F 0 "#PWR0150" H 5700 2250 50  0001 C CNN
-F 1 "+5V" H 5715 2573 50  0000 C CNN
-F 2 "" H 5700 2400 50  0001 C CNN
-F 3 "" H 5700 2400 50  0001 C CNN
-	1    5700 2400
+F 0 "#PWR0150" H 6050 1200 50  0001 C CNN
+F 1 "+5V" H 6065 1523 50  0000 C CNN
+F 2 "" H 6050 1350 50  0001 C CNN
+F 3 "" H 6050 1350 50  0001 C CNN
+	1    6050 1350
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	3450 4600 3800 4600
-Wire Wire Line
-	4100 4700 4100 5050
+	3800 3550 4150 3550
 $Comp
 L MMTK-rescue:GND-power-MMTK-rescue-MMTK-rescue #PWR?
 U 1 1 5F9B4C0B
-P 4100 5050
+P 4450 4850
 AR Path="/5F7781FA/5F9B4C0B" Ref="#PWR?"  Part="1" 
 AR Path="/5F9B4C0B" Ref="#PWR?"  Part="1" 
 AR Path="/5F791A23/5F9B4C0B" Ref="#PWR0158"  Part="1" 
-F 0 "#PWR0158" H 4100 4800 50  0001 C CNN
-F 1 "GND" H 4105 4877 50  0000 C CNN
-F 2 "" H 4100 5050 50  0001 C CNN
-F 3 "" H 4100 5050 50  0001 C CNN
-	1    4100 5050
+F 0 "#PWR0158" H 4450 4600 50  0001 C CNN
+F 1 "GND" H 4455 4677 50  0000 C CNN
+F 2 "" H 4450 4850 50  0001 C CNN
+F 3 "" H 4450 4850 50  0001 C CNN
+	1    4450 4850
 	1    0    0    -1  
 $EndComp
 $Comp
 L dk_Transistors-FETs-MOSFETs-Single:2N7002 Q?
 U 1 1 5F9B1343
-P 4100 4500
+P 4450 3450
 AR Path="/5F700C8F/5F9B1343" Ref="Q?"  Part="1" 
 AR Path="/5F791A23/5F9B1343" Ref="Q5"  Part="1" 
-F 0 "Q5" H 4208 4553 60  0000 L CNN
-F 1 "2N7002" H 4208 4447 60  0000 L CNN
-F 2 "digikey-footprints:SOT-23-3" H 4300 4700 60  0001 L CNN
-F 3 "https://www.onsemi.com/pub/Collateral/NDS7002A-D.PDF" H 4300 4800 60  0001 L CNN
-F 4 "2N7002NCT-ND" H 4300 4900 60  0001 L CNN "Digi-Key_PN"
-F 5 "2N7002" H 4300 5000 60  0001 L CNN "MPN"
-F 6 "Discrete Semiconductor Products" H 4300 5100 60  0001 L CNN "Category"
-F 7 "Transistors - FETs, MOSFETs - Single" H 4300 5200 60  0001 L CNN "Family"
-F 8 "https://www.onsemi.com/pub/Collateral/NDS7002A-D.PDF" H 4300 5300 60  0001 L CNN "DK_Datasheet_Link"
-F 9 "/product-detail/en/on-semiconductor/2N7002/2N7002NCT-ND/244664" H 4300 5400 60  0001 L CNN "DK_Detail_Page"
-F 10 "MOSFET N-CH 60V 115MA SOT-23" H 4300 5500 60  0001 L CNN "Description"
-F 11 "ON Semiconductor" H 4300 5600 60  0001 L CNN "Manufacturer"
-F 12 "Active" H 4300 5700 60  0001 L CNN "Status"
-	1    4100 4500
+F 0 "Q5" H 4558 3503 60  0000 L CNN
+F 1 "2N7002" H 4558 3397 60  0000 L CNN
+F 2 "digikey-footprints:SOT-23-3" H 4650 3650 60  0001 L CNN
+F 3 "https://www.onsemi.com/pub/Collateral/NDS7002A-D.PDF" H 4650 3750 60  0001 L CNN
+F 4 "2N7002NCT-ND" H 4650 3850 60  0001 L CNN "Digi-Key_PN"
+F 5 "2N7002" H 4650 3950 60  0001 L CNN "MPN"
+F 6 "Discrete Semiconductor Products" H 4650 4050 60  0001 L CNN "Category"
+F 7 "Transistors - FETs, MOSFETs - Single" H 4650 4150 60  0001 L CNN "Family"
+F 8 "https://www.onsemi.com/pub/Collateral/NDS7002A-D.PDF" H 4650 4250 60  0001 L CNN "DK_Datasheet_Link"
+F 9 "/product-detail/en/on-semiconductor/2N7002/2N7002NCT-ND/244664" H 4650 4350 60  0001 L CNN "DK_Detail_Page"
+F 10 "MOSFET N-CH 60V 115MA SOT-23" H 4650 4450 60  0001 L CNN "Description"
+F 11 "ON Semiconductor" H 4650 4550 60  0001 L CNN "Manufacturer"
+F 12 "Active" H 4650 4650 60  0001 L CNN "Status"
+	1    4450 3450
 	1    0    0    -1  
 $EndComp
-Text HLabel 3450 4600 0    50   Input ~ 0
+Text HLabel 3800 3550 0    50   Input ~ 0
 ~ENN_ARD_IN
 $Comp
 L MMTK-rescue:Q_PMOS_GSD-Device-MMTK-rescue-MMTK-rescue Q?
 U 1 1 5F79773F
-P 5600 3300
+P 5950 2250
 AR Path="/5F79773F" Ref="Q?"  Part="1" 
 AR Path="/5F791A23/5F79773F" Ref="Q2"  Part="1" 
-F 0 "Q2" H 5805 3254 50  0000 L CNN
-F 1 "Q_PMOS_GSD" H 5805 3345 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 5800 3400 50  0001 C CNN
-F 3 "~" H 5600 3300 50  0001 C CNN
-	1    5600 3300
+F 0 "Q2" H 6155 2204 50  0000 L CNN
+F 1 "Q_PMOS_GSD" H 6155 2295 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 6150 2350 50  0001 C CNN
+F 3 "~" H 5950 2250 50  0001 C CNN
+	1    5950 2250
 	1    0    0    1   
 $EndComp
 Wire Wire Line
-	4100 3850 4100 4300
+	4450 2800 4450 3250
 Wire Wire Line
-	6400 3750 6400 2350
+	6750 2700 6750 1300
 Wire Wire Line
-	6400 2350 6750 2350
+	6750 1300 7100 1300
 Wire Wire Line
-	6750 2350 6750 2650
+	7100 1300 7100 1600
 Wire Wire Line
-	5700 3750 6400 3750
+	6050 2700 6750 2700
 Wire Wire Line
-	5700 2400 5700 3100
+	6050 1350 6050 2050
 Wire Wire Line
-	4100 2950 4100 3300
+	4450 1900 4450 2250
 Wire Wire Line
-	4100 3300 5000 3300
-Connection ~ 4100 3300
+	4450 2250 5350 2250
+Connection ~ 4450 2250
 Wire Wire Line
-	4100 3300 4100 3750
+	4450 2250 4450 2700
 Wire Wire Line
-	5000 3300 5000 4550
+	5350 2250 5350 3500
 Wire Wire Line
-	5000 4550 5850 4550
-Connection ~ 5000 3300
+	5350 3500 6200 3500
+Connection ~ 5350 2250
 Wire Wire Line
-	5000 3300 5400 3300
-Text Notes 1600 5100 0    50   ~ 0
+	5350 2250 5750 2250
+Text Notes 1900 3450 0    50   ~ 0
 ENN_ARD_IN High\n  -> Q5 Short\n  -> STOP Enabled\n\nENN_ARD_IN Low\n  -> Q5 Open\n  -> STOP Dependent on Switch\n\nEnable is Active Low
-Text Notes 7400 3250 0    50   ~ 0
+Text Notes 7750 2200 0    50   ~ 0
 ENN_OUT Low:\n  -> Q2 Short\n  -> LED ON\n\nENN_OUT High\n  -> Q2 Open\n  -> LED Off
+Text HLabel 3250 4200 0    50   Input ~ 0
+POWER_IN
+Wire Wire Line
+	3250 4200 3400 4200
+$Comp
+L dk_Transistors-FETs-MOSFETs-Single:2N7002 Q?
+U 1 1 628D3845
+P 4450 4100
+AR Path="/5F700C8F/628D3845" Ref="Q?"  Part="1" 
+AR Path="/5F791A23/628D3845" Ref="Q?"  Part="1" 
+F 0 "Q?" H 4558 4153 60  0000 L CNN
+F 1 "2N7002" H 4558 4047 60  0000 L CNN
+F 2 "digikey-footprints:SOT-23-3" H 4650 4300 60  0001 L CNN
+F 3 "https://www.onsemi.com/pub/Collateral/NDS7002A-D.PDF" H 4650 4400 60  0001 L CNN
+F 4 "2N7002NCT-ND" H 4650 4500 60  0001 L CNN "Digi-Key_PN"
+F 5 "2N7002" H 4650 4600 60  0001 L CNN "MPN"
+F 6 "Discrete Semiconductor Products" H 4650 4700 60  0001 L CNN "Category"
+F 7 "Transistors - FETs, MOSFETs - Single" H 4650 4800 60  0001 L CNN "Family"
+F 8 "https://www.onsemi.com/pub/Collateral/NDS7002A-D.PDF" H 4650 4900 60  0001 L CNN "DK_Datasheet_Link"
+F 9 "/product-detail/en/on-semiconductor/2N7002/2N7002NCT-ND/244664" H 4650 5000 60  0001 L CNN "DK_Detail_Page"
+F 10 "MOSFET N-CH 60V 115MA SOT-23" H 4650 5100 60  0001 L CNN "Description"
+F 11 "ON Semiconductor" H 4650 5200 60  0001 L CNN "Manufacturer"
+F 12 "Active" H 4650 5300 60  0001 L CNN "Status"
+	1    4450 4100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4450 3900 4450 3650
+Wire Wire Line
+	4450 4300 4450 4750
+Text Notes 2050 3900 0    50   ~ 0
+Presense of 12V also required for ENABLE
+$Comp
+L MMTK-rescue:R_US-Device-MMTK-rescue-MMTK-rescue R?
+U 1 1 628E3644
+P 3550 4200
+AR Path="/5F6A985A/628E3644" Ref="R?"  Part="1" 
+AR Path="/5F791A23/628E3644" Ref="R?"  Part="1" 
+F 0 "R?" H 3750 4150 50  0000 R CNN
+F 1 "20K" H 3750 4250 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 3590 4190 50  0001 C CNN
+F 3 "~" H 3550 4200 50  0001 C CNN
+	1    3550 4200
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	3700 4200 3950 4200
+Wire Wire Line
+	3950 4600 3950 4750
+Wire Wire Line
+	3950 4750 4450 4750
+Connection ~ 4450 4750
+Wire Wire Line
+	4450 4750 4450 4850
+Wire Wire Line
+	3950 4300 3950 4200
+Connection ~ 3950 4200
+Wire Wire Line
+	3950 4200 4150 4200
+$Comp
+L MMTK-rescue:R_US-Device-MMTK-rescue-MMTK-rescue R?
+U 1 1 628E8FD0
+P 3950 4450
+AR Path="/5EBF47FB/628E8FD0" Ref="R?"  Part="1" 
+AR Path="/5EB8593E/628E8FD0" Ref="R?"  Part="1" 
+AR Path="/5F79E13B/628E8FD0" Ref="R?"  Part="1" 
+F 0 "R?" V 3745 4450 50  0000 C CNN
+F 1 "300K" V 3836 4450 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 3990 4440 50  0001 C CNN
+F 3 "~" H 3950 4450 50  0001 C CNN
+	1    3950 4450
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
