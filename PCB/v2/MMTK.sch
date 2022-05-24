@@ -393,12 +393,12 @@ F 3 "~" H 2050 6950 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L arduino:Arduino_Nano_Socket XA?
+L arduino:Arduino_Nano_Socket XA1
 U 1 1 629C2C87
 P 5300 2500
-F 0 "XA?" H 5300 3737 60  0000 C CNN
+F 0 "XA1" H 5300 3737 60  0000 C CNN
 F 1 "Arduino_Nano_Socket" H 5300 3631 60  0000 C CNN
-F 2 "" H 7100 6250 60  0001 C CNN
+F 2 "Arduino:Arduino_Nano_Socket" H 7100 6250 60  0001 C CNN
 F 3 "" H 7100 6250 60  0001 C CNN
 	1    5300 2500
 	1    0    0    -1  

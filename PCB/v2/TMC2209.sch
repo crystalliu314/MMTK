@@ -232,12 +232,12 @@ F 3 "~" H 9650 2950 50  0001 C CNN
 	0    -1   1    0   
 $EndComp
 $Comp
-L MMTK:TMC2209-Module M?
+L MMTK:TMC2209-Module M1
 U 1 1 628F8411
 P 4850 2950
-F 0 "M?" H 4750 700 50  0000 C CNN
+F 0 "M1" H 4750 700 50  0000 C CNN
 F 1 "TMC2209-Module" H 5000 600 50  0000 C CNN
-F 2 "" H 4400 3500 50  0001 C CNN
+F 2 "MMTK:TMCC2209_Module" H 4400 3500 50  0001 C CNN
 F 3 "" H 4400 3500 50  0001 C CNN
 	1    4850 2950
 	1    0    0    -1  
@@ -290,12 +290,12 @@ Wire Wire Line
 Wire Wire Line
 	6000 3500 8700 3500
 $Comp
-L Jumper:Jumper_3_Bridged12 JP?
+L Jumper:Jumper_3_Bridged12 JP1
 U 1 1 6299D2A7
 P 3350 4200
-F 0 "JP?" V 2850 3900 50  0000 L CNN
+F 0 "JP1" V 2850 3900 50  0000 L CNN
 F 1 "Jumper_3_Bridged12" V 2950 3900 50  0000 L CNN
-F 2 "" H 3350 4200 50  0001 C CNN
+F 2 "Jumper:SolderJumper-3_P1.3mm_Bridged12_Pad1.0x1.5mm_NumberLabels" H 3350 4200 50  0001 C CNN
 F 3 "~" H 3350 4200 50  0001 C CNN
 	1    3350 4200
 	0    1    1    0   
